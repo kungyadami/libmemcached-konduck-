@@ -2891,26 +2891,28 @@ AUTOHEADER = ${SHELL} /home/mizzz/libmemcached-1.0.18/build-aux/missing autohead
 AUTOHEADER_FILE = mem_config.h
 AUTOMAKE = ${SHELL} /home/mizzz/libmemcached-1.0.18/build-aux/missing automake-1.13
 AWK = gawk
-CC = cc
+#CC = cc
+CC = mpicc
 CCDEPMODE = depmode=gcc3
-CC_VERSION = cc (GCC) 11.5.0 20240719 (Red Hat 11.5.0-5)
+CC_VERSION = cc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0
 CC_VERSION_VENDOR = gnu
 CFLAGS = -g -O2  -Wno-unknown-pragmas -Wno-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -fwrapv -pipe -fPIE -pie -Wsizeof-pointer-memaccess -Wpacked
 CFLAG_VISIBILITY = -fvisibility=hidden
 CPP = cc -E
 CPPFLAGS =  -fvisibility=hidden
-CXX = c++ -std=c++0x
+#CXX = c++ -std=c++0x
+CXX = mpicxx
 CXXCPP = c++ -E
 CXXDEPMODE = depmode=gcc3
 CXXFLAGS = -g -O2 -Wno-unknown-pragmas -Wno-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Wformat-security -fwrapv -pipe -fPIE -pie -Wsizeof-pointer-memaccess -Wpacked
-CXX_VERSION = c++ (GCC) 11.5.0 20240719 (Red Hat 11.5.0-5)
+CXX_VERSION = c++ (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0
 CXX_VERSION_VENDOR = gnu
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
 DEPRECATED = 
 DLLTOOL = false
-DPKG_GENSYMBOLS = 
+DPKG_GENSYMBOLS = dpkg-gensymbols
 DSYMUTIL = 
 DTRACE = 
 DTRACEFLAGS = 
@@ -2934,7 +2936,7 @@ INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LCOV = 
 LCOV_GENHTML = 
 LD = /usr/bin/ld -m elf_x86_64
-LDFLAGS = 
+LDFLAGS = -lmpi
 LEX = flex
 LIBEVENT_LIB = -levent
 LIBGEARMAN_CPPFLAGS = 
@@ -2951,7 +2953,7 @@ LIBSASL_CPPFLAGS =
 LIBSASL_LDFLAGS = 
 LIBTEST_VERSION = 1.0
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
-LIBUUID_LIB = 
+LIBUUID_LIB = -luuid
 LIPO = 
 LN_S = ln -s
 LTLIBOBJS = 
@@ -2960,17 +2962,17 @@ MANIFEST_TOOL = :
 MCHECK = 
 MCHECK_CPPFLAGS = 
 MCHECK_LDFLAGS = 
-MEMCACHED_BINARY = 
+MEMCACHED_BINARY = /usr/bin/memcached
 MEMCACHED_LIBRARY_VERSION = 11:0:0
 MEMCACHED_PROTOCAL_LIBRARY_VERSION = 0:0:0
 MEMCACHED_UTIL_LIBRARY_VERSION = 2:0:0
 MKDIR_P = /usr/bin/mkdir -p
-MYSQLD = nocommand
-MYSQL_CFLAGS = 
-MYSQL_CONFIG = no
-MYSQL_INCLUDE = 
-MYSQL_LDFLAGS = 
-MYSQL_VERSION = 
+MYSQLD = /home/mizzz/anaconda3/bin/mysqld
+MYSQL_CFLAGS = -I/home/mizzz/anaconda3/include/mysql 
+MYSQL_CONFIG = /home/mizzz/anaconda3/bin/mysql_config
+MYSQL_INCLUDE = -I/home/mizzz/anaconda3/include/mysql
+MYSQL_LDFLAGS = -L/home/mizzz/anaconda3/lib -lmysqlclient -lpthread -lm -lrt -latomic -lssl -lcrypto -ldl
+MYSQL_VERSION = 5.7.24
 NM = /usr/bin/nm -B
 NMEDIT = 
 OBJDUMP = objdump
@@ -2990,18 +2992,18 @@ PTHREAD_CC = cc
 PTHREAD_CFLAGS = 
 PTHREAD_LIBS = 
 RANLIB = ranlib
-RPM = rpm
-RPMBUILD = rpmbuild
+RPM = 
+RPMBUILD = 
 RPMDEV_SETUPTREE = 
 RPM_RELEASE = 1
 RT_LIB = -lrt
 SASL_LIB = -lsasl2
 SED = /usr/bin/sed
 SET_MAKE = 
-SHELL = /bin/sh
-SPHINXBUILD = :
+SHELL = /bin/bash
+SPHINXBUILD = /home/mizzz/anaconda3/bin/sphinx-build
 STRIP = strip
-VALGRIND = valgrind
+VALGRIND = 
 VERSION = 1.0.18
 WINE = 
 YACC = bison --warnings=all
@@ -3535,7 +3537,7 @@ tests_libmemcached_1_0_testapp_SOURCES =  \
 	tests/libmemcached-1.0/touch.cc \
 	tests/libmemcached-1.0/virtual_buckets.cc
 tests_libmemcached_1_0_testapp_LDADD =  \
-	  \
+	-luuid  \
 	libmemcached/libmemcached.la \
 	libmemcached/libmemcachedutil.la \
 	libtest/libtest.la libhashkit/libhashkit.la
@@ -3573,7 +3575,7 @@ tests_libmemcached_1_0_testsocket_SOURCES =  \
 	tests/libmemcached-1.0/touch.cc \
 	tests/libmemcached-1.0/virtual_buckets.cc
 tests_libmemcached_1_0_testsocket_LDADD =  \
-	  \
+	-luuid  \
 	libmemcached/libmemcached.la \
 	libmemcached/libmemcachedutil.la \
 	libtest/libtest.la libhashkit/libhashkit.la
@@ -10388,13 +10390,13 @@ $(RPM_SOURCE): | $(RPM_BUILDDIR) $(DIST_ARCHIVES)
 	@cp $(DIST_ARCHIVES) $(RPM_SOURCE)
 
 $(RPM_BUILD_TARGET): $(RPM_SOURCE) support/libmemcached.spec
-	@rpmbuild -ba $(top_srcdir)/support/libmemcached.spec
+	@ -ba $(top_srcdir)/support/libmemcached.spec
 	@cp $(BUILD_RPMS) $(BUILD_SRPMS) .
 
 .PHONY: rpm-sign
 rpm-sign: $(RPM_BUILD_TARGET)
-	@rpm --addsign $(RPM_DIST)
-	@rpm --checksig $(RPM_DIST)
+	@ --addsign $(RPM_DIST)
+	@ --checksig $(RPM_DIST)
 
 .PHONY: clean-rpm
 clean-rpm:

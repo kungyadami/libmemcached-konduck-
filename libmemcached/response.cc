@@ -42,6 +42,9 @@ static memcached_return_t textual_value_fetch(memcached_instance_st* instance,
                                               char *buffer,
                                               memcached_result_st *result)
 {
+#if ENABLE_PRINT
+  printf("libmemcached/response.cc - textual_value_fetch()\n");
+#endif
   char *next_ptr;
   ssize_t read_length= 0;
   size_t value_length;
@@ -61,6 +64,9 @@ static memcached_return_t textual_value_fetch(memcached_instance_st* instance,
   /* We load the key */
   {
     char *key= result->item_key;
+#if ENABLE_PRINT
+    printf("\t textual_value_fetch - key : %s\n", key);
+#endif
     result->key_length= 0;
 
     for (ptrdiff_t prefix_length= memcached_array_size(instance->root->_namespace); !(iscntrl(*string_ptr) || isspace(*string_ptr)) ; string_ptr++)
@@ -81,7 +87,9 @@ static memcached_return_t textual_value_fetch(memcached_instance_st* instance,
   {
     goto read_error;
   }
-
+#if ENABLE_PRINT
+  printf("libmemcached/response.cc - textual_value_fetch()2\n");
+#endif
   /* Flags fetch move past space */
   string_ptr++;
   if (end_ptr == string_ptr)
@@ -97,7 +105,9 @@ static memcached_return_t textual_value_fetch(memcached_instance_st* instance,
   {
     goto read_error;
   }
-
+#if ENABLE_PRINT
+  printf("libmemcached/response.cc - textual_value_fetch()3\n");
+#endif
   /* Length fetch move past space*/
   string_ptr++;
   if (end_ptr == string_ptr)
@@ -113,7 +123,9 @@ static memcached_return_t textual_value_fetch(memcached_instance_st* instance,
   {
     goto read_error;
   }
-
+#if ENABLE_PRINT
+  printf("libmemcached/response.cc - textual_value_fetch()4\n");
+#endif
   /* Skip spaces */
   if (*string_ptr == '\r')
   {
@@ -132,7 +144,9 @@ static memcached_return_t textual_value_fetch(memcached_instance_st* instance,
   {
     goto read_error;
   }
-
+#if ENABLE_PRINT
+  printf("libmemcached/response.cc - textual_value_fetch()5\n");
+#endif
   /* We add two bytes so that we can walk the \r\n */
   if (memcached_failed(memcached_string_check(&result->value, value_length +2)))
   {
@@ -141,6 +155,9 @@ static memcached_return_t textual_value_fetch(memcached_instance_st* instance,
 
   {
     char *value_ptr= memcached_string_value_mutable(&result->value);
+#if ENABLE_PRINT
+    printf("\t textual_value_fetch - value_ptr : %s\n", value_ptr);
+#endif
     /*
       We read the \r\n into the string since not doing so is more
       cycles then the waster of memory to do so.
@@ -169,7 +186,10 @@ static memcached_return_t textual_value_fetch(memcached_instance_st* instance,
   /* This next bit blows the API, but this is internal....*/
   {
     char *char_ptr;
-    char_ptr= memcached_string_value_mutable(&result->value);;
+    char_ptr= memcached_string_value_mutable(&result->value);
+#if ENABLE_PRINT
+    printf("\t textual_value_fetch - char_ptr : %s\n", char_ptr);
+#endif
     char_ptr[value_length]= 0;
     char_ptr[value_length +1]= 0;
     memcached_string_set_length(&result->value, value_length);
@@ -201,7 +221,9 @@ static memcached_return_t textual_value_fetch(memcached_instance_st* instance,
     }
     hashkit_string_free(destination);
   }
-
+#if ENABLE_PRINT
+  printf("libmemcached/response.cc - textual_value_fetch() return\n");
+#endif
   return rc;
 
 read_error:
@@ -214,23 +236,39 @@ static memcached_return_t textual_read_one_response(memcached_instance_st* insta
                                                     char *buffer, const size_t buffer_length,
                                                     memcached_result_st *result)
 {
-  size_t total_read;
-  memcached_return_t rc= memcached_io_readline(instance, buffer, buffer_length, total_read);
+#if ENABLE_PRINT
+  printf("libmemcached/response.cc - textual_read_one_response()\n");
+#endif
 
+  size_t total_read;
+  //여기는 보내고나서 기다리는 부분인듯 ...
+  memcached_return_t rc= memcached_io_readline(instance, buffer, buffer_length, total_read);
+#if ENABLE_PRINT
+  printf("libmemcached/response.cc - textual_read_one_response() rc : %d\n", rc);
+#endif
   if (memcached_failed(rc))
   {
+#if ENABLE_PRINT
+    printf("libmemcached/response.cc - failed\n");
+#endif
     return rc;
   }
   assert(total_read);
-
+#if ENABLE_PRINT
+  printf("libmemcached/response.cc - textual_read_one_response buffer : %s\n", buffer);
+#endif
   switch(buffer[0])
   {
   case 'V':
     {
+#if ENABLE_PRINT
+      printf("libmemcached/response.cc - buffer[0] is V\n");
+#endif
       // VALUE
       if (buffer[1] == 'A' and buffer[2] == 'L' and buffer[3] == 'U' and buffer[4] == 'E') /* VALUE */
       {
         /* We add back in one because we will need to search for END */
+        
         memcached_server_response_increment(instance);
         return textual_value_fetch(instance, buffer, result);
       }
@@ -330,6 +368,9 @@ static memcached_return_t textual_read_one_response(memcached_instance_st* insta
       // STORED
       else if (buffer[1] == 'T' and buffer[2] == 'O' and buffer[3] == 'R') //  and buffer[4] == 'E' and buffer[5] == 'D')
       {
+#if ENABLE_PRINT
+        printf("libmemcached/response.cc :: buffer is STORED\n");
+#endif
         return MEMCACHED_STORED;
       }
     }
@@ -369,6 +410,9 @@ static memcached_return_t textual_read_one_response(memcached_instance_st* insta
       // END
       if (buffer[1] == 'N' and buffer[2] == 'D')
       {
+#if ENABLE_PRINT
+        printf("libmemcached/response.cc - buffer is END\n");
+#endif
         return MEMCACHED_END;
       }
 #if 0
@@ -837,6 +881,9 @@ static memcached_return_t _read_one_response(memcached_instance_st* instance,
                                              char *buffer, const size_t buffer_length,
                                              memcached_result_st *result)
 {
+#if ENABLE_PRINT
+   printf("libmemcached/response.cc - _read_one_response()\n");
+#endif
   memcached_server_response_decrement(instance);
 
   if (result == NULL)
@@ -848,18 +895,26 @@ static memcached_return_t _read_one_response(memcached_instance_st* instance,
   memcached_return_t rc;
   if (memcached_is_binary(instance->root))
   {
+    //printf("libmemcached/response.cc - binary_read_one_response() call \n");
     rc= binary_read_one_response(instance, buffer, buffer_length, result);
   }
   else
   {
+#if ENABLE_PRINT
+     printf("libmemcached/response.cc - textual_read_one_response() call\n"); //buffer 안에는 쓰레기값 아니면 END만 들어있슴..
+     //printf("\t textual_read_one_response() buffer : %s\n", buffer);
+#endif
     rc= textual_read_one_response(instance, buffer, buffer_length, result);
   }
 
   if (memcached_fatal(rc))
   {
+    //printf("libmemcached/response.cc - memcached_io_reset() call\n");
     memcached_io_reset(instance);
   }
-
+#if ENABLE_PRINT
+   printf("libmemcached/response.cc - _read_one_response end\n");
+#endif
   return rc;
 }
 
@@ -877,11 +932,12 @@ memcached_return_t memcached_read_one_response(memcached_instance_st* instance,
   return _read_one_response(instance, buffer, sizeof(buffer), result);
 }
 
+//여기 안들어감
 memcached_return_t memcached_response(memcached_instance_st* instance,
-                                      memcached_result_st *result)
+                                      memcached_result_st *result) 
 {
   char buffer[1024];
-
+  //printf("libmemcached/response.cc - memcached_response()\n");
   return memcached_response(instance, buffer, sizeof(buffer), result);
 }
 
@@ -889,6 +945,10 @@ memcached_return_t memcached_response(memcached_instance_st* instance,
                                       char *buffer, size_t buffer_length,
                                       memcached_result_st *result)
 {
+  //printf("libmemcached/response.cc :: [DEBUG] memcached_response()\n");
+#if ENABLE_PRINT
+  printf("libmemcached/response.cc - memcached_response()2\n");
+#endif
   if (memcached_is_udp(instance->root))
   {
     return memcached_set_error(*instance, MEMCACHED_NOT_SUPPORTED, MEMCACHED_AT);
@@ -897,12 +957,17 @@ memcached_return_t memcached_response(memcached_instance_st* instance,
   /* We may have old commands in the buffer not sent, first purge */
   if ((instance->root->flags.no_block) and (memcached_is_processing_input(instance->root) == false))
   {
+#if ENABLE_PRINT
+    printf("libmemcached/response.cc - memcached_response()2 memcached_io_write call\n");
+#endif
     (void)memcached_io_write(instance);
   }
 
   /*  Before going into loop wait to see if we have any IO waiting for us */
-  if (0)
-  {
+  if (0){
+#if ENABLE_PRINT
+    printf("libmemcached/response.cc - memcached_response()2 memcached_io_wait_for_read call\n");
+#endif
     memcached_return_t read_rc= memcached_io_wait_for_read(instance);
     fprintf(stderr, "%s:%d: %s\n", __FILE__, __LINE__, memcached_strerror(NULL, read_rc));
   }
@@ -912,9 +977,12 @@ memcached_return_t memcached_response(memcached_instance_st* instance,
    * returned the last one. Purge all pending messages to ensure backwards
    * compatibility.
  */
-  if (memcached_is_binary(instance->root) == false and memcached_server_response_count(instance) > 1)
-  {
+  if (memcached_is_binary(instance->root) == false and memcached_server_response_count(instance) > 1){
+#if ENABLE_PRINT
+    printf("libmemcached/response.cc - memcached_response()2 last if statement\n");
+#endif
     memcached_result_st junked_result;
+
     memcached_result_st *junked_result_ptr= memcached_result_create(instance->root, &junked_result);
 
     assert(junked_result_ptr);
@@ -932,6 +1000,9 @@ memcached_return_t memcached_response(memcached_instance_st* instance,
     }
     memcached_result_free(junked_result_ptr);
   }
-
-  return _read_one_response(instance, buffer, buffer_length, result);
+#if ENABLE_PRINT
+  printf("libmemcached/response.cc - memcached_response()2 _read_one_response call\n");
+  printf("\t memcached_response()2 buffer : %s\n", buffer);
+#endif
+  return _read_one_response(instance, buffer, buffer_length, result); //바로 여기로 들어감
 }

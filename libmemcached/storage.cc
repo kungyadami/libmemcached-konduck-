@@ -245,8 +245,8 @@ static memcached_return_t memcached_send_binary(Memcached *ptr,
   return memcached_response(server, NULL, 0, NULL);
 }
 
-static memcached_return_t memcached_send_ascii(Memcached *ptr,
-                                               memcached_instance_st* instance,
+static memcached_return_t memcached_send_ascii(Memcached *ptr,        //memcached instance인 것 같다
+                                               memcached_instance_st* instance,  //memcached server instance인 것 같다
                                                const char *key,
                                                const size_t key_length,
                                                const char *value,
@@ -258,8 +258,13 @@ static memcached_return_t memcached_send_ascii(Memcached *ptr,
                                                const bool reply,
                                                const memcached_storage_action_t verb)
 {
+  //printf("libmemcached/storage.cc :: memcached_send_ascii()1\n");
+#if ENABLE_PRINT
+  printf("libmemcached/storage.cc :: memcached_send_ascii()1\n");
+#endif
   char flags_buffer[MEMCACHED_MAXIMUM_INTEGER_DISPLAY_LENGTH +1];
   int flags_buffer_length= snprintf(flags_buffer, sizeof(flags_buffer), " %u", flags);
+  //error
   if (size_t(flags_buffer_length) >= sizeof(flags_buffer) or flags_buffer_length < 0)
   {
     return memcached_set_error(*instance, MEMCACHED_MEMORY_ALLOCATION_FAILURE, MEMCACHED_AT, 
@@ -268,6 +273,7 @@ static memcached_return_t memcached_send_ascii(Memcached *ptr,
 
   char expiration_buffer[MEMCACHED_MAXIMUM_INTEGER_DISPLAY_LENGTH +1];
   int expiration_buffer_length= snprintf(expiration_buffer, sizeof(expiration_buffer), " %llu", (unsigned long long)expiration);
+  //error
   if (size_t(expiration_buffer_length) >= sizeof(expiration_buffer) or expiration_buffer_length < 0)
   {
     return memcached_set_error(*instance, MEMCACHED_MEMORY_ALLOCATION_FAILURE, MEMCACHED_AT, 
@@ -276,6 +282,7 @@ static memcached_return_t memcached_send_ascii(Memcached *ptr,
 
   char value_buffer[MEMCACHED_MAXIMUM_INTEGER_DISPLAY_LENGTH +1];
   int value_buffer_length= snprintf(value_buffer, sizeof(value_buffer), " %llu", (unsigned long long)value_length);
+  //error
   if (size_t(value_buffer_length) >= sizeof(value_buffer) or value_buffer_length < 0)
   {
     return memcached_set_error(*instance, MEMCACHED_MEMORY_ALLOCATION_FAILURE, MEMCACHED_AT, 
@@ -294,9 +301,11 @@ static memcached_return_t memcached_send_ascii(Memcached *ptr,
     }
   }
 
+  //libmemcached_io_vector_st 구조체는 안에 buffer와 length만 존재함. 아마 메세지 버퍼를 뜻하는게 아닐까 생각이 듦. .
+  
   libmemcached_io_vector_st vector[]=
   {
-    { NULL, 0 },
+    { NULL, 0 }, 
     { storage_op_string(verb), strlen(storage_op_string(verb))},
     { memcached_array_string(ptr->_namespace), memcached_array_size(ptr->_namespace) },
     { key, key_length },
@@ -311,35 +320,48 @@ static memcached_return_t memcached_send_ascii(Memcached *ptr,
   };
 
   /* Send command header */
-  memcached_return_t rc=  memcached_vdo(instance, vector, 12, flush);
-
+  memcached_return_t rc=  memcached_vdo(instance, vector, 12, flush); //이거 실행
+  //printf("libmemcached/storage.cc :: memcached_send_ascii() 4, rc : %d\n", rc);
+#if ENABLE_PRINT
+  printf("libmemcached/storage.cc :: memcached_send_ascii() 4, rc : %d\n", rc);
+#endif
   // If we should not reply, return with MEMCACHED_SUCCESS, unless error
-  if (reply == false)
+  if (reply == false) //안들어감
   {
     return memcached_success(rc) ? MEMCACHED_SUCCESS : rc; 
   }
 
-  if (flush == false)
+  if (flush == false) //안들어감
   {
     return memcached_success(rc) ? MEMCACHED_BUFFERED : rc; 
   }
-
-  if (rc == MEMCACHED_SUCCESS)
+  //printf("libmemcached/storage.cc :: memcached_send_ascii()6\n");
+  if (rc == MEMCACHED_SUCCESS) //들어감
   {
+    //printf("libmemcached/storage.cc :: memcached_send_ascii()7\n");
+#if ENABLE_PRINT
+    printf("libmemcached/storage.cc :: memcached_send_ascii()5\n");
+#endif
     char buffer[MEMCACHED_DEFAULT_COMMAND_SIZE];
     rc= memcached_response(instance, buffer, sizeof(buffer), NULL);
 
     if (rc == MEMCACHED_STORED)
-    {
+    { //들어감
       return MEMCACHED_SUCCESS;
     }
   }
-
+  //printf("libmemcached/storage.cc :: memcached_send_ascii()3\n");
+#if ENABLE_PRINT
+  printf("libmemcached/storage.cc :: memcached_send_ascii()6\n");
+#endif
   if (rc == MEMCACHED_WRITE_FAILURE)
   {
+    //printf("libmemcached/storage.cc :: memcached_send_ascii()4\n");
     memcached_io_reset(instance);
   }
-
+#if ENABLE_PRINT
+  printf("libmemcached/storage.cc :: memcached_send_ascii()7\n");
+#endif
   assert(memcached_failed(rc));
 #if 0
   if (memcached_has_error(ptr) == false)
@@ -347,7 +369,9 @@ static memcached_return_t memcached_send_ascii(Memcached *ptr,
     return memcached_set_error(*ptr, rc, MEMCACHED_AT);
   }
 #endif
-
+#if ENABLE_PRINT
+  printf("libmemcached/storage.cc :: memcached_send_ascii()8\n");
+#endif
   return rc;
 }
 
@@ -360,31 +384,48 @@ static inline memcached_return_t memcached_send(memcached_st *shell,
                                                 const uint64_t cas,
                                                 memcached_storage_action_t verb)
 {
+#if ENABLE_PRINT
+  printf("libmemcached/storage.cc :: memcached_send()\n");
+  printf("***memcached_send() parameters***\n");
+  printf("group_key : %s, group_key_length : %zu\n", group_key, group_key_length);
+  printf("key : %s, key_length : %zu\n", key, key_length);
+  printf("value : %s, value_length : %zu\n", value, value_length);
+#endif
+  //verb : operation 이름(ex : SET_OP, REPLACE_OP, ...)
+  //일단 내가 실행할 때에는 group_key == key, group_key_length == key_length임.
+
   Memcached* ptr= memcached2Memcached(shell);
   memcached_return_t rc;
   if (memcached_failed(rc= initialize_query(ptr, true)))
-  {
+  { //안 들어감
     return rc;
   }
 
   if (memcached_failed(memcached_key_test(*ptr, (const char **)&key, &key_length, 1)))
-  {
+  { //안 들어감
     return memcached_last_error(ptr);
   }
 
+  //어느 서버에 배치할 지 해시값 돌리기
   uint32_t server_key= memcached_generate_hash_with_redistribution(ptr, group_key, group_key_length);
+  
+  //해당 서버 포인터? 가져오기.. 아마도 서버키에 매핑되는, 서버리스트 배열에 있는 서버정보를 가져오는듯
   memcached_instance_st* instance= memcached_instance_fetch(ptr, server_key);
-
   WATCHPOINT_SET(instance->io_wait_count.read= 0);
   WATCHPOINT_SET(instance->io_wait_count.write= 0);
-
   bool flush= true;
+
   if (memcached_is_buffering(instance->root) and verb == SET_OP)
   {
     flush= false;
   }
-
+#if ENABLE_PRINT
+    printf("storage.cc :: memcached_send() - flush : %d\n", flush);
+#endif
   bool reply= memcached_is_replying(ptr);
+#if ENABLE_PRINT
+  printf("storage.cc :: memcached_send() - reply : %d \n", reply);
+#endif
 
   hashkit_string_st* destination= NULL;
 
@@ -406,6 +447,9 @@ static inline memcached_return_t memcached_send(memcached_st *shell,
 
   if (memcached_is_binary(ptr))
   {
+#if ENABLE_PRINT
+    printf("libmemcached/storage.cc :: memcached_send() call memcached_send_binary()\n");
+#endif
     rc= memcached_send_binary(ptr, instance, server_key,
                               key, key_length,
                               value, value_length, expiration,
@@ -413,6 +457,10 @@ static inline memcached_return_t memcached_send(memcached_st *shell,
   }
   else
   {
+    //여기로 메세지 전송
+#if ENABLE_PRINT
+     printf("libmemcached/storage.cc :: memcached_send() call memcached_send_ascii()\n");
+#endif
     rc= memcached_send_ascii(ptr, instance,
                              key, key_length,
                              value, value_length, expiration,
@@ -430,6 +478,12 @@ memcached_return_t memcached_set(memcached_st *ptr, const char *key, size_t key_
                                  time_t expiration,
                                  uint32_t flags)
 {
+#if ENABLE_PRINT
+  printf("libmemcached/storage.cc :: memcached_set()\n");
+  printf("***memcached_set() parameters***\n");
+  printf("key : %s, key_length : %zu\n", key, key_length);
+  printf("value : %s, value_length : %zu\n", value, value_length);
+#endif
   memcached_return_t rc;
   LIBMEMCACHED_MEMCACHED_SET_START();
   rc= memcached_send(ptr, key, key_length,
@@ -595,4 +649,3 @@ memcached_return_t memcached_cas_by_key(memcached_st *ptr,
                          key, key_length, value, value_length,
                          expiration, flags, cas, CAS_OP);
 }
-

@@ -508,6 +508,9 @@ static memcached_return_t unix_socket_connect(memcached_instance_st* server)
 
 static memcached_return_t network_connect(memcached_instance_st* server)
 {
+#if ENABLE_PRINT
+  printf("libmemcached/connect.cc :: network_connect() - [1]\n");
+#endif
   bool timeout_error_occured= false;
 
   WATCHPOINT_ASSERT(server->fd == INVALID_SOCKET);
@@ -728,6 +731,9 @@ static memcached_return_t backoff_handling(memcached_instance_st* server, bool& 
 
 static memcached_return_t _memcached_connect(memcached_instance_st* server, const bool set_last_disconnected)
 {
+#if ENABLE_PRINT
+  printf("libmemcached/connect.cc ::  _memcached_connect()\n");
+#endif
   assert(server);
   if (server->fd != INVALID_SOCKET)
   {

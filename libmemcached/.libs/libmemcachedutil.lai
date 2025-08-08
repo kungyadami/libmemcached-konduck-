@@ -17,7 +17,7 @@ old_library='libmemcachedutil.a'
 inherited_linker_flags=''
 
 # Libraries that this one depends upon.
-dependency_libs=' /usr/local/lib/libmemcached.la -lsasl2'
+dependency_libs=' /usr/local/lib/libmemcached.la /home/mizzz/mvapich-3.0/install/mvapich/lib/libmpi.la -lpthread -lsasl2'
 
 # Names of additional weak libraries provided by this library
 weak_library_names=''

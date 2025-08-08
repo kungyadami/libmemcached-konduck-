@@ -42,6 +42,9 @@ char *memcached_fetch(memcached_st *shell, char *key, size_t *key_length,
                       uint32_t *flags,
                       memcached_return_t *error)
 {
+#if ENABLE_PRINT
+  printf("libmemcached/fetch.cc :: memcached_fetch()\n");
+#endif
   Memcached* ptr= memcached2Memcached(shell);
   memcached_return_t unused;
   if (error == NULL)
@@ -76,6 +79,9 @@ char *memcached_fetch(memcached_st *shell, char *key, size_t *key_length,
   }
 
   memcached_result_st *result_buffer= &ptr->result;
+#if ENABLE_PRINT
+  printf("libmemcached/fetch.cc - memcached_fetch() :: memcached_fetch_result call\n");
+#endif
   result_buffer= memcached_fetch_result(ptr, result_buffer, error);
   if (result_buffer == NULL or memcached_failed(*error))
   {
@@ -155,6 +161,9 @@ memcached_result_st *memcached_fetch_result(memcached_st *ptr,
                                             memcached_result_st *result,
                                             memcached_return_t *error)
 {
+#if ENABLE_PRINT
+  printf("libmemcached/fetch.cc - memcached_fetch_result()\n");
+#endif
   memcached_return_t unused;
   if (error == NULL)
   {
@@ -195,8 +204,14 @@ memcached_result_st *memcached_fetch_result(memcached_st *ptr,
   memcached_instance_st *server;
   memcached_return_t read_ret= MEMCACHED_SUCCESS;
   bool connection_failures= false;
+#if ENABLE_PRINT
+  printf("libmemcached/fetch.cc - memcached_fetch_result() memcached_io_get_readable_server call\n");
+#endif
   while ((server= memcached_io_get_readable_server(ptr, read_ret)))
   {
+#if ENABLE_PRINT
+    printf("libmemcached/fetch.cc - memcached_fetch_result() while statement\n");
+#endif
     char buffer[MEMCACHED_DEFAULT_COMMAND_SIZE];
     *error= memcached_response(server, buffer, sizeof(buffer), result);
 
@@ -223,7 +238,9 @@ memcached_result_st *memcached_fetch_result(memcached_st *ptr,
       break;
     }
   }
-
+#if ENABLE_PRINT
+  printf("libmemcached/fetch.cc - memcached_fetch_result() while statement end\n");
+#endif
   if (*error == MEMCACHED_NOTFOUND and result->count)
   {
     *error= MEMCACHED_END;
@@ -265,7 +282,9 @@ memcached_result_st *memcached_fetch_result(memcached_st *ptr,
     result->count= 0;
     memcached_string_reset(&result->value);
   }
-
+#if ENABLE_PRINT
+  printf("libmemcached/fetch.cc - memcached_fetch_result() end\n");
+#endif
   return NULL;
 }
 

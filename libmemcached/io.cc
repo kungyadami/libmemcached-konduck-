@@ -38,9 +38,12 @@
 
 
 #include <libmemcached/common.h>
+#include <string.h>
+#include <mpi.h>
 
 #ifdef HAVE_SYS_SOCKET_H
 # include <sys/socket.h>
+
 #endif
 
 void initialize_binary_request(memcached_instance_st* server, protocol_binary_request_header& header)
@@ -179,6 +182,9 @@ static bool process_input_buffer(memcached_instance_st* instance)
 static memcached_return_t io_wait(memcached_instance_st* instance,
                                   const short events)
 {
+#if ENABLE_PRINT
+  printf("libmemcached/io.cc - io_wait()\n");
+#endif
   /*
    ** We are going to block on write, but at least on Solaris we might block
    ** on write if we haven't read anything from our input buffer..
@@ -238,6 +244,9 @@ static memcached_return_t io_wait(memcached_instance_st* instance,
         int local_errno= EINVAL;
         int err;
         socklen_t len= sizeof (err);
+#if ENABLE_PRINT
+        printf("libmemcached/io.cc - io_wait() getsockopt call\n");
+#endif
         if (getsockopt(instance->fd, SOL_SOCKET, SO_ERROR, (char*)&err, &len) == 0)
         {
           if (err == 0) // treat this as EINTR
@@ -246,6 +255,9 @@ static memcached_return_t io_wait(memcached_instance_st* instance,
           }
           local_errno= err;
         }
+#if ENABLE_PRINT
+        printf("libmemcached/io.cc - io_wait() memcached_quit_server call\n");
+#endif
         memcached_quit_server(instance, true);
         return memcached_set_errno(*instance, local_errno, MEMCACHED_AT,
                                    memcached_literal_param("poll() returned POLLHUP"));
@@ -295,15 +307,22 @@ static memcached_return_t io_wait(memcached_instance_st* instance,
                              memcached_literal_param("number of attempts to call io_wait() failed"));
 }
 
-static bool io_flush(memcached_instance_st* instance,
-                     const bool with_flush,
-                     memcached_return_t& error)
-{
+
+
+
+
+
+
+
+
+static bool io_flush(memcached_instance_st* instance, const bool with_flush, memcached_return_t& error){
   /*
    ** We might want to purge the input buffer if we haven't consumed
    ** any output yet... The test for the limits is the purge is inline
    ** in the purge function to avoid duplicating the logic..
  */
+ //a variable that yedam defined..
+
   {
     WATCHPOINT_ASSERT(instance->fd != INVALID_SOCKET);
 
@@ -318,34 +337,46 @@ static bool io_flush(memcached_instance_st* instance,
   error= MEMCACHED_SUCCESS;
 
   WATCHPOINT_ASSERT(instance->fd != INVALID_SOCKET);
-
   /* Looking for memory overflows */
 #if defined(DEBUG)
   if (write_length == MEMCACHED_MAX_BUFFER)
     WATCHPOINT_ASSERT(instance->write_buffer == local_write_ptr);
   WATCHPOINT_ASSERT((instance->write_buffer + MEMCACHED_MAX_BUFFER) >= (local_write_ptr + write_length));
 #endif
-
-  while (write_length)
-  {
+  while (write_length){
     WATCHPOINT_ASSERT(instance->fd != INVALID_SOCKET);
     WATCHPOINT_ASSERT(write_length > 0);
-
     int flags;
-    if (with_flush)
-    {
+    if (with_flush){
       flags= MSG_NOSIGNAL;
-    }
-    else
-    {
+    }else{
       flags= MSG_NOSIGNAL|MSG_MORE;
     }
 
+#if ENABLE_SOCKET_FUNCTIONS  
     ssize_t sent_length= ::send(instance->fd, local_write_ptr, write_length, flags);
+#endif
+    
+#if ENABLE_MPI_FUNCTIONS
+    int size;
+    int rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+    int client_size = size/2;
+    //MPI_Send(local_write_ptr, write_length, MPI_CHAR, rank-client_size, 0, MPI_COMM_WORLD); //0번째 rank에게 보내기
+    MPI_Send(local_write_ptr, write_length, MPI_CHAR, 0, 0, MPI_COMM_WORLD); //0번째 rank에게 보내기
+    ssize_t mpi_sent_length = write_length;
+#endif
+
     int local_errno= get_socket_errno(); // We cache in case memcached_quit_server() modifies errno
 
-    if (sent_length == SOCKET_ERROR)
-    {
+#if ENABLE_SOCKET_FUNCTIONS
+    if (sent_length == SOCKET_ERROR){
+#endif
+
+#if ENABLE_MPI_FUNCTIONS
+    if(mpi_sent_length == SOCKET_ERROR){
+#endif
 #if 0 // @todo I should look at why we hit this bit of code hard frequently
       WATCHPOINT_ERRNO(get_socket_errno());
       WATCHPOINT_NUMBER(get_socket_errno());
@@ -366,21 +397,16 @@ static bool io_flush(memcached_instance_st* instance,
            * buffer for more data and retry the write before
            * waiting..
          */
-          if (repack_input_buffer(instance) or process_input_buffer(instance))
-          {
+          if (repack_input_buffer(instance) or process_input_buffer(instance)){
             continue;
           }
-
           memcached_return_t rc= io_wait(instance, POLLOUT);
-          if (memcached_success(rc))
-          {
+          if (memcached_success(rc)){
             continue;
-          }
-          else if (rc == MEMCACHED_TIMEOUT)
-          {
+          }else if (rc == MEMCACHED_TIMEOUT){
             return false;
           }
-
+      
           memcached_quit_server(instance, true);
           error= memcached_set_errno(*instance, local_errno, MEMCACHED_AT);
           return false;
@@ -388,24 +414,45 @@ static bool io_flush(memcached_instance_st* instance,
       case ENOTCONN:
       case EPIPE:
       default:
+#if ENABLE_PRINT      
+        printf("libmemcached/io.cc :: io_flush() call memcached_quit_server()2\n");
+#endif          
         memcached_quit_server(instance, true);
         error= memcached_set_errno(*instance, local_errno, MEMCACHED_AT);
         WATCHPOINT_ASSERT(instance->fd == INVALID_SOCKET);
         return false;
       }
     }
-
+#if ENABLE_SOCKET_FUNCTIONS
     instance->io_bytes_sent+= uint32_t(sent_length);
 
     local_write_ptr+= sent_length;
     write_length-= uint32_t(sent_length);
+#endif
+
+#if ENABLE_MPI_FUNCTIONS
+    instance->io_bytes_sent+= uint32_t(mpi_sent_length);
+
+    local_write_ptr+= mpi_sent_length;
+    write_length-= uint32_t(mpi_sent_length);
+#endif
   }
 
   WATCHPOINT_ASSERT(write_length == 0);
   instance->write_buffer_offset= 0;
 
-  return true;
+  return true; //여기로 들어감
 }
+
+
+
+
+
+
+
+
+
+
 
 memcached_return_t memcached_io_wait_for_write(memcached_instance_st* instance)
 {
@@ -419,14 +466,68 @@ memcached_return_t memcached_io_wait_for_read(memcached_instance_st* instance)
 
 static memcached_return_t _io_fill(memcached_instance_st* instance)
 {
+#if ENABLE_PRINT 
+  printf("libmemcached/io.cc :: _io_fill()\n");
+#endif
+#if ENABLE_SOCKET_FUNCTIONS
   ssize_t data_read;
+#if ENABLE_PRINT 
+  printf("libmemcached/io.cc :: _io_fill() data_read 2 : %zu\n", data_read);
+#endif
+#endif
+
+  #if ENABLE_MPI_FUNCTIONS
+    int data_read = 0; //내가 대충 오류 안나게할라고 20으로 해둠
+    char mpi_recv_buf[100];
+    int rank;
+    int size;
+    MPI_Status mpi_recv_status;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+    int client_size = size/2;
+
+  #endif
   do
   {
-    data_read= ::recv(instance->fd, instance->read_buffer, MEMCACHED_MAX_BUFFER, MSG_NOSIGNAL);
+#if ENABLE_PRINT 
+    printf("libmemcached/io.cc :: _io_fill() recv\n");
+#endif
+
+#if ENABLE_SOCKET_FUNCTIONS
+      data_read= ::recv(instance->fd, instance->read_buffer, MEMCACHED_MAX_BUFFER, MSG_NOSIGNAL);
+      //printf("libmemcached/io.cc :: _io_fill() instance->read_buffer : %s\n", instance->read_buffer);
+#endif
+
+#if ENABLE_MPI_FUNCTIONS
+    //int err = MPI_Recv(instance->read_buffer, MEMCACHED_MAX_BUFFER, MPI_CHAR, rank-client_size, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_recv_status);
+    int err = MPI_Recv(instance->read_buffer, MEMCACHED_MAX_BUFFER, MPI_CHAR, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_recv_status);
+    if (err != MPI_SUCCESS) {
+#if ENABLE_PRINT 
+        printf("libmemcached/io.c :: _io_fill(), MPI_Recv error 발생 \n");
+#endif
+        char err_str[MPI_MAX_ERROR_STRING];
+        int len;
+        MPI_Error_string(err, err_str, &len);
+        fprintf(stderr, "MPI_Recv error: %s\n", err_str);
+        fprintf(stderr, "MPI_SOURCE=%d, MPI_TAG=%d, MPI_ERROR=%d\n",
+        mpi_recv_status.MPI_SOURCE,
+        mpi_recv_status.MPI_TAG,
+        mpi_recv_status.MPI_ERROR);
+        MPI_Abort(MPI_COMM_WORLD, 1);
+    }else{
+      //printf("libmemcached/io.cc :: _io_fill() [2] completed MPI_Recv, buf : %s\n", instance->read_buffer);
+    }
+
+    MPI_Get_count(&mpi_recv_status, MPI_CHAR, &data_read);
+#endif
+
     int local_errno= get_socket_errno(); // We cache in case memcached_quit_server() modifies errno
 
     if (data_read == SOCKET_ERROR)
     {
+#if ENABLE_PRINT 
+      printf("libmemcached/io.cc :: data read is SOCKET ERROR\n");
+#endif
       switch (get_socket_errno())
       {
       case EINTR: // We just retry
@@ -471,6 +572,9 @@ static memcached_return_t _io_fill(memcached_instance_st* instance)
     }
     else if (data_read == 0)
     {
+#if ENABLE_PRINT 
+      printf("libmemcached/io.cc :: data read is 0\n");
+#endif
       /*
         EOF. Any data received so far is incomplete
         so discard it. This always reads by byte in case of TCP
@@ -485,12 +589,19 @@ static memcached_return_t _io_fill(memcached_instance_st* instance)
                                  memcached_literal_param("::rec() returned zero, server has disconnected"));
     }
     instance->io_wait_count._bytes_read+= data_read;
+#if ENABLE_PRINT 
+    printf("libmemcached/io.cc :: _io_fill() data read : %zu | instance->io_wait_count._bytes_read : %zu\n", data_read, instance->io_wait_count._bytes_read);
+#endif
   } while (data_read <= 0);
 
   instance->io_bytes_sent= 0;
   instance->read_data_length= (size_t) data_read;
   instance->read_buffer_length= (size_t) data_read;
   instance->read_ptr= instance->read_buffer;
+#if ENABLE_PRINT 
+  printf("libmemcached/io.cc :: _io_fill() instance->read_buffer : %s \n", instance->read_buffer);
+  printf("libmemcached/io.cc :: _io_fill() return\n");
+#endif
 
   return MEMCACHED_SUCCESS;
 }
@@ -498,32 +609,58 @@ static memcached_return_t _io_fill(memcached_instance_st* instance)
 memcached_return_t memcached_io_read(memcached_instance_st* instance,
                                      void *buffer, size_t length, ssize_t& nread)
 {
+#if ENABLE_PRINT 
+  printf("libmemcached/io.cc :: memcached_io_read()\n");
+#endif
   assert(memcached_is_udp(instance->root) == false);
   assert_msg(instance, "Programmer error, memcached_io_read() recieved an invalid Instance"); // Programmer error
   char *buffer_ptr= static_cast<char *>(buffer);
-
+#if ENABLE_PRINT 
+  printf("libmemcached/io.cc :: memcached_io_read()1-1\n");
+#endif
+  #if ENABLE_SOCKET_FUNCTIONS
   if (instance->fd == INVALID_SOCKET)
   {
+#if ENABLE_PRINT 
+    printf("libmemcached/io.cc :: memcached_io_read()1-2\n");
+#endif
 #if 0
     assert_msg(int(instance->state) <= int(MEMCACHED_SERVER_STATE_ADDRINFO), "Programmer error, invalid socket state");
 #endif
     return MEMCACHED_CONNECTION_FAILURE;
   }
-
+  #endif
+#if ENABLE_PRINT 
+   printf("libmemcached/io.cc :: memcached_io_read()2\n");
+#endif
   while (length)
   {
+#if ENABLE_PRINT 
+    printf("libmemcached/io.cc :: memcached_io_read()3\n");
+#endif
     if (instance->read_buffer_length == 0)
     {
+#if ENABLE_PRINT 
+      printf("libmemcached/io.cc :: memcached_io_read()3-1\n");
+#endif
       memcached_return_t io_fill_ret;
-      if (memcached_fatal(io_fill_ret= _io_fill(instance)))
+      if (memcached_fatal(io_fill_ret= _io_fill(instance))) //3-1 까지 출력 후, _io_fill 들어감
       {
+#if ENABLE_PRINT 
+        printf("libmemcached/io.cc :: memcached_io_read()3-2\n");
+#endif
         nread= -1;
         return io_fill_ret;
       }
     }
-
+#if ENABLE_PRINT 
+    printf("libmemcached/io.cc :: memcached_io_read()3-3\n");
+#endif
     if (length > 1)
     {
+#if ENABLE_PRINT 
+      printf("libmemcached/io.cc :: memcached_io_read()4\n");
+#endif
       size_t difference= (length > instance->read_buffer_length) ? instance->read_buffer_length : length;
 
       memcpy(buffer_ptr, instance->read_ptr, difference);
@@ -531,19 +668,40 @@ memcached_return_t memcached_io_read(memcached_instance_st* instance,
       instance->read_ptr+= difference;
       instance->read_buffer_length-= difference;
       buffer_ptr+= difference;
+      // instance 내부 값 예시
+#if ENABLE_PRINT 
+      printf("if -  instance->read_buffer_length = %zu\n", instance->read_buffer_length);
+      printf("if - instance->read_ptr          = %p\n", instance->read_ptr);
+
+      // 만약 read_ptr 포인터 값을 확인하고 싶다면:
+      printf("if - *read_ptr (first byte) = 0x%02x\n", (unsigned char)*instance->read_ptr);
+#endif
     }
     else
     {
+#if ENABLE_PRINT 
+       printf("libmemcached/io.cc :: memcached_io_read()5\n");
+#endif
       *buffer_ptr= *instance->read_ptr;
       instance->read_ptr++;
       instance->read_buffer_length--;
       buffer_ptr++;
+      // instance 내부 값 예시
+#if ENABLE_PRINT 
+      printf("else - instance->read_buffer_length = %zu\n", instance->read_buffer_length);
+      printf("else -  instance->read_ptr          = %p\n", instance->read_ptr);
+
+      // 만약 read_ptr 포인터 값을 확인하고 싶다면:
+      printf("else - *read_ptr (first byte) = 0x%02x\n", (unsigned char)*instance->read_ptr);
+#endif
       break;
     }
   }
 
   nread= ssize_t(buffer_ptr - (char*)buffer);
-
+#if ENABLE_PRINT 
+  printf("libmemcached/io.cc :: memcached_io_read() end\n");
+#endif
   return MEMCACHED_SUCCESS;
 }
 
@@ -608,71 +766,112 @@ static bool _io_write(memcached_instance_st* instance,
                       const void *buffer, size_t length, bool with_flush,
                       size_t& written)
 {
+  //printf("libmemcached/io.cc :: _io_write() 1");
+#if ENABLE_PRINT
+  printf("libmemcached/io.cc :: _io_write() \n");
+#endif
   assert(instance->fd != INVALID_SOCKET);
   assert(memcached_is_udp(instance->root) == false);
 
   const char *buffer_ptr= static_cast<const char *>(buffer);
+#if ENABLE_PRINT
+  printf("libmemcached/io.cc :: _io_write() buffer_ptr : %s\n", buffer_ptr);
+#endif
 
   const size_t original_length= length;
 
   while (length)
   {
+#if ENABLE_PRINT
+    printf("libmemcached/io.cc :: _io_write() original_length : %zu\n", original_length);
+#endif
+  //printf("libmemcached/io.cc :: _io_write() 2\n");
     char *write_ptr;
     size_t buffer_end= MEMCACHED_MAX_BUFFER;
     size_t should_write= buffer_end -instance->write_buffer_offset;
     should_write= (should_write < length) ? should_write : length;
 
     write_ptr= instance->write_buffer + instance->write_buffer_offset;
+
     memcpy(write_ptr, buffer_ptr, should_write);
     instance->write_buffer_offset+= should_write;
     buffer_ptr+= should_write;
     length-= should_write;
-
+#if ENABLE_PRINT
+    printf("libmemcached/io.cc :: _io_write() write_ptr : %s\n", write_ptr);
+    printf("libmemcached/io.cc :: _io_write() buffer_ptr : %s\n", buffer_ptr);
+#endif
+   // printf("libmemcached/io.cc :: _io_write() 3 instance->write_buffer_offset : %d | buffer_end : %d\n", instance->write_buffer_offset, buffer_end);
     if (instance->write_buffer_offset == buffer_end)
     {
       WATCHPOINT_ASSERT(instance->fd != INVALID_SOCKET);
 
       memcached_return_t rc;
+#if ENABLE_PRINT
+      printf("libmemcached/io.cc :: _io_write - io_flush\n");
+#endif
+     // printf("libmemcached/io.cc :: _io_write - io_flush() 1");
       if (io_flush(instance, with_flush, rc) == false)
       {
         written= original_length -length;
+#if ENABLE_PRINT
+        printf("libmemcached/io.cc :: _io_write return false\n");
+#endif
         return false;
       }
     }
   }
 
-  if (with_flush)
+  if (with_flush) //여기로 들어감
   {
     memcached_return_t rc;
     WATCHPOINT_ASSERT(instance->fd != INVALID_SOCKET);
+#if ENABLE_PRINT
+    printf("libmemcached/io.cc :: _io_write - io_flush2\n");
+#endif
+  //printf("libmemcached/io.cc :: _io_write() 3\n");
     if (io_flush(instance, with_flush, rc) == false)
     {
       written= original_length -length;
+
       return false;
     }
   }
-
+#if ENABLE_PRINT
+  printf("libmemcached/io.cc :: _io_write return, written : %zu\n", written);
+#endif
   written= original_length -length;
-
+  //printf("libmemcached/io.cc :: _io_write() 4\n");
   return true;
 }
 
 bool memcached_io_write(memcached_instance_st* instance)
 {
+#if ENABLE_PRINT
+  printf("libmemcached/io.cc - memcached_io_write()\n");
+#endif
   size_t written;
   return _io_write(instance, NULL, 0, true, written);
 }
 
+//여기 들어감
 ssize_t memcached_io_write(memcached_instance_st* instance,
                            const void *buffer, const size_t length, const bool with_flush)
 {
   size_t written;
-
+#if ENABLE_PRINT
+  printf("libmemcached/io.cc - memcached_io_write()2, written : %zu\n", written);
+#endif
   if (_io_write(instance, buffer, length, with_flush, written) == false)
   {
+#if ENABLE_PRINT
+    printf("libmemcached/io.cc - memcached_io_write() return -1\n");
+#endif
     return -1;
   }
-
+#if ENABLE_PRINT
+  printf("libmemcached/io.cc - memcached_io_write() return ssize_t(written) : %zu \n", written);
+#endif
   return ssize_t(written);
 }
 
@@ -680,6 +879,14 @@ bool memcached_io_writev(memcached_instance_st* instance,
                          libmemcached_io_vector_st vector[],
                          const size_t number_of, const bool with_flush)
 {
+  //printf("libmemcached/io.cc :: memcached_io_writev()1\n");
+#if ENABLE_PRINT
+  printf("libmemcached/io.cc :: memcached_io_writev()\n");
+#endif
+  //내가 이해하는 파라미터
+  //instance : 서버 정보
+  //vector : key,value 정보를 포함한 메세지
+  //
   ssize_t complete_total= 0;
   ssize_t total= 0;
 
@@ -687,24 +894,44 @@ bool memcached_io_writev(memcached_instance_st* instance,
   {
     complete_total+= vector->length;
     if (vector->length)
-    {
+    { //여기 안에 들어감(maybe set)
+#if ENABLE_PRINT
+      printf("libmemcached/io.cc :: memcached_io_writev() 2\n");
+#endif
       size_t written;
       if ((_io_write(instance, vector->buffer, vector->length, false, written)) == false)
+      //여기 안들어가네 ..
       {
+#if ENABLE_PRINT
+        printf("libmemcached/io.cc :: memcached_io_writev() 3\n");
+#endif
         return false;
       }
+#if ENABLE_PRINT
+      printf("libmemcached/io.cc :: memcached_io_writev() 4\n");
+#endif
       total+= written;
     }
   }
-
+  
   if (with_flush)
-  {
+  { //여기 들어감
+#if ENABLE_PRINT
+    printf("libmemcached/io.cc :: memcached_io_writev() 5\n");
+#endif
     if (memcached_io_write(instance) == false)
     {
+      //여기 안들어감
+#if ENABLE_PRINT
+       printf("libmemcached/io.cc :: memcached_io_writev()6\n");
+#endif
       return false;
     }
   }
-
+#if ENABLE_PRINT
+  printf("libmemcached/io.cc :: memcached_io_writev() 7\n");
+#endif
+  //printf("libmemcached/io.cc :: memcached_io_writev() 7\n");
   return (complete_total == total);
 }
 
@@ -764,6 +991,9 @@ void memcached_instance_st::close_socket()
 
 memcached_instance_st* memcached_io_get_readable_server(Memcached *memc, memcached_return_t&)
 {
+#if ENABLE_PRINT
+  printf("libmemcached/io.cc :: memcached_io_get_readable_server()\n");
+#endif
 #define MAX_SERVERS_TO_POLL 100
   struct pollfd fds[MAX_SERVERS_TO_POLL];
   nfds_t host_index= 0;
@@ -874,6 +1104,10 @@ memcached_return_t memcached_io_readline(memcached_instance_st* instance,
                                          size_t size,
                                          size_t& total_nr)
 {
+  //printf("libmemcached/io.cc - memcached_io_readline() 시작싲가싲갓ㅈ기ㅏㅅㅈㄱ\n");
+#if ENABLE_PRINT
+  printf("libmemcached/io.cc - memcached_io_readline()\n");
+#endif
   total_nr= 0;
   bool line_complete= false;
 
@@ -886,15 +1120,27 @@ memcached_return_t memcached_io_readline(memcached_instance_st* instance,
        * buffer. Call the standard read function to avoid duplicating
        * the logic.
      */
+#if ENABLE_PRINT
+      printf("libmemcached/io.cc - memcached_io_readline()1\n");
+#endif
       ssize_t nread;
       memcached_return_t rc= memcached_io_read(instance, buffer_ptr, 1, nread);
+#if ENABLE_PRINT
+      printf("libmemcached/io.cc - memcached_io_readline() 1-1, rc : %d\n", rc);
+#endif
       if (memcached_failed(rc) and rc == MEMCACHED_IN_PROGRESS)
       {
+#if ENABLE_PRINT
+        printf("libmemcached/io.cc - memcached_io_readline() 1-2, rc : %d\n", rc);
+#endif
         memcached_quit_server(instance, true);
         return memcached_set_error(*instance, rc, MEMCACHED_AT);
       }
       else if (memcached_failed(rc))
       {
+#if ENABLE_PRINT
+        printf("libmemcached/io.cc - memcached_io_readline() 1-3, rc : %d\n", rc);
+#endif
         return rc;
       }
 
@@ -906,13 +1152,24 @@ memcached_return_t memcached_io_readline(memcached_instance_st* instance,
       ++buffer_ptr;
       ++total_nr;
     }
-
+#if ENABLE_PRINT
+     printf("libmemcached/io.cc - memcached_io_readline()2\n");
+#endif
     /* Now let's look in the buffer and copy as we go! */
     while (instance->read_buffer_length and total_nr < size and line_complete == false)
     {
+#if ENABLE_PRINT
+       printf("libmemcached/io.cc - memcached_io_readline()3\n"); //여기 반복
+      //  printf("\t instance->read_buffer_length : %zu\n", instance->read_buffer_length); //여기 반복
+      //  printf("\t size : %zu\n", size); //여기 반복
+      //  printf("\t instance->read_ptr : %s\n", instance->read_ptr); //여기 반복
+#endif
       *buffer_ptr = *instance->read_ptr;
       if (*buffer_ptr == '\n')
       {
+#if ENABLE_PRINT
+        printf("libmemcached/io.cc - memcached_io_readline()4\n");
+#endif
         line_complete = true;
       }
       --instance->read_buffer_length;
@@ -920,12 +1177,16 @@ memcached_return_t memcached_io_readline(memcached_instance_st* instance,
       ++total_nr;
       ++buffer_ptr;
     }
-
+#if ENABLE_PRINT
+     printf("libmemcached/io.cc - memcached_io_readline()5\n");
+#endif
     if (total_nr == size)
     {
       return MEMCACHED_PROTOCOL_ERROR;
     }
   }
-
+#if ENABLE_PRINT
+  printf("libmemcached/io.cc - memcached_io_readline end\n");
+#endif
   return MEMCACHED_SUCCESS;
 }

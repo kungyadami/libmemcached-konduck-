@@ -280,7 +280,9 @@ const char *memcached_string_value(const memcached_string_st& self)
 char *memcached_string_take_value(memcached_string_st *self)
 {
   char* value= NULL;
-
+#if ENABLE_PRINT
+  printf("libmemcached/string.cc - memcached_string_take_value()\n");
+#endif
   assert_msg(self, "Invalid memcached_string_st");
   if (self)
   {

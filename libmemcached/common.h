@@ -44,6 +44,10 @@
 
 #include <mem_config.h>
 
+
+#define ENABLE_SOCKET_FUNCTIONS 0
+#define ENABLE_MPI_FUNCTIONS 1
+#define ENABLE_PRINT 0
 #ifdef __cplusplus
 # include <cstddef>
 # include <cstdio>
@@ -220,3 +224,5 @@ static inline void memcached_server_response_increment(memcached_instance_st* in
 bool memcached_purge(memcached_instance_st*);
 memcached_instance_st* memcached_instance_by_position(const memcached_st *ptr, uint32_t server_key);
 #endif
+
+void memcached_wait(); //yedam
