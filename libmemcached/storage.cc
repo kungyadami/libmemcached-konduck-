@@ -258,7 +258,6 @@ static memcached_return_t memcached_send_ascii(Memcached *ptr,        //memcache
                                                const bool reply,
                                                const memcached_storage_action_t verb)
 {
-  //printf("libmemcached/storage.cc :: memcached_send_ascii()1\n");
 #if ENABLE_PRINT
   printf("libmemcached/storage.cc :: memcached_send_ascii()1\n");
 #endif
