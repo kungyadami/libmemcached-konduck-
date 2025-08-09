@@ -38,6 +38,11 @@
 
 
 #include <libmemcached/common.h>
+#include <time.h>
+
+struct timespec start,end;
+#define BILLION 1000000000UL
+
 
 #ifdef HAVE_SYS_SOCKET_H
 # include <sys/socket.h>
@@ -340,7 +345,7 @@ static bool io_flush(memcached_instance_st* instance,
     {
       flags= MSG_NOSIGNAL|MSG_MORE;
     }
-
+    //clock_gettime(CLOCK_REALTIME, &start);
     ssize_t sent_length= ::send(instance->fd, local_write_ptr, write_length, flags);
     int local_errno= get_socket_errno(); // We cache in case memcached_quit_server() modifies errno
 
@@ -423,6 +428,9 @@ static memcached_return_t _io_fill(memcached_instance_st* instance)
   do
   {
     data_read= ::recv(instance->fd, instance->read_buffer, MEMCACHED_MAX_BUFFER, MSG_NOSIGNAL);
+    //clock_gettime(CLOCK_REALTIME, &end);
+    //unsigned long mpi_recv_timer=((end.tv_sec-start.tv_sec)*BILLION)+end.tv_nsec-start.tv_nsec;
+    //printf("mpi_recv_timer : %lu\n", mpi_recv_timer);
     int local_errno= get_socket_errno(); // We cache in case memcached_quit_server() modifies errno
 
     if (data_read == SOCKET_ERROR)
