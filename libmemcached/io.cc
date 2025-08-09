@@ -369,7 +369,6 @@ static bool io_flush(memcached_instance_st* instance, const bool with_flush, mem
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     int client_size = size/2;
-    MPI_Irecv(instance->read_buffer, MEMCACHED_MAX_BUFFER, MPI_CHAR, rank-client_size, 0, MPI_COMM_WORLD, &request);
     MPI_Send(local_write_ptr, write_length, MPI_CHAR, rank-client_size, 0, MPI_COMM_WORLD); //0번째 rank에게 보내기
     //MPI_Send(local_write_ptr, write_length, MPI_CHAR, 0, 0, MPI_COMM_WORLD); //0번째 rank에게 보내기
     ssize_t mpi_sent_length = write_length;
@@ -484,7 +483,7 @@ static memcached_return_t _io_fill(memcached_instance_st* instance)
 #endif
 
   #if ENABLE_MPI_FUNCTIONS
-    int data_read = 20; //내가 대충 오류 안나게할라고 20으로 해둠
+    int data_read; //내가 대충 오류 안나게할라고 20으로 해둠
     char mpi_recv_buf[100];
     int rank;
     int size;
@@ -506,10 +505,10 @@ static memcached_return_t _io_fill(memcached_instance_st* instance)
 #endif
 
 #if ENABLE_MPI_FUNCTIONS
-    //int err = MPI_Recv(instance->read_buffer, MEMCACHED_MAX_BUFFER, MPI_CHAR, rank-client_size, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_recv_status);
+    int err = MPI_Recv(instance->read_buffer, MEMCACHED_MAX_BUFFER, MPI_CHAR, rank-client_size, 0, MPI_COMM_WORLD, &mpi_recv_status);
     //int err = MPI_Recv(instance->read_buffer, MEMCACHED_MAX_BUFFER, MPI_CHAR, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_recv_status);
 
-    //MPI_Get_count(&mpi_recv_status, MPI_CHAR, &data_read);
+    MPI_Get_count(&mpi_recv_status, MPI_CHAR, &data_read);
 #endif
 
     int local_errno= get_socket_errno(); // We cache in case memcached_quit_server() modifies errno
@@ -584,19 +583,6 @@ static memcached_return_t _io_fill(memcached_instance_st* instance)
     printf("libmemcached/io.cc :: _io_fill() data read : %zu | instance->io_wait_count._bytes_read : %zu\n", data_read, instance->io_wait_count._bytes_read);
 #endif
   } while (data_read <= 0);
-    clock_gettime(CLOCK_REALTIME, &start);
-    int flag = 0;
-    while (!flag) {
-      MPI_Test(&request, &flag, MPI_STATUS_IGNORE);
-      if (!flag) {
-        //printf("Rank %d: data not yet arrived\n", rank);
-        usleep(10); // 10ms 대기
-      }
-    }
-  clock_gettime(CLOCK_REALTIME, &end);
-  unsigned long mpi_recv_timer=((end.tv_sec-start.tv_sec)*BILLION)+end.tv_nsec-start.tv_nsec;
-  printf("mpi_recv_timer[%d] : %lu\n", rank, mpi_recv_timer);
-  data_read = strlen(instance->read_buffer);
   instance->io_bytes_sent= 0;
   instance->read_data_length= (size_t) data_read;
   instance->read_buffer_length= (size_t) data_read;
