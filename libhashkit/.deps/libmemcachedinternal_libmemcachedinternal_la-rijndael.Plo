@@ -8,7 +8,8 @@ libhashkit/libmemcachedinternal_libmemcachedinternal_la-rijndael.lo: \
  /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/c++/11/x86_64-redhat-linux/bits/os_defines.h \
  /usr/include/c++/11/x86_64-redhat-linux/bits/cpu_defines.h \
- /usr/include/stdlib.h /usr/include/bits/libc-header-start.h \
+ /usr/include/c++/11/pstl/pstl_config.h /usr/include/stdlib.h \
+ /usr/include/bits/libc-header-start.h \
  /usr/lib/gcc/x86_64-redhat-linux/11/include/stddef.h \
  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
  /usr/include/bits/floatn.h /usr/include/bits/floatn-common.h \
@@ -44,6 +45,7 @@ libhashkit/libmemcachedinternal_libmemcachedinternal_la-rijndael.lo: \
 /usr/include/c++/11/x86_64-redhat-linux/bits/c++config.h:
 /usr/include/c++/11/x86_64-redhat-linux/bits/os_defines.h:
 /usr/include/c++/11/x86_64-redhat-linux/bits/cpu_defines.h:
+/usr/include/c++/11/pstl/pstl_config.h:
 /usr/include/stdlib.h:
 /usr/include/bits/libc-header-start.h:
 /usr/lib/gcc/x86_64-redhat-linux/11/include/stddef.h:
