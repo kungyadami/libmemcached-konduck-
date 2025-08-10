@@ -369,8 +369,9 @@ static bool io_flush(memcached_instance_st* instance, const bool with_flush, mem
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     int client_size = size/2;
-    MPI_Send(local_write_ptr, write_length, MPI_CHAR, rank-client_size, 0, MPI_COMM_WORLD); //0번째 rank에게 보내기
-    //MPI_Send(local_write_ptr, write_length, MPI_CHAR, 0, 0, MPI_COMM_WORLD); //0번째 rank에게 보내기
+    //MPI_Send(local_write_ptr, write_length, MPI_CHAR, rank-client_size, 0, MPI_COMM_WORLD); //0번째 rank에게 보내기
+    MPI_Send(local_write_ptr, write_length, MPI_CHAR, 0, 0, MPI_COMM_WORLD); //0번째 rank에게 보내기
+    //printf("[client] MPI_Send[나 : %d] : %s\n", rank, local_write_ptr);
     ssize_t mpi_sent_length = write_length;
 #endif
 
@@ -505,9 +506,9 @@ static memcached_return_t _io_fill(memcached_instance_st* instance)
 #endif
 
 #if ENABLE_MPI_FUNCTIONS
-    int err = MPI_Recv(instance->read_buffer, MEMCACHED_MAX_BUFFER, MPI_CHAR, rank-client_size, 0, MPI_COMM_WORLD, &mpi_recv_status);
-    //int err = MPI_Recv(instance->read_buffer, MEMCACHED_MAX_BUFFER, MPI_CHAR, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_recv_status);
-
+    //int err = MPI_Recv(instance->read_buffer, MEMCACHED_MAX_BUFFER, MPI_CHAR, rank-client_size, 0, MPI_COMM_WORLD, &mpi_recv_status);
+    int err = MPI_Recv(instance->read_buffer, MEMCACHED_MAX_BUFFER, MPI_CHAR, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_recv_status);
+    //printf("[client] MPI_Recv[나 : %d] : %s\n", rank, c->rbuf);
     MPI_Get_count(&mpi_recv_status, MPI_CHAR, &data_read);
 #endif
 
