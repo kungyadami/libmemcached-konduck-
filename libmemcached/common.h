@@ -48,6 +48,10 @@
 #define ENABLE_SOCKET_FUNCTIONS 0
 #define ENABLE_MPI_FUNCTIONS 1
 #define ENABLE_PRINT 0
+#define SEND_TAG 100
+#define RECV_TAG 200
+extern int target_server;
+
 #ifdef __cplusplus
 # include <cstddef>
 # include <cstdio>

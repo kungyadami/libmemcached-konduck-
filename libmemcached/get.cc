@@ -36,6 +36,7 @@
  */
 
 #include <libmemcached/common.h>
+#include <mpi.h>
 
 /*
   What happens if no servers exist?
@@ -333,9 +334,14 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
 #if ENABLE_PRINT
       printf("libmemcached/get.cc - __mget_by_key_real() memcached_generate_hash_with_redistribution call2\n");
 #endif
+      int size;
+      MPI_Comm_size(MPI_COMM_WORLD, &size);
+      int server_size = size/2;
       server_key= memcached_generate_hash_with_redistribution(ptr, keys[x], key_length[x]);
+      uint32_t hash =  libhashkit_murmur3(keys[x], key_length[x]);
+      //printf("[libmemcached] key : %s | hash : %d | key_length : %d\n", keys[x], hash, key_length[x]);
+      target_server = hash % server_size;
     }
-
     memcached_instance_st* instance= memcached_instance_fetch(ptr, server_key);
 
     libmemcached_io_vector_st vector[]=

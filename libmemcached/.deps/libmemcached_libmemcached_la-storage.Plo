@@ -131,7 +131,11 @@ libmemcached/libmemcached_libmemcached_la-storage.lo: \
  libmemcached/response.h libmemcached/namespace.h \
  libmemcached/backtrace.hpp libmemcached/assert.hpp libmemcached/key.hpp \
  libmemcached/encoding_key.h libmemcached/result.h \
- libmemcached/version.hpp libmemcached/continuum.hpp
+ libmemcached/version.hpp libmemcached/continuum.hpp \
+ /home/mizzz/mvapich-3.0/install/include/mpi.h \
+ /home/mizzz/mvapich-3.0/install/include/mpio.h \
+ /home/mizzz/mvapich-3.0/install/include/mpi.h \
+ /home/mizzz/mvapich-3.0/install/include/mpicxx.h
 /usr/include/stdc-predef.h:
 libmemcached/common.h:
 mem_config.h:
@@ -393,3 +397,7 @@ libmemcached/encoding_key.h:
 libmemcached/result.h:
 libmemcached/version.hpp:
 libmemcached/continuum.hpp:
+/home/mizzz/mvapich-3.0/install/include/mpi.h:
+/home/mizzz/mvapich-3.0/install/include/mpio.h:
+/home/mizzz/mvapich-3.0/install/include/mpi.h:
+/home/mizzz/mvapich-3.0/install/include/mpicxx.h:

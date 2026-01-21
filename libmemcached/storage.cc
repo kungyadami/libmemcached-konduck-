@@ -37,6 +37,9 @@
 
 
 #include <libmemcached/common.h>
+#include <mpi.h>
+int target_server;
+
 
 enum memcached_storage_action_t {
   SET_OP,
@@ -383,6 +386,7 @@ static inline memcached_return_t memcached_send(memcached_st *shell,
                                                 const uint64_t cas,
                                                 memcached_storage_action_t verb)
 {
+  int size;
 #if ENABLE_PRINT
   printf("libmemcached/storage.cc :: memcached_send()\n");
   printf("***memcached_send() parameters***\n");
@@ -392,6 +396,8 @@ static inline memcached_return_t memcached_send(memcached_st *shell,
 #endif
   //verb : operation 이름(ex : SET_OP, REPLACE_OP, ...)
   //일단 내가 실행할 때에는 group_key == key, group_key_length == key_length임.
+  MPI_Comm_size(MPI_COMM_WORLD, &size);
+  int server_size = size/2;
 
   Memcached* ptr= memcached2Memcached(shell);
   memcached_return_t rc;
@@ -407,8 +413,12 @@ static inline memcached_return_t memcached_send(memcached_st *shell,
 
   //어느 서버에 배치할 지 해시값 돌리기
   uint32_t server_key= memcached_generate_hash_with_redistribution(ptr, group_key, group_key_length);
-  
+
+  uint32_t hash =  libhashkit_murmur3(key, key_length);
+  //printf("[libmemcached] key : %s | hash : %d | key_length : %d\n", key, hash, key_length);
+  target_server = hash % server_size;
   //해당 서버 포인터? 가져오기.. 아마도 서버키에 매핑되는, 서버리스트 배열에 있는 서버정보를 가져오는듯
+  
   memcached_instance_st* instance= memcached_instance_fetch(ptr, server_key);
   WATCHPOINT_SET(instance->io_wait_count.read= 0);
   WATCHPOINT_SET(instance->io_wait_count.write= 0);
@@ -418,6 +428,7 @@ static inline memcached_return_t memcached_send(memcached_st *shell,
   {
     flush= false;
   }
+
 #if ENABLE_PRINT
     printf("storage.cc :: memcached_send() - flush : %d\n", flush);
 #endif

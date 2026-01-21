@@ -103,11 +103,14 @@ static inline uint32_t _generate_hash_wrapper(const Memcached *ptr, const char *
 {
   WATCHPOINT_ASSERT(memcached_server_count(ptr));
 
-  if (memcached_server_count(ptr) == 1)
+  if (memcached_server_count(ptr) == 1){
+    //return hash;
     return 0;
+  }
 
   if (ptr->flags.hash_with_namespace)
   {
+    //printf("_generate_hash_wrapper2\n");
     size_t temp_length= memcached_array_size(ptr->_namespace) + key_length;
     char temp[MEMCACHED_MAX_KEY];
 
@@ -121,6 +124,7 @@ static inline uint32_t _generate_hash_wrapper(const Memcached *ptr, const char *
   }
   else
   {
+    //printf("_generate_hash_wrapper3\n");
     return generate_hash(ptr, key, key_length);
   }
 }
@@ -147,10 +151,9 @@ void memcached_autoeject(memcached_st *ptr)
 uint32_t memcached_generate_hash_with_redistribution(memcached_st *ptr, const char *key, size_t key_length)
 {
   uint32_t hash= _generate_hash_wrapper(ptr, key, key_length);
-
   _regen_for_auto_eject(ptr);
-
   return dispatch_host(ptr, hash);
+  //return hash;
 }
 
 uint32_t memcached_generate_hash(const memcached_st *shell, const char *key, size_t key_length)
