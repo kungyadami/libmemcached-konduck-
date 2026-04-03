@@ -81,14 +81,23 @@ static inline void *libmemcached_malloc(const memcached_st *self, const size_t s
 
 static inline void *libmemcached_realloc(const memcached_st *self, void *mem, size_t nmemb,  const size_t size)
 {
+#if ENABLE_PRINT
+  printf("client, memory.h :: libmemcached_realloc\n");
+#endif  
   if (self)
   {
+#if ENABLE_PRINT    
+    printf("client, memory.h :: libmemcached_realloc2\n");
+#endif
     return self->allocators.realloc(self, mem, nmemb * size, self->allocators.context);
   }
 
 #ifdef __cplusplus
     return std::realloc(mem, size);
 #else
+#if ENABLE_PRINT
+    printf("client, memory.h :: libmemcached_realloc3\n");
+#endif    
     return realloc(mem, size);
 #endif
 }

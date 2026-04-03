@@ -377,7 +377,9 @@ static memcached_return_t server_add(Memcached *memc,
 
   /* TODO: Check return type */
   memcached_instance_st* instance= memcached_instance_fetch(memc, memcached_server_count(memc) -1);
-
+#if ENABLE_PRINT
+  printf("client, hosts.cc :: server_add, __instance_create_with 호출\n");
+#endif
   if (__instance_create_with(memc, instance, hostname, port, weight, type) == NULL)
   {
     return memcached_set_error(*memc, MEMCACHED_MEMORY_ALLOCATION_FAILURE, MEMCACHED_AT);
@@ -410,7 +412,11 @@ memcached_return_t memcached_server_push(memcached_st *shell, const memcached_se
     uint32_t host_list_size= count +original_host_size;
 
     memcached_instance_st* new_host_list= libmemcached_xrealloc(ptr, memcached_instance_list(ptr), host_list_size, memcached_instance_st);
-
+    //yedam이 추가한 코드(오류때문에)
+    memset(new_host_list->read_buffer, 0, MEMCACHED_MAX_BUFFER);
+  #if ENABLE_PRINT
+    printf("client, hosts.cc :: memcached_server_push, new_host_list->read_buffer : %s\n", new_host_list->read_buffer);
+  #endif
     if (new_host_list == NULL)
     {
       return MEMCACHED_MEMORY_ALLOCATION_FAILURE;
@@ -426,7 +432,9 @@ memcached_return_t memcached_server_push(memcached_st *shell, const memcached_se
       // We have extended the array, and now we will find it, and use it.
       memcached_instance_st* instance= memcached_instance_fetch(ptr, original_host_size);
       WATCHPOINT_ASSERT(instance);
-
+  #if ENABLE_PRINT
+      printf("client, hosts.cc :: memcached_server_push, __instance_create_with 호출\n");
+  #endif    
       memcached_string_t hostname= { memcached_string_make_from_cstr(list[x].hostname) };
       if (__instance_create_with(ptr, instance, 
                                  hostname,
@@ -479,7 +487,9 @@ memcached_return_t memcached_instance_push(memcached_st *ptr, const struct memca
     // We have extended the array, and now we will find it, and use it.
     memcached_instance_st* instance= memcached_instance_fetch(ptr, original_host_size);
     WATCHPOINT_ASSERT(instance);
-
+#if ENABLE_PRINT
+    printf("client, hosts.cc :: memcached_instance_push, __instance_create_with 호출\n");
+#endif    
     memcached_string_t hostname= { memcached_string_make_from_cstr(list[x]._hostname) };
     if (__instance_create_with(ptr, instance, 
                                hostname,

@@ -45,6 +45,9 @@ static inline void _server_init(memcached_server_st *self, Memcached *root,
                                 in_port_t port,
                                 uint32_t weight, memcached_connection_t type)
 {
+#if ENABLE_PRINT
+  printf("client, _server_init() 여기도 들어가나? 구조체는 memcached_server_st임. \n");
+#endif  
   self->options.is_shutting_down= false;
   self->options.is_dead= false;
   self->number_of_hosts= 0;
@@ -126,7 +129,9 @@ memcached_server_st *__server_create_with(Memcached *memc,
   {
     return NULL;
   }
-
+#if ENABLE_PRINT
+  printf("client, _server_init() 호출 (from __server_create_with)\n");
+#endif  
   _server_init(allocated_instance, const_cast<Memcached *>(memc), hostname, port, weight, type);
 
   return allocated_instance;

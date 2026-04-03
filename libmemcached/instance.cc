@@ -42,6 +42,9 @@ static inline void _server_init(memcached_instance_st* self, Memcached *root,
                                 in_port_t port,
                                 uint32_t weight, memcached_connection_t type)
 {
+#if ENABLE_PRINT
+  printf("client, _server_init() 여기도 들어가나?, 구조체는 memcached_instance_st임. \n");
+#endif  
   self->options.is_shutting_down= false;
   self->options.is_dead= false;
   self->options.ready= false;
@@ -67,6 +70,9 @@ static inline void _server_init(memcached_instance_st* self, Memcached *root,
   self->type= type;
   self->error_messages= NULL;
   self->read_ptr= self->read_buffer;
+#if ENABLE_PRINT
+  printf("client, self->read_buffer : %s\n", self->read_buffer);
+#endif  
   self->read_buffer_length= 0;
   self->read_data_length= 0;
   self->write_buffer_offset= 0;
@@ -91,10 +97,15 @@ static inline void _server_init(memcached_instance_st* self, Memcached *root,
 
 static memcached_instance_st* _server_create(memcached_instance_st* self, const memcached_st *memc)
 {
+#if ENABLE_PRINT
+  printf("_server_create(memcached_instance_st형)\n");
+#endif  
   if (self == NULL)
   {
    self= libmemcached_xmalloc(memc, memcached_instance_st);
-
+#if ENABLE_PRINT
+    printf("_server_create(memcached_instance_st형), self null이라 새로 malloc함. self->read_buffer : %s\n", self->read_buffer);
+#endif    
     if (self == NULL)
     {
       return NULL; /*  MEMCACHED_MEMORY_ALLOCATION_FAILURE */
@@ -104,6 +115,9 @@ static memcached_instance_st* _server_create(memcached_instance_st* self, const 
   }
   else
   {
+#if ENABLE_PRINT
+    printf("_server_create(memcached_instance_st형), self는 원래 할당되어있었음. self->read_buffer : %s\n", self->read_buffer);
+#endif
     self->options.is_allocated= false;
   }
 
@@ -145,14 +159,18 @@ memcached_instance_st* __instance_create_with(memcached_st *memc,
     memcached_set_error(*memc, MEMCACHED_INVALID_ARGUMENTS, MEMCACHED_AT, memcached_literal_param("Invalid hostname provided"));
     return NULL;
   }
-
+#if ENABLE_PRINT
+  printf("client, _server_create() 호출 (from __instance_create_with)\n");
+#endif  
   self= _server_create(self, memc);
 
   if (self == NULL)
   {
     return NULL;
   }
-
+#if ENABLE_PRINT
+  printf("client, _server_init() 호출 (from __instance_create_with)\n");
+#endif
   _server_init(self, const_cast<memcached_st *>(memc), hostname, port, weight, type);
 
   if (memc and memcached_is_udp(memc))
@@ -294,6 +312,9 @@ static memcached_instance_st* memcached_instance_clone(memcached_instance_st* so
   }
 
   memcached_string_t hostname_= { memcached_string_make_from_cstr(source->hostname()) };
+#if ENABLE_PRINT
+  printf("memcached_instance_clone, __instance_create_with 호출, source->read_buffer : %s\n", source->read_buffer);
+#endif  
   return __instance_create_with(source->root,
                                 NULL,
                                 hostname_,

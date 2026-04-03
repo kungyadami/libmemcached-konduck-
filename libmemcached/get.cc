@@ -352,7 +352,6 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
       { keys[x], key_length[x] }
     };
 
-
     if (instance->response_count() == 0)
     {
 #if ENABLE_PRINT
@@ -372,7 +371,7 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
 #if ENABLE_PRINT
       printf("libmemcached/get.cc - __mget_by_key_real() memcached_io_writev call\n");
 #endif
-      if ((memcached_io_writev(instance, vector, 1, false)) == false)
+      if ((memcached_io_writev(instance, vector, 1, false)) == false) //여기 들어감
       {
 #if ENABLE_PRINT
         printf("libmemcached/get.cc - __mget_by_key_real() 2\n");

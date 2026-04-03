@@ -323,7 +323,6 @@ static memcached_return_t memcached_send_ascii(Memcached *ptr,        //memcache
 
   /* Send command header */
   memcached_return_t rc=  memcached_vdo(instance, vector, 12, flush); //이거 실행
-  //printf("libmemcached/storage.cc :: memcached_send_ascii() 4, rc : %d\n", rc);
 #if ENABLE_PRINT
   printf("libmemcached/storage.cc :: memcached_send_ascii() 4, rc : %d\n", rc);
 #endif
@@ -488,12 +487,6 @@ memcached_return_t memcached_set(memcached_st *ptr, const char *key, size_t key_
                                  time_t expiration,
                                  uint32_t flags)
 {
-#if ENABLE_PRINT
-  printf("libmemcached/storage.cc :: memcached_set()\n");
-  printf("***memcached_set() parameters***\n");
-  printf("key : %s, key_length : %zu\n", key, key_length);
-  printf("value : %s, value_length : %zu\n", value, value_length);
-#endif
   memcached_return_t rc;
   LIBMEMCACHED_MEMCACHED_SET_START();
   rc= memcached_send(ptr, key, key_length,

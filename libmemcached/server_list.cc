@@ -83,6 +83,9 @@ memcached_server_list_append_with_weight(memcached_server_list_st ptr,
   }
 
   memcached_string_t _hostname= { memcached_string_make_from_cstr(hostname) };
+#if ENABLE_PRINT
+  printf("memcached_server_list_append_with_weight, __server_create_with 호출\n");
+#endif  
   /* @todo Check return type */
   if (__server_create_with(NULL, &new_host_list[count-1], _hostname, port, weight, port ? MEMCACHED_CONNECTION_TCP : MEMCACHED_CONNECTION_UNIX_SOCKET) == NULL)
   {
@@ -110,6 +113,9 @@ memcached_server_list_append(memcached_server_list_st ptr,
                              const char *hostname, in_port_t port,
                              memcached_return_t *error)
 {
+#if ENABLE_PRINT
+  printf("client, memcached_server_list_append, memcached_server_list_append_with_weight 호출\n");
+#endif  
   return memcached_server_list_append_with_weight(ptr, hostname, port, 0, error);
 }
 
