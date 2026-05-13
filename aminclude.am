@@ -1,5 +1,5 @@
 
 # generated automatically by configure from AX_AUTOMAKE_MACROS
-# on Fri Aug  8 03:23:30 EDT 2025
+# on Wed Apr 15 21:00:28 KST 2026
 
-AM_MAKEFLAGS += -j97 
+AM_MAKEFLAGS += -j9 

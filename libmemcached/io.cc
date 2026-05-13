@@ -46,7 +46,7 @@ MPI_Request request;
 MPI_Status mpi_recv_status;
 struct timespec start, end;
 #define BILLION 1000000000UL
-#define DPU_CACHE 0
+#define DPU_CACHE 1
 
 #ifdef HAVE_SYS_SOCKET_H
 # include <sys/socket.h>
@@ -377,12 +377,12 @@ static bool io_flush(memcached_instance_st* instance, const bool with_flush, mem
     char first = local_write_ptr[0];
     if(first == 'g'){
       if(strncmp(local_write_ptr, "get", 3) == 0){
-        target_server=1;
+        target_server=0;
         //printf("client get, [%d]에게 전송 메세지 : \"%s\"\n",target_server, local_write_ptr);
-      }
+      } 
     }else if(first == 's'){
       if(strncmp(local_write_ptr, "set", 3) == 0){
-        target_server=0;
+        target_server=1;
         //printf("client set, [%d]에게 전송 메세지 : \"%s\"\n",target_server, local_write_ptr);
       }
     }
@@ -783,11 +783,16 @@ static bool _io_write(memcached_instance_st* instance,
                       size_t& written)
 {
 #if ENABLE_PRINT
-  printf("libmemcached/io.cc :: _io_write() \n");
+  printf("libmemcached/io.cc :: _io_write() , instance->fd : %d\n", instance->fd);
 #endif
+
+#if ENABLE_SOCKET_FUNCTIONS
   assert(instance->fd != INVALID_SOCKET);
   assert(memcached_is_udp(instance->root) == false);
-
+#endif
+#if ENABLE_PRINT
+  printf("libmemcached/io.cc :: _io_write()2 \n");
+#endif
   const char *buffer_ptr= static_cast<const char *>(buffer);
 #if ENABLE_PRINT
   printf("libmemcached/io.cc :: _io_write() buffer_ptr : %s\n", buffer_ptr);

@@ -1,0 +1,1111 @@
+On branch one-to-many
+Your branch is up to date with 'origin/one-to-many'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   Makefile
+	modified:   Makefile.in
+	modified:   aclocal.m4
+	modified:   aminclude.am
+	modified:   build-aux/config.guess
+	modified:   build-aux/config.sub
+	modified:   build-aux/depcomp
+	modified:   build-aux/install-sh
+	modified:   build-aux/ltmain.sh
+	modified:   build-aux/missing
+	modified:   build-aux/test-driver
+	modified:   clients/.deps/clients_memcapable-memcapable.Po
+	modified:   clients/.deps/clients_memslap-execute.Po
+	modified:   clients/.deps/clients_memslap-generator.Po
+	modified:   clients/.deps/clients_memslap-memslap.Po
+	modified:   clients/.deps/execute.Po
+	modified:   clients/.deps/generator.Po
+	modified:   clients/.deps/memcat.Po
+	modified:   clients/.deps/memcp.Po
+	modified:   clients/.deps/memdump.Po
+	modified:   clients/.deps/memerror.Po
+	modified:   clients/.deps/memexist.Po
+	modified:   clients/.deps/memflush.Po
+	modified:   clients/.deps/memparse.Po
+	modified:   clients/.deps/memping.Po
+	modified:   clients/.deps/memrm.Po
+	modified:   clients/.deps/memstat.Po
+	modified:   clients/.deps/memtouch.Po
+	modified:   clients/.deps/tests_failure-execute.Po
+	modified:   clients/.deps/tests_failure-generator.Po
+	modified:   clients/.deps/tests_libmemcached_1_0_sasl-execute.Po
+	modified:   clients/.deps/tests_libmemcached_1_0_sasl-generator.Po
+	modified:   clients/.deps/tests_libmemcached_1_0_testapp-execute.Po
+	modified:   clients/.deps/tests_libmemcached_1_0_testapp-generator.Po
+	modified:   clients/.deps/tests_libmemcached_1_0_testsocket-execute.Po
+	modified:   clients/.deps/tests_libmemcached_1_0_testsocket-generator.Po
+	modified:   clients/.deps/tests_testplus-execute.Po
+	modified:   clients/.deps/tests_testplus-generator.Po
+	modified:   clients/.deps/utilities.Plo
+	modified:   config.log
+	modified:   config.status
+	modified:   configure
+	modified:   libhashkit/.deps/libmemcached_libmemcached_la-aes.Plo
+	modified:   libhashkit/.deps/libmemcached_libmemcached_la-algorithm.Plo
+	modified:   libhashkit/.deps/libmemcached_libmemcached_la-behavior.Plo
+	modified:   libhashkit/.deps/libmemcached_libmemcached_la-crc32.Plo
+	modified:   libhashkit/.deps/libmemcached_libmemcached_la-digest.Plo
+	modified:   libhashkit/.deps/libmemcached_libmemcached_la-encrypt.Plo
+	modified:   libhashkit/.deps/libmemcached_libmemcached_la-fnv_32.Plo
+	modified:   libhashkit/.deps/libmemcached_libmemcached_la-fnv_64.Plo
+	modified:   libhashkit/.deps/libmemcached_libmemcached_la-function.Plo
+	modified:   libhashkit/.deps/libmemcached_libmemcached_la-has.Plo
+	modified:   libhashkit/.deps/libmemcached_libmemcached_la-hashkit.Plo
+	modified:   libhashkit/.deps/libmemcached_libmemcached_la-jenkins.Plo
+	modified:   libhashkit/.deps/libmemcached_libmemcached_la-ketama.Plo
+	modified:   libhashkit/.deps/libmemcached_libmemcached_la-md5.Plo
+	modified:   libhashkit/.deps/libmemcached_libmemcached_la-murmur.Plo
+	modified:   libhashkit/.deps/libmemcached_libmemcached_la-murmur3.Plo
+	modified:   libhashkit/.deps/libmemcached_libmemcached_la-murmur3_api.Plo
+	modified:   libhashkit/.deps/libmemcached_libmemcached_la-nohsieh.Plo
+	modified:   libhashkit/.deps/libmemcached_libmemcached_la-one_at_a_time.Plo
+	modified:   libhashkit/.deps/libmemcached_libmemcached_la-rijndael.Plo
+	modified:   libhashkit/.deps/libmemcached_libmemcached_la-str_algorithm.Plo
+	modified:   libhashkit/.deps/libmemcached_libmemcached_la-strerror.Plo
+	modified:   libhashkit/.deps/libmemcached_libmemcached_la-string.Plo
+	modified:   libhashkit/.deps/libmemcachedinternal_libmemcachedinternal_la-aes.Plo
+	modified:   libhashkit/.deps/libmemcachedinternal_libmemcachedinternal_la-algorithm.Plo
+	modified:   libhashkit/.deps/libmemcachedinternal_libmemcachedinternal_la-behavior.Plo
+	modified:   libhashkit/.deps/libmemcachedinternal_libmemcachedinternal_la-crc32.Plo
+	modified:   libhashkit/.deps/libmemcachedinternal_libmemcachedinternal_la-digest.Plo
+	modified:   libhashkit/.deps/libmemcachedinternal_libmemcachedinternal_la-encrypt.Plo
+	modified:   libhashkit/.deps/libmemcachedinternal_libmemcachedinternal_la-fnv_32.Plo
+	modified:   libhashkit/.deps/libmemcachedinternal_libmemcachedinternal_la-fnv_64.Plo
+	modified:   libhashkit/.deps/libmemcachedinternal_libmemcachedinternal_la-function.Plo
+	modified:   libhashkit/.deps/libmemcachedinternal_libmemcachedinternal_la-has.Plo
+	modified:   libhashkit/.deps/libmemcachedinternal_libmemcachedinternal_la-hashkit.Plo
+	modified:   libhashkit/.deps/libmemcachedinternal_libmemcachedinternal_la-jenkins.Plo
+	modified:   libhashkit/.deps/libmemcachedinternal_libmemcachedinternal_la-ketama.Plo
+	modified:   libhashkit/.deps/libmemcachedinternal_libmemcachedinternal_la-md5.Plo
+	modified:   libhashkit/.deps/libmemcachedinternal_libmemcachedinternal_la-murmur.Plo
+	modified:   libhashkit/.deps/libmemcachedinternal_libmemcachedinternal_la-murmur3.Plo
+	modified:   libhashkit/.deps/libmemcachedinternal_libmemcachedinternal_la-murmur3_api.Plo
+	modified:   libhashkit/.deps/libmemcachedinternal_libmemcachedinternal_la-nohsieh.Plo
+	modified:   libhashkit/.deps/libmemcachedinternal_libmemcachedinternal_la-one_at_a_time.Plo
+	modified:   libhashkit/.deps/libmemcachedinternal_libmemcachedinternal_la-rijndael.Plo
+	modified:   libhashkit/.deps/libmemcachedinternal_libmemcachedinternal_la-str_algorithm.Plo
+	modified:   libhashkit/.deps/libmemcachedinternal_libmemcachedinternal_la-strerror.Plo
+	modified:   libhashkit/.deps/libmemcachedinternal_libmemcachedinternal_la-string.Plo
+	modified:   libmemcached-1.0/configure.h
+	modified:   libmemcached-1.0/t/.deps/c_sasl_test.Po
+	modified:   libmemcached-1.0/t/.deps/c_test.Po
+	modified:   libmemcached-1.0/t/.deps/cc_test.Po
+	modified:   libmemcached/.deps/backtrace.Po
+	modified:   libmemcached/.deps/clients_memcapable-byteorder.Po
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-allocators.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-analyze.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-array.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-auto.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-backtrace.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-behavior.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-byteorder.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-callback.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-connect.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-delete.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-do.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-dump.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-encoding_key.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-error.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-exist.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-fetch.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-flag.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-flush.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-flush_buffers.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-get.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-hash.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-hosts.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-initialize_query.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-instance.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-io.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-key.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-memcached.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-namespace.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-options.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-parse.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-poll.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-purge.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-quit.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-response.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-result.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-sasl.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-server.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-server_list.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-stats.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-storage.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-strerror.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-string.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-touch.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-udp.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-verbosity.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-version.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedinternal_la-virtual_bucket.Plo
+	modified:   libmemcached/.deps/libmemcachedinternal_libmemcachedutilinternal_la-backtrace.Plo
+	modified:   libmemcached/csl/.deps/libmemcachedinternal_libmemcachedinternal_la-context.Plo
+	modified:   libmemcached/csl/.deps/libmemcachedinternal_libmemcachedinternal_la-parser.Plo
+	modified:   libmemcached/csl/.deps/libmemcachedinternal_libmemcachedinternal_la-scanner.Plo
+	modified:   libmemcached/io.cc
+	modified:   libmemcachedutil/.deps/libmemcached_libmemcachedutil_la-flush.Plo
+	modified:   libmemcachedutil/.deps/libmemcached_libmemcachedutil_la-pid.Plo
+	modified:   libmemcachedutil/.deps/libmemcached_libmemcachedutil_la-ping.Plo
+	modified:   libmemcachedutil/.deps/libmemcached_libmemcachedutil_la-pool.Plo
+	modified:   libmemcachedutil/.deps/libmemcached_libmemcachedutil_la-version.Plo
+	modified:   libmemcachedutil/.deps/libmemcachedinternal_libmemcachedutilinternal_la-flush.Plo
+	modified:   libmemcachedutil/.deps/libmemcachedinternal_libmemcachedutilinternal_la-pid.Plo
+	modified:   libmemcachedutil/.deps/libmemcachedinternal_libmemcachedutilinternal_la-ping.Plo
+	modified:   libmemcachedutil/.deps/libmemcachedinternal_libmemcachedutilinternal_la-pool.Plo
+	modified:   libmemcachedutil/.deps/libmemcachedinternal_libmemcachedutilinternal_la-version.Plo
+	modified:   libtest/.deps/abort.Po
+	modified:   libtest/.deps/backtrace_test.Po
+	modified:   libtest/.deps/core_count.Po
+	modified:   libtest/.deps/cpu.Po
+	modified:   libtest/.deps/dream.Po
+	modified:   libtest/.deps/skiptest.Po
+	modified:   libtest/.deps/wait.Po
+	modified:   libtool
+	modified:   m4/libtool.m4
+	modified:   m4/ltoptions.m4
+	modified:   m4/ltsugar.m4
+	modified:   m4/ltversion.m4
+	modified:   m4/lt~obsolete.m4
+	modified:   mem_config.h
+	modified:   mem_config.in
+	modified:   tests/.deps/hashkit_functions.Po
+	modified:   tests/.deps/mem_udp.Po
+	modified:   tests/.deps/tests_memcapable-memcapable.Po
+	modified:   tests/.deps/tests_memcat-memcat.Po
+	modified:   tests/.deps/tests_memcp-memcp.Po
+	modified:   tests/.deps/tests_memdump-memdump.Po
+	modified:   tests/.deps/tests_memerror-memerror.Po
+	modified:   tests/.deps/tests_memexist-memexist.Po
+	modified:   tests/.deps/tests_memflush-memflush.Po
+	modified:   tests/.deps/tests_memping-memping.Po
+	modified:   tests/.deps/tests_memrm-memrm.Po
+	modified:   tests/.deps/tests_memslap-memslap.Po
+	modified:   tests/.deps/tests_memstat-memstat.Po
+	modified:   tests/.deps/tests_memtouch-memtouch.Po
+	modified:   tests/libmemcached-1.0/.deps/atomsmasher.Po
+	modified:   tests/libmemcached-1.0/.deps/callback_counter.Po
+	modified:   tests/libmemcached-1.0/.deps/debug.Po
+	modified:   tests/libmemcached-1.0/.deps/fetch_all_results.Po
+	modified:   tests/libmemcached-1.0/.deps/generate.Po
+	modified:   tests/libmemcached-1.0/.deps/print.Po
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	Makefile.bak
+	autom4te.cache/
+	build-aux/compile
+	clients/.libs/
+	clients/clients_memcapable-memcapable.o
+	clients/clients_memslap-execute.o
+	clients/clients_memslap-generator.o
+	clients/clients_memslap-memslap.o
+	clients/execute.o
+	clients/generator.o
+	clients/libutilities.la
+	clients/memcapable
+	clients/memcat
+	clients/memcat.o
+	clients/memcp
+	clients/memcp.o
+	clients/memdump
+	clients/memdump.o
+	clients/memerror
+	clients/memerror.o
+	clients/memexist
+	clients/memexist.o
+	clients/memflush
+	clients/memflush.o
+	clients/memparse
+	clients/memparse.o
+	clients/memping
+	clients/memping.o
+	clients/memrm
+	clients/memrm.o
+	clients/memslap
+	clients/memstat
+	clients/memstat.o
+	clients/memtouch
+	clients/memtouch.o
+	clients/tests_failure-execute.o
+	clients/tests_failure-generator.o
+	clients/tests_libmemcached_1_0_sasl-execute.o
+	clients/tests_libmemcached_1_0_sasl-generator.o
+	clients/tests_libmemcached_1_0_testapp-execute.o
+	clients/tests_libmemcached_1_0_testapp-generator.o
+	clients/tests_libmemcached_1_0_testsocket-execute.o
+	clients/tests_libmemcached_1_0_testsocket-generator.o
+	clients/tests_testplus-execute.o
+	clients/tests_testplus-generator.o
+	clients/utilities.lo
+	clients/utilities.o
+	configure~
+	gitstatus.txt
+	libhashkit/.deps/libhashkit_la-aes.Plo
+	libhashkit/.deps/libhashkit_la-algorithm.Plo
+	libhashkit/.deps/libhashkit_la-behavior.Plo
+	libhashkit/.deps/libhashkit_la-crc32.Plo
+	libhashkit/.deps/libhashkit_la-digest.Plo
+	libhashkit/.deps/libhashkit_la-encrypt.Plo
+	libhashkit/.deps/libhashkit_la-fnv_32.Plo
+	libhashkit/.deps/libhashkit_la-fnv_64.Plo
+	libhashkit/.deps/libhashkit_la-function.Plo
+	libhashkit/.deps/libhashkit_la-has.Plo
+	libhashkit/.deps/libhashkit_la-hashkit.Plo
+	libhashkit/.deps/libhashkit_la-hsieh.Plo
+	libhashkit/.deps/libhashkit_la-jenkins.Plo
+	libhashkit/.deps/libhashkit_la-ketama.Plo
+	libhashkit/.deps/libhashkit_la-md5.Plo
+	libhashkit/.deps/libhashkit_la-murmur.Plo
+	libhashkit/.deps/libhashkit_la-murmur3.Plo
+	libhashkit/.deps/libhashkit_la-murmur3_api.Plo
+	libhashkit/.deps/libhashkit_la-nohsieh.Plo
+	libhashkit/.deps/libhashkit_la-one_at_a_time.Plo
+	libhashkit/.deps/libhashkit_la-rijndael.Plo
+	libhashkit/.deps/libhashkit_la-str_algorithm.Plo
+	libhashkit/.deps/libhashkit_la-strerror.Plo
+	libhashkit/.deps/libhashkit_la-string.Plo
+	libhashkit/.deps/libhashkitinc_la-aes.Plo
+	libhashkit/.deps/libhashkitinc_la-algorithm.Plo
+	libhashkit/.deps/libhashkitinc_la-behavior.Plo
+	libhashkit/.deps/libhashkitinc_la-crc32.Plo
+	libhashkit/.deps/libhashkitinc_la-digest.Plo
+	libhashkit/.deps/libhashkitinc_la-encrypt.Plo
+	libhashkit/.deps/libhashkitinc_la-fnv_32.Plo
+	libhashkit/.deps/libhashkitinc_la-fnv_64.Plo
+	libhashkit/.deps/libhashkitinc_la-function.Plo
+	libhashkit/.deps/libhashkitinc_la-has.Plo
+	libhashkit/.deps/libhashkitinc_la-hashkit.Plo
+	libhashkit/.deps/libhashkitinc_la-hsieh.Plo
+	libhashkit/.deps/libhashkitinc_la-jenkins.Plo
+	libhashkit/.deps/libhashkitinc_la-ketama.Plo
+	libhashkit/.deps/libhashkitinc_la-md5.Plo
+	libhashkit/.deps/libhashkitinc_la-murmur.Plo
+	libhashkit/.deps/libhashkitinc_la-murmur3.Plo
+	libhashkit/.deps/libhashkitinc_la-murmur3_api.Plo
+	libhashkit/.deps/libhashkitinc_la-nohsieh.Plo
+	libhashkit/.deps/libhashkitinc_la-one_at_a_time.Plo
+	libhashkit/.deps/libhashkitinc_la-rijndael.Plo
+	libhashkit/.deps/libhashkitinc_la-str_algorithm.Plo
+	libhashkit/.deps/libhashkitinc_la-strerror.Plo
+	libhashkit/.deps/libhashkitinc_la-string.Plo
+	libhashkit/.libs/
+	libhashkit/libhashkit.la
+	libhashkit/libhashkit_la-aes.lo
+	libhashkit/libhashkit_la-aes.o
+	libhashkit/libhashkit_la-algorithm.lo
+	libhashkit/libhashkit_la-algorithm.o
+	libhashkit/libhashkit_la-behavior.lo
+	libhashkit/libhashkit_la-behavior.o
+	libhashkit/libhashkit_la-crc32.lo
+	libhashkit/libhashkit_la-crc32.o
+	libhashkit/libhashkit_la-digest.lo
+	libhashkit/libhashkit_la-digest.o
+	libhashkit/libhashkit_la-encrypt.lo
+	libhashkit/libhashkit_la-encrypt.o
+	libhashkit/libhashkit_la-fnv_32.lo
+	libhashkit/libhashkit_la-fnv_32.o
+	libhashkit/libhashkit_la-fnv_64.lo
+	libhashkit/libhashkit_la-fnv_64.o
+	libhashkit/libhashkit_la-function.lo
+	libhashkit/libhashkit_la-function.o
+	libhashkit/libhashkit_la-has.lo
+	libhashkit/libhashkit_la-has.o
+	libhashkit/libhashkit_la-hashkit.lo
+	libhashkit/libhashkit_la-hashkit.o
+	libhashkit/libhashkit_la-jenkins.lo
+	libhashkit/libhashkit_la-jenkins.o
+	libhashkit/libhashkit_la-ketama.lo
+	libhashkit/libhashkit_la-ketama.o
+	libhashkit/libhashkit_la-md5.lo
+	libhashkit/libhashkit_la-md5.o
+	libhashkit/libhashkit_la-murmur.lo
+	libhashkit/libhashkit_la-murmur.o
+	libhashkit/libhashkit_la-murmur3.lo
+	libhashkit/libhashkit_la-murmur3.o
+	libhashkit/libhashkit_la-murmur3_api.lo
+	libhashkit/libhashkit_la-murmur3_api.o
+	libhashkit/libhashkit_la-nohsieh.lo
+	libhashkit/libhashkit_la-nohsieh.o
+	libhashkit/libhashkit_la-one_at_a_time.lo
+	libhashkit/libhashkit_la-one_at_a_time.o
+	libhashkit/libhashkit_la-rijndael.lo
+	libhashkit/libhashkit_la-rijndael.o
+	libhashkit/libhashkit_la-str_algorithm.lo
+	libhashkit/libhashkit_la-str_algorithm.o
+	libhashkit/libhashkit_la-strerror.lo
+	libhashkit/libhashkit_la-strerror.o
+	libhashkit/libhashkit_la-string.lo
+	libhashkit/libhashkit_la-string.o
+	libhashkit/libhashkitinc.la
+	libhashkit/libhashkitinc_la-aes.lo
+	libhashkit/libhashkitinc_la-aes.o
+	libhashkit/libhashkitinc_la-algorithm.lo
+	libhashkit/libhashkitinc_la-algorithm.o
+	libhashkit/libhashkitinc_la-behavior.lo
+	libhashkit/libhashkitinc_la-behavior.o
+	libhashkit/libhashkitinc_la-crc32.lo
+	libhashkit/libhashkitinc_la-crc32.o
+	libhashkit/libhashkitinc_la-digest.lo
+	libhashkit/libhashkitinc_la-digest.o
+	libhashkit/libhashkitinc_la-encrypt.lo
+	libhashkit/libhashkitinc_la-encrypt.o
+	libhashkit/libhashkitinc_la-fnv_32.lo
+	libhashkit/libhashkitinc_la-fnv_32.o
+	libhashkit/libhashkitinc_la-fnv_64.lo
+	libhashkit/libhashkitinc_la-fnv_64.o
+	libhashkit/libhashkitinc_la-function.lo
+	libhashkit/libhashkitinc_la-function.o
+	libhashkit/libhashkitinc_la-has.lo
+	libhashkit/libhashkitinc_la-has.o
+	libhashkit/libhashkitinc_la-hashkit.lo
+	libhashkit/libhashkitinc_la-hashkit.o
+	libhashkit/libhashkitinc_la-jenkins.lo
+	libhashkit/libhashkitinc_la-jenkins.o
+	libhashkit/libhashkitinc_la-ketama.lo
+	libhashkit/libhashkitinc_la-ketama.o
+	libhashkit/libhashkitinc_la-md5.lo
+	libhashkit/libhashkitinc_la-md5.o
+	libhashkit/libhashkitinc_la-murmur.lo
+	libhashkit/libhashkitinc_la-murmur.o
+	libhashkit/libhashkitinc_la-murmur3.lo
+	libhashkit/libhashkitinc_la-murmur3.o
+	libhashkit/libhashkitinc_la-murmur3_api.lo
+	libhashkit/libhashkitinc_la-murmur3_api.o
+	libhashkit/libhashkitinc_la-nohsieh.lo
+	libhashkit/libhashkitinc_la-nohsieh.o
+	libhashkit/libhashkitinc_la-one_at_a_time.lo
+	libhashkit/libhashkitinc_la-one_at_a_time.o
+	libhashkit/libhashkitinc_la-rijndael.lo
+	libhashkit/libhashkitinc_la-rijndael.o
+	libhashkit/libhashkitinc_la-str_algorithm.lo
+	libhashkit/libhashkitinc_la-str_algorithm.o
+	libhashkit/libhashkitinc_la-strerror.lo
+	libhashkit/libhashkitinc_la-strerror.o
+	libhashkit/libhashkitinc_la-string.lo
+	libhashkit/libhashkitinc_la-string.o
+	libhashkit/libmemcached_libmemcached_la-aes.lo
+	libhashkit/libmemcached_libmemcached_la-aes.o
+	libhashkit/libmemcached_libmemcached_la-algorithm.lo
+	libhashkit/libmemcached_libmemcached_la-algorithm.o
+	libhashkit/libmemcached_libmemcached_la-behavior.lo
+	libhashkit/libmemcached_libmemcached_la-behavior.o
+	libhashkit/libmemcached_libmemcached_la-crc32.lo
+	libhashkit/libmemcached_libmemcached_la-crc32.o
+	libhashkit/libmemcached_libmemcached_la-digest.lo
+	libhashkit/libmemcached_libmemcached_la-digest.o
+	libhashkit/libmemcached_libmemcached_la-encrypt.lo
+	libhashkit/libmemcached_libmemcached_la-encrypt.o
+	libhashkit/libmemcached_libmemcached_la-fnv_32.lo
+	libhashkit/libmemcached_libmemcached_la-fnv_32.o
+	libhashkit/libmemcached_libmemcached_la-fnv_64.lo
+	libhashkit/libmemcached_libmemcached_la-fnv_64.o
+	libhashkit/libmemcached_libmemcached_la-function.lo
+	libhashkit/libmemcached_libmemcached_la-function.o
+	libhashkit/libmemcached_libmemcached_la-has.lo
+	libhashkit/libmemcached_libmemcached_la-has.o
+	libhashkit/libmemcached_libmemcached_la-hashkit.lo
+	libhashkit/libmemcached_libmemcached_la-hashkit.o
+	libhashkit/libmemcached_libmemcached_la-jenkins.lo
+	libhashkit/libmemcached_libmemcached_la-jenkins.o
+	libhashkit/libmemcached_libmemcached_la-ketama.lo
+	libhashkit/libmemcached_libmemcached_la-ketama.o
+	libhashkit/libmemcached_libmemcached_la-md5.lo
+	libhashkit/libmemcached_libmemcached_la-md5.o
+	libhashkit/libmemcached_libmemcached_la-murmur.lo
+	libhashkit/libmemcached_libmemcached_la-murmur.o
+	libhashkit/libmemcached_libmemcached_la-murmur3.lo
+	libhashkit/libmemcached_libmemcached_la-murmur3.o
+	libhashkit/libmemcached_libmemcached_la-murmur3_api.lo
+	libhashkit/libmemcached_libmemcached_la-murmur3_api.o
+	libhashkit/libmemcached_libmemcached_la-nohsieh.lo
+	libhashkit/libmemcached_libmemcached_la-nohsieh.o
+	libhashkit/libmemcached_libmemcached_la-one_at_a_time.lo
+	libhashkit/libmemcached_libmemcached_la-one_at_a_time.o
+	libhashkit/libmemcached_libmemcached_la-rijndael.lo
+	libhashkit/libmemcached_libmemcached_la-rijndael.o
+	libhashkit/libmemcached_libmemcached_la-str_algorithm.lo
+	libhashkit/libmemcached_libmemcached_la-str_algorithm.o
+	libhashkit/libmemcached_libmemcached_la-strerror.lo
+	libhashkit/libmemcached_libmemcached_la-strerror.o
+	libhashkit/libmemcached_libmemcached_la-string.lo
+	libhashkit/libmemcached_libmemcached_la-string.o
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-aes.lo
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-aes.o
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-algorithm.lo
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-algorithm.o
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-behavior.lo
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-behavior.o
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-crc32.lo
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-crc32.o
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-digest.lo
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-digest.o
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-encrypt.lo
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-encrypt.o
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-fnv_32.lo
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-fnv_32.o
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-fnv_64.lo
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-fnv_64.o
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-function.lo
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-function.o
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-has.lo
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-has.o
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-hashkit.lo
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-hashkit.o
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-jenkins.lo
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-jenkins.o
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-ketama.lo
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-ketama.o
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-md5.lo
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-md5.o
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-murmur.lo
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-murmur.o
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-murmur3.lo
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-murmur3.o
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-murmur3_api.lo
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-murmur3_api.o
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-nohsieh.lo
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-nohsieh.o
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-one_at_a_time.lo
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-one_at_a_time.o
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-rijndael.lo
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-rijndael.o
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-str_algorithm.lo
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-str_algorithm.o
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-strerror.lo
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-strerror.o
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-string.lo
+	libhashkit/libmemcachedinternal_libmemcachedinternal_la-string.o
+	libmemcached-1.0/t/.libs/
+	libmemcached-1.0/t/c_sasl_test
+	libmemcached-1.0/t/c_sasl_test.o
+	libmemcached-1.0/t/c_test
+	libmemcached-1.0/t/c_test.o
+	libmemcached-1.0/t/cc_test
+	libmemcached-1.0/t/cc_test.o
+	libmemcached/.deps/libmemcached_la-allocators.Plo
+	libmemcached/.deps/libmemcached_la-analyze.Plo
+	libmemcached/.deps/libmemcached_la-array.Plo
+	libmemcached/.deps/libmemcached_la-auto.Plo
+	libmemcached/.deps/libmemcached_la-backtrace.Plo
+	libmemcached/.deps/libmemcached_la-behavior.Plo
+	libmemcached/.deps/libmemcached_la-byteorder.Plo
+	libmemcached/.deps/libmemcached_la-callback.Plo
+	libmemcached/.deps/libmemcached_la-connect.Plo
+	libmemcached/.deps/libmemcached_la-delete.Plo
+	libmemcached/.deps/libmemcached_la-do.Plo
+	libmemcached/.deps/libmemcached_la-dump.Plo
+	libmemcached/.deps/libmemcached_la-encoding_key.Plo
+	libmemcached/.deps/libmemcached_la-error.Plo
+	libmemcached/.deps/libmemcached_la-exist.Plo
+	libmemcached/.deps/libmemcached_la-fetch.Plo
+	libmemcached/.deps/libmemcached_la-flag.Plo
+	libmemcached/.deps/libmemcached_la-flush.Plo
+	libmemcached/.deps/libmemcached_la-flush_buffers.Plo
+	libmemcached/.deps/libmemcached_la-get.Plo
+	libmemcached/.deps/libmemcached_la-hash.Plo
+	libmemcached/.deps/libmemcached_la-hosts.Plo
+	libmemcached/.deps/libmemcached_la-initialize_query.Plo
+	libmemcached/.deps/libmemcached_la-instance.Plo
+	libmemcached/.deps/libmemcached_la-io.Plo
+	libmemcached/.deps/libmemcached_la-key.Plo
+	libmemcached/.deps/libmemcached_la-memcached.Plo
+	libmemcached/.deps/libmemcached_la-namespace.Plo
+	libmemcached/.deps/libmemcached_la-options.Plo
+	libmemcached/.deps/libmemcached_la-parse.Plo
+	libmemcached/.deps/libmemcached_la-poll.Plo
+	libmemcached/.deps/libmemcached_la-purge.Plo
+	libmemcached/.deps/libmemcached_la-quit.Plo
+	libmemcached/.deps/libmemcached_la-response.Plo
+	libmemcached/.deps/libmemcached_la-result.Plo
+	libmemcached/.deps/libmemcached_la-sasl.Plo
+	libmemcached/.deps/libmemcached_la-server.Plo
+	libmemcached/.deps/libmemcached_la-server_list.Plo
+	libmemcached/.deps/libmemcached_la-stats.Plo
+	libmemcached/.deps/libmemcached_la-storage.Plo
+	libmemcached/.deps/libmemcached_la-strerror.Plo
+	libmemcached/.deps/libmemcached_la-string.Plo
+	libmemcached/.deps/libmemcached_la-touch.Plo
+	libmemcached/.deps/libmemcached_la-udp.Plo
+	libmemcached/.deps/libmemcached_la-verbosity.Plo
+	libmemcached/.deps/libmemcached_la-version.Plo
+	libmemcached/.deps/libmemcached_la-virtual_bucket.Plo
+	libmemcached/.deps/libmemcachedprotocol_la-byteorder.Plo
+	libmemcached/.deps/libmemcachedutil_la-backtrace.Plo
+	libmemcached/.libs/
+	libmemcached/backtrace.o
+	libmemcached/clients_memcapable-byteorder.o
+	libmemcached/csl/.deps/libmemcached_la-context.Plo
+	libmemcached/csl/.deps/libmemcached_la-parser.Plo
+	libmemcached/csl/.deps/libmemcached_la-scanner.Plo
+	libmemcached/csl/.libs/
+	libmemcached/csl/libmemcached_la-context.lo
+	libmemcached/csl/libmemcached_la-context.o
+	libmemcached/csl/libmemcached_la-parser.lo
+	libmemcached/csl/libmemcached_la-parser.o
+	libmemcached/csl/libmemcached_la-scanner.lo
+	libmemcached/csl/libmemcached_la-scanner.o
+	libmemcached/csl/libmemcachedinternal_libmemcachedinternal_la-context.lo
+	libmemcached/csl/libmemcachedinternal_libmemcachedinternal_la-context.o
+	libmemcached/csl/libmemcachedinternal_libmemcachedinternal_la-parser.lo
+	libmemcached/csl/libmemcachedinternal_libmemcachedinternal_la-parser.o
+	libmemcached/csl/libmemcachedinternal_libmemcachedinternal_la-scanner.lo
+	libmemcached/csl/libmemcachedinternal_libmemcachedinternal_la-scanner.o
+	libmemcached/libmemcached.la
+	libmemcached/libmemcached_la-allocators.lo
+	libmemcached/libmemcached_la-allocators.o
+	libmemcached/libmemcached_la-analyze.lo
+	libmemcached/libmemcached_la-analyze.o
+	libmemcached/libmemcached_la-array.lo
+	libmemcached/libmemcached_la-array.o
+	libmemcached/libmemcached_la-auto.lo
+	libmemcached/libmemcached_la-auto.o
+	libmemcached/libmemcached_la-backtrace.lo
+	libmemcached/libmemcached_la-backtrace.o
+	libmemcached/libmemcached_la-behavior.lo
+	libmemcached/libmemcached_la-behavior.o
+	libmemcached/libmemcached_la-byteorder.lo
+	libmemcached/libmemcached_la-byteorder.o
+	libmemcached/libmemcached_la-callback.lo
+	libmemcached/libmemcached_la-callback.o
+	libmemcached/libmemcached_la-connect.lo
+	libmemcached/libmemcached_la-connect.o
+	libmemcached/libmemcached_la-delete.lo
+	libmemcached/libmemcached_la-delete.o
+	libmemcached/libmemcached_la-do.lo
+	libmemcached/libmemcached_la-do.o
+	libmemcached/libmemcached_la-dump.lo
+	libmemcached/libmemcached_la-dump.o
+	libmemcached/libmemcached_la-encoding_key.lo
+	libmemcached/libmemcached_la-encoding_key.o
+	libmemcached/libmemcached_la-error.lo
+	libmemcached/libmemcached_la-error.o
+	libmemcached/libmemcached_la-exist.lo
+	libmemcached/libmemcached_la-exist.o
+	libmemcached/libmemcached_la-fetch.lo
+	libmemcached/libmemcached_la-fetch.o
+	libmemcached/libmemcached_la-flag.lo
+	libmemcached/libmemcached_la-flag.o
+	libmemcached/libmemcached_la-flush.lo
+	libmemcached/libmemcached_la-flush.o
+	libmemcached/libmemcached_la-flush_buffers.lo
+	libmemcached/libmemcached_la-flush_buffers.o
+	libmemcached/libmemcached_la-get.lo
+	libmemcached/libmemcached_la-get.o
+	libmemcached/libmemcached_la-hash.lo
+	libmemcached/libmemcached_la-hash.o
+	libmemcached/libmemcached_la-hosts.lo
+	libmemcached/libmemcached_la-hosts.o
+	libmemcached/libmemcached_la-initialize_query.lo
+	libmemcached/libmemcached_la-initialize_query.o
+	libmemcached/libmemcached_la-instance.lo
+	libmemcached/libmemcached_la-instance.o
+	libmemcached/libmemcached_la-io.lo
+	libmemcached/libmemcached_la-io.o
+	libmemcached/libmemcached_la-key.lo
+	libmemcached/libmemcached_la-key.o
+	libmemcached/libmemcached_la-memcached.lo
+	libmemcached/libmemcached_la-memcached.o
+	libmemcached/libmemcached_la-namespace.lo
+	libmemcached/libmemcached_la-namespace.o
+	libmemcached/libmemcached_la-options.lo
+	libmemcached/libmemcached_la-options.o
+	libmemcached/libmemcached_la-parse.lo
+	libmemcached/libmemcached_la-parse.o
+	libmemcached/libmemcached_la-poll.lo
+	libmemcached/libmemcached_la-poll.o
+	libmemcached/libmemcached_la-purge.lo
+	libmemcached/libmemcached_la-purge.o
+	libmemcached/libmemcached_la-quit.lo
+	libmemcached/libmemcached_la-quit.o
+	libmemcached/libmemcached_la-response.lo
+	libmemcached/libmemcached_la-response.o
+	libmemcached/libmemcached_la-result.lo
+	libmemcached/libmemcached_la-result.o
+	libmemcached/libmemcached_la-sasl.lo
+	libmemcached/libmemcached_la-sasl.o
+	libmemcached/libmemcached_la-server.lo
+	libmemcached/libmemcached_la-server.o
+	libmemcached/libmemcached_la-server_list.lo
+	libmemcached/libmemcached_la-server_list.o
+	libmemcached/libmemcached_la-stats.lo
+	libmemcached/libmemcached_la-stats.o
+	libmemcached/libmemcached_la-storage.lo
+	libmemcached/libmemcached_la-storage.o
+	libmemcached/libmemcached_la-strerror.lo
+	libmemcached/libmemcached_la-strerror.o
+	libmemcached/libmemcached_la-string.lo
+	libmemcached/libmemcached_la-string.o
+	libmemcached/libmemcached_la-touch.lo
+	libmemcached/libmemcached_la-touch.o
+	libmemcached/libmemcached_la-udp.lo
+	libmemcached/libmemcached_la-udp.o
+	libmemcached/libmemcached_la-verbosity.lo
+	libmemcached/libmemcached_la-verbosity.o
+	libmemcached/libmemcached_la-version.lo
+	libmemcached/libmemcached_la-version.o
+	libmemcached/libmemcached_la-virtual_bucket.lo
+	libmemcached/libmemcached_la-virtual_bucket.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-allocators.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-allocators.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-analyze.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-analyze.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-array.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-array.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-auto.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-auto.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-backtrace.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-backtrace.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-behavior.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-behavior.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-byteorder.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-byteorder.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-callback.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-callback.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-connect.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-connect.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-delete.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-delete.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-do.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-do.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-dump.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-dump.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-encoding_key.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-encoding_key.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-error.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-error.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-exist.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-exist.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-fetch.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-fetch.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-flag.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-flag.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-flush.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-flush.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-flush_buffers.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-flush_buffers.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-get.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-get.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-hash.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-hash.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-hosts.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-hosts.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-initialize_query.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-initialize_query.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-instance.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-instance.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-io.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-io.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-key.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-key.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-memcached.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-memcached.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-namespace.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-namespace.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-options.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-options.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-parse.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-parse.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-poll.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-poll.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-purge.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-purge.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-quit.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-quit.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-response.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-response.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-result.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-result.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-sasl.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-sasl.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-server.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-server.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-server_list.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-server_list.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-stats.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-stats.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-storage.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-storage.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-strerror.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-strerror.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-string.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-string.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-touch.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-touch.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-udp.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-udp.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-verbosity.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-verbosity.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-version.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-version.o
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-virtual_bucket.lo
+	libmemcached/libmemcachedinternal_libmemcachedinternal_la-virtual_bucket.o
+	libmemcached/libmemcachedinternal_libmemcachedutilinternal_la-backtrace.lo
+	libmemcached/libmemcachedinternal_libmemcachedutilinternal_la-backtrace.o
+	libmemcached/libmemcachedutil.la
+	libmemcached/libmemcachedutil_la-backtrace.lo
+	libmemcached/libmemcachedutil_la-backtrace.o
+	libmemcachedinternal/.libs/
+	libmemcachedinternal/libmemcachedinternal.la
+	libmemcachedinternal/libmemcachedutilinternal.la
+	libmemcachedutil/.libs/
+	libmemcachedutil/libmemcached_libmemcachedutil_la-flush.lo
+	libmemcachedutil/libmemcached_libmemcachedutil_la-flush.o
+	libmemcachedutil/libmemcached_libmemcachedutil_la-pid.lo
+	libmemcachedutil/libmemcached_libmemcachedutil_la-pid.o
+	libmemcachedutil/libmemcached_libmemcachedutil_la-ping.lo
+	libmemcachedutil/libmemcached_libmemcachedutil_la-ping.o
+	libmemcachedutil/libmemcached_libmemcachedutil_la-pool.lo
+	libmemcachedutil/libmemcached_libmemcachedutil_la-pool.o
+	libmemcachedutil/libmemcached_libmemcachedutil_la-version.lo
+	libmemcachedutil/libmemcached_libmemcachedutil_la-version.o
+	libmemcachedutil/libmemcachedinternal_libmemcachedutilinternal_la-flush.lo
+	libmemcachedutil/libmemcachedinternal_libmemcachedutilinternal_la-flush.o
+	libmemcachedutil/libmemcachedinternal_libmemcachedutilinternal_la-pid.lo
+	libmemcachedutil/libmemcachedinternal_libmemcachedutilinternal_la-pid.o
+	libmemcachedutil/libmemcachedinternal_libmemcachedutilinternal_la-ping.lo
+	libmemcachedutil/libmemcachedinternal_libmemcachedutilinternal_la-ping.o
+	libmemcachedutil/libmemcachedinternal_libmemcachedutilinternal_la-pool.lo
+	libmemcachedutil/libmemcachedinternal_libmemcachedutilinternal_la-pool.o
+	libmemcachedutil/libmemcachedinternal_libmemcachedutilinternal_la-version.lo
+	libmemcachedutil/libmemcachedinternal_libmemcachedutilinternal_la-version.o
+	libtest/.deps/libtest_la-alarm.Plo
+	libtest/.deps/libtest_la-binaries.Plo
+	libtest/.deps/libtest_la-blobslap_worker.Plo
+	libtest/.deps/libtest_la-client.Plo
+	libtest/.deps/libtest_la-cmdline.Plo
+	libtest/.deps/libtest_la-collection.Plo
+	libtest/.deps/libtest_la-comparison.Plo
+	libtest/.deps/libtest_la-core.Plo
+	libtest/.deps/libtest_la-cpu.Plo
+	libtest/.deps/libtest_la-dns.Plo
+	libtest/.deps/libtest_la-dream.Plo
+	libtest/.deps/libtest_la-drizzled.Plo
+	libtest/.deps/libtest_la-exception.Plo
+	libtest/.deps/libtest_la-formatter.Plo
+	libtest/.deps/libtest_la-framework.Plo
+	libtest/.deps/libtest_la-gearmand.Plo
+	libtest/.deps/libtest_la-has.Plo
+	libtest/.deps/libtest_la-http.Plo
+	libtest/.deps/libtest_la-is_local.Plo
+	libtest/.deps/libtest_la-killpid.Plo
+	libtest/.deps/libtest_la-libtool.Plo
+	libtest/.deps/libtest_la-main.Plo
+	libtest/.deps/libtest_la-memcached.Plo
+	libtest/.deps/libtest_la-port.Plo
+	libtest/.deps/libtest_la-result.Plo
+	libtest/.deps/libtest_la-runner.Plo
+	libtest/.deps/libtest_la-server.Plo
+	libtest/.deps/libtest_la-server_container.Plo
+	libtest/.deps/libtest_la-signal.Plo
+	libtest/.deps/libtest_la-socket.Plo
+	libtest/.deps/libtest_la-strerror.Plo
+	libtest/.deps/libtest_la-timer.Plo
+	libtest/.deps/libtest_la-tmpfile.Plo
+	libtest/.deps/libtest_la-vchar.Plo
+	libtest/.deps/unittest-unittest.Po
+	libtest/.libs/
+	libtest/abort
+	libtest/abort.o
+	libtest/backtrace
+	libtest/backtrace_test.o
+	libtest/core-count
+	libtest/core_count.o
+	libtest/cpu.o
+	libtest/dream.o
+	libtest/exception/.deps/libtest_la-fatal.Plo
+	libtest/exception/.libs/
+	libtest/exception/libtest_la-fatal.lo
+	libtest/exception/libtest_la-fatal.o
+	libtest/libtest.la
+	libtest/libtest_la-alarm.lo
+	libtest/libtest_la-alarm.o
+	libtest/libtest_la-binaries.lo
+	libtest/libtest_la-binaries.o
+	libtest/libtest_la-client.lo
+	libtest/libtest_la-client.o
+	libtest/libtest_la-cmdline.lo
+	libtest/libtest_la-cmdline.o
+	libtest/libtest_la-collection.lo
+	libtest/libtest_la-collection.o
+	libtest/libtest_la-comparison.lo
+	libtest/libtest_la-comparison.o
+	libtest/libtest_la-core.lo
+	libtest/libtest_la-core.o
+	libtest/libtest_la-cpu.lo
+	libtest/libtest_la-cpu.o
+	libtest/libtest_la-dns.lo
+	libtest/libtest_la-dns.o
+	libtest/libtest_la-dream.lo
+	libtest/libtest_la-dream.o
+	libtest/libtest_la-drizzled.lo
+	libtest/libtest_la-drizzled.o
+	libtest/libtest_la-exception.lo
+	libtest/libtest_la-exception.o
+	libtest/libtest_la-formatter.lo
+	libtest/libtest_la-formatter.o
+	libtest/libtest_la-framework.lo
+	libtest/libtest_la-framework.o
+	libtest/libtest_la-gearmand.lo
+	libtest/libtest_la-gearmand.o
+	libtest/libtest_la-has.lo
+	libtest/libtest_la-has.o
+	libtest/libtest_la-http.lo
+	libtest/libtest_la-http.o
+	libtest/libtest_la-is_local.lo
+	libtest/libtest_la-is_local.o
+	libtest/libtest_la-killpid.lo
+	libtest/libtest_la-killpid.o
+	libtest/libtest_la-libtool.lo
+	libtest/libtest_la-libtool.o
+	libtest/libtest_la-main.lo
+	libtest/libtest_la-main.o
+	libtest/libtest_la-memcached.lo
+	libtest/libtest_la-memcached.o
+	libtest/libtest_la-port.lo
+	libtest/libtest_la-port.o
+	libtest/libtest_la-result.lo
+	libtest/libtest_la-result.o
+	libtest/libtest_la-runner.lo
+	libtest/libtest_la-runner.o
+	libtest/libtest_la-server.lo
+	libtest/libtest_la-server.o
+	libtest/libtest_la-server_container.lo
+	libtest/libtest_la-server_container.o
+	libtest/libtest_la-signal.lo
+	libtest/libtest_la-signal.o
+	libtest/libtest_la-socket.lo
+	libtest/libtest_la-socket.o
+	libtest/libtest_la-strerror.lo
+	libtest/libtest_la-strerror.o
+	libtest/libtest_la-timer.lo
+	libtest/libtest_la-timer.o
+	libtest/libtest_la-tmpfile.lo
+	libtest/libtest_la-tmpfile.o
+	libtest/libtest_la-vchar.lo
+	libtest/libtest_la-vchar.o
+	libtest/skiptest
+	libtest/skiptest.o
+	libtest/unittest
+	libtest/unittest-unittest.o
+	libtest/wait
+	libtest/wait.o
+	mem_config.in~
+	tests/.deps/cycle-cycle.Po
+	tests/.deps/failure-failure.Po
+	tests/.deps/hash_plus-hash_plus.Po
+	tests/.deps/parser-parser.Po
+	tests/.libs/
+	tests/atomsmasher
+	tests/cycle
+	tests/cycle-cycle.o
+	tests/failure
+	tests/failure-failure.o
+	tests/hash_plus
+	tests/hash_plus-hash_plus.o
+	tests/hashkit_functions.o
+	tests/libmemcached-1.0/.deps/failure-callback_counter.Po
+	tests/libmemcached-1.0/.deps/failure-fetch_all_results.Po
+	tests/libmemcached-1.0/.deps/failure-generate.Po
+	tests/libmemcached-1.0/.deps/failure-print.Po
+	tests/libmemcached-1.0/.deps/internals-internals.Po
+	tests/libmemcached-1.0/.deps/internals-string.Po
+	tests/libmemcached-1.0/.deps/sasl-basic.Po
+	tests/libmemcached-1.0/.deps/sasl-callback_counter.Po
+	tests/libmemcached-1.0/.deps/sasl-debug.Po
+	tests/libmemcached-1.0/.deps/sasl-deprecated.Po
+	tests/libmemcached-1.0/.deps/sasl-error_conditions.Po
+	tests/libmemcached-1.0/.deps/sasl-fetch_all_results.Po
+	tests/libmemcached-1.0/.deps/sasl-generate.Po
+	tests/libmemcached-1.0/.deps/sasl-ketama.Po
+	tests/libmemcached-1.0/.deps/sasl-namespace.Po
+	tests/libmemcached-1.0/.deps/sasl-parser.Po
+	tests/libmemcached-1.0/.deps/sasl-pool.Po
+	tests/libmemcached-1.0/.deps/sasl-print.Po
+	tests/libmemcached-1.0/.deps/sasl-replication.Po
+	tests/libmemcached-1.0/.deps/sasl-sasl.Po
+	tests/libmemcached-1.0/.deps/sasl-virtual_buckets.Po
+	tests/libmemcached-1.0/.deps/testapp-all_tests.Po
+	tests/libmemcached-1.0/.deps/testapp-basic.Po
+	tests/libmemcached-1.0/.deps/testapp-callback_counter.Po
+	tests/libmemcached-1.0/.deps/testapp-callbacks.Po
+	tests/libmemcached-1.0/.deps/testapp-debug.Po
+	tests/libmemcached-1.0/.deps/testapp-deprecated.Po
+	tests/libmemcached-1.0/.deps/testapp-dump.Po
+	tests/libmemcached-1.0/.deps/testapp-encoding_key.Po
+	tests/libmemcached-1.0/.deps/testapp-error_conditions.Po
+	tests/libmemcached-1.0/.deps/testapp-exist.Po
+	tests/libmemcached-1.0/.deps/testapp-fetch_all_results.Po
+	tests/libmemcached-1.0/.deps/testapp-generate.Po
+	tests/libmemcached-1.0/.deps/testapp-haldenbrand.Po
+	tests/libmemcached-1.0/.deps/testapp-ketama.Po
+	tests/libmemcached-1.0/.deps/testapp-mem_functions.Po
+	tests/libmemcached-1.0/.deps/testapp-memcached_get.Po
+	tests/libmemcached-1.0/.deps/testapp-namespace.Po
+	tests/libmemcached-1.0/.deps/testapp-parser.Po
+	tests/libmemcached-1.0/.deps/testapp-pool.Po
+	tests/libmemcached-1.0/.deps/testapp-print.Po
+	tests/libmemcached-1.0/.deps/testapp-replication.Po
+	tests/libmemcached-1.0/.deps/testapp-server_add.Po
+	tests/libmemcached-1.0/.deps/testapp-setup_and_teardowns.Po
+	tests/libmemcached-1.0/.deps/testapp-stat.Po
+	tests/libmemcached-1.0/.deps/testapp-touch.Po
+	tests/libmemcached-1.0/.deps/testapp-virtual_buckets.Po
+	tests/libmemcached-1.0/.deps/testplus-callback_counter.Po
+	tests/libmemcached-1.0/.deps/testplus-fetch_all_results.Po
+	tests/libmemcached-1.0/.deps/testplus-generate.Po
+	tests/libmemcached-1.0/.deps/testplus-plus.Po
+	tests/libmemcached-1.0/.deps/testplus-print.Po
+	tests/libmemcached-1.0/.deps/testsocket-all_tests_socket.Po
+	tests/libmemcached-1.0/.deps/testsocket-basic.Po
+	tests/libmemcached-1.0/.deps/testsocket-callback_counter.Po
+	tests/libmemcached-1.0/.deps/testsocket-callbacks.Po
+	tests/libmemcached-1.0/.deps/testsocket-debug.Po
+	tests/libmemcached-1.0/.deps/testsocket-deprecated.Po
+	tests/libmemcached-1.0/.deps/testsocket-dump.Po
+	tests/libmemcached-1.0/.deps/testsocket-encoding_key.Po
+	tests/libmemcached-1.0/.deps/testsocket-error_conditions.Po
+	tests/libmemcached-1.0/.deps/testsocket-exist.Po
+	tests/libmemcached-1.0/.deps/testsocket-fetch_all_results.Po
+	tests/libmemcached-1.0/.deps/testsocket-generate.Po
+	tests/libmemcached-1.0/.deps/testsocket-haldenbrand.Po
+	tests/libmemcached-1.0/.deps/testsocket-ketama.Po
+	tests/libmemcached-1.0/.deps/testsocket-mem_functions.Po
+	tests/libmemcached-1.0/.deps/testsocket-memcached_get.Po
+	tests/libmemcached-1.0/.deps/testsocket-namespace.Po
+	tests/libmemcached-1.0/.deps/testsocket-parser.Po
+	tests/libmemcached-1.0/.deps/testsocket-pool.Po
+	tests/libmemcached-1.0/.deps/testsocket-print.Po
+	tests/libmemcached-1.0/.deps/testsocket-replication.Po
+	tests/libmemcached-1.0/.deps/testsocket-server_add.Po
+	tests/libmemcached-1.0/.deps/testsocket-setup_and_teardowns.Po
+	tests/libmemcached-1.0/.deps/testsocket-stat.Po
+	tests/libmemcached-1.0/.deps/testsocket-touch.Po
+	tests/libmemcached-1.0/.deps/testsocket-virtual_buckets.Po
+	tests/libmemcached-1.0/.libs/
+	tests/libmemcached-1.0/atomsmasher.o
+	tests/libmemcached-1.0/callback_counter.o
+	tests/libmemcached-1.0/debug.o
+	tests/libmemcached-1.0/failure-callback_counter.o
+	tests/libmemcached-1.0/failure-fetch_all_results.o
+	tests/libmemcached-1.0/failure-generate.o
+	tests/libmemcached-1.0/failure-print.o
+	tests/libmemcached-1.0/fetch_all_results.o
+	tests/libmemcached-1.0/generate.o
+	tests/libmemcached-1.0/internals
+	tests/libmemcached-1.0/internals-internals.o
+	tests/libmemcached-1.0/internals-string.o
+	tests/libmemcached-1.0/print.o
+	tests/libmemcached-1.0/sasl
+	tests/libmemcached-1.0/sasl-basic.o
+	tests/libmemcached-1.0/sasl-callback_counter.o
+	tests/libmemcached-1.0/sasl-debug.o
+	tests/libmemcached-1.0/sasl-deprecated.o
+	tests/libmemcached-1.0/sasl-error_conditions.o
+	tests/libmemcached-1.0/sasl-fetch_all_results.o
+	tests/libmemcached-1.0/sasl-generate.o
+	tests/libmemcached-1.0/sasl-ketama.o
+	tests/libmemcached-1.0/sasl-namespace.o
+	tests/libmemcached-1.0/sasl-parser.o
+	tests/libmemcached-1.0/sasl-pool.o
+	tests/libmemcached-1.0/sasl-print.o
+	tests/libmemcached-1.0/sasl-replication.o
+	tests/libmemcached-1.0/sasl-sasl.o
+	tests/libmemcached-1.0/sasl-virtual_buckets.o
+	tests/libmemcached-1.0/testapp
+	tests/libmemcached-1.0/testapp-all_tests.o
+	tests/libmemcached-1.0/testapp-basic.o
+	tests/libmemcached-1.0/testapp-callback_counter.o
+	tests/libmemcached-1.0/testapp-callbacks.o
+	tests/libmemcached-1.0/testapp-debug.o
+	tests/libmemcached-1.0/testapp-deprecated.o
+	tests/libmemcached-1.0/testapp-dump.o
+	tests/libmemcached-1.0/testapp-encoding_key.o
+	tests/libmemcached-1.0/testapp-error_conditions.o
+	tests/libmemcached-1.0/testapp-exist.o
+	tests/libmemcached-1.0/testapp-fetch_all_results.o
+	tests/libmemcached-1.0/testapp-generate.o
+	tests/libmemcached-1.0/testapp-haldenbrand.o
+	tests/libmemcached-1.0/testapp-ketama.o
+	tests/libmemcached-1.0/testapp-mem_functions.o
+	tests/libmemcached-1.0/testapp-memcached_get.o
+	tests/libmemcached-1.0/testapp-namespace.o
+	tests/libmemcached-1.0/testapp-parser.o
+	tests/libmemcached-1.0/testapp-pool.o
+	tests/libmemcached-1.0/testapp-print.o
+	tests/libmemcached-1.0/testapp-replication.o
+	tests/libmemcached-1.0/testapp-server_add.o
+	tests/libmemcached-1.0/testapp-setup_and_teardowns.o
+	tests/libmemcached-1.0/testapp-stat.o
+	tests/libmemcached-1.0/testapp-touch.o
+	tests/libmemcached-1.0/testapp-virtual_buckets.o
+	tests/libmemcached-1.0/testplus-callback_counter.o
+	tests/libmemcached-1.0/testplus-fetch_all_results.o
+	tests/libmemcached-1.0/testplus-generate.o
+	tests/libmemcached-1.0/testplus-plus.o
+	tests/libmemcached-1.0/testplus-print.o
+	tests/libmemcached-1.0/testsocket
+	tests/libmemcached-1.0/testsocket-all_tests_socket.o
+	tests/libmemcached-1.0/testsocket-basic.o
+	tests/libmemcached-1.0/testsocket-callback_counter.o
+	tests/libmemcached-1.0/testsocket-callbacks.o
+	tests/libmemcached-1.0/testsocket-debug.o
+	tests/libmemcached-1.0/testsocket-deprecated.o
+	tests/libmemcached-1.0/testsocket-dump.o
+	tests/libmemcached-1.0/testsocket-encoding_key.o
+	tests/libmemcached-1.0/testsocket-error_conditions.o
+	tests/libmemcached-1.0/testsocket-exist.o
+	tests/libmemcached-1.0/testsocket-fetch_all_results.o
+	tests/libmemcached-1.0/testsocket-generate.o
+	tests/libmemcached-1.0/testsocket-haldenbrand.o
+	tests/libmemcached-1.0/testsocket-ketama.o
+	tests/libmemcached-1.0/testsocket-mem_functions.o
+	tests/libmemcached-1.0/testsocket-memcached_get.o
+	tests/libmemcached-1.0/testsocket-namespace.o
+	tests/libmemcached-1.0/testsocket-parser.o
+	tests/libmemcached-1.0/testsocket-pool.o
+	tests/libmemcached-1.0/testsocket-print.o
+	tests/libmemcached-1.0/testsocket-replication.o
+	tests/libmemcached-1.0/testsocket-server_add.o
+	tests/libmemcached-1.0/testsocket-setup_and_teardowns.o
+	tests/libmemcached-1.0/testsocket-stat.o
+	tests/libmemcached-1.0/testsocket-touch.o
+	tests/libmemcached-1.0/testsocket-virtual_buckets.o
+	tests/mem_udp.o
+	tests/memcapable
+	tests/memcat
+	tests/memcp
+	tests/memdump
+	tests/memerror
+	tests/memexist
+	tests/memflush
+	tests/memping
+	tests/memrm
+	tests/memslap
+	tests/memstat
+	tests/memtouch
+	tests/parser
+	tests/parser-parser.o
+	tests/testhashkit
+	tests/testplus
+	tests/tests_memcapable-memcapable.o
+	tests/tests_memcat-memcat.o
+	tests/tests_memcp-memcp.o
+	tests/tests_memdump-memdump.o
+	tests/tests_memerror-memerror.o
+	tests/tests_memexist-memexist.o
+	tests/tests_memflush-memflush.o
+	tests/tests_memping-memping.o
+	tests/tests_memrm-memrm.o
+	tests/tests_memslap-memslap.o
+	tests/tests_memstat-memstat.o
+	tests/tests_memtouch-memtouch.o
+	tests/testudp
+
+no changes added to commit (use "git add" and/or "git commit -a")
