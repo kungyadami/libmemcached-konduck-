@@ -38,6 +38,10 @@
 
 #pragma once
 
+#if ENABLE_MPI_FUNCTIONS
+#include <mpi.h>
+#endif
+
 void initialize_binary_request(memcached_instance_st* server, protocol_binary_request_header&);
 
 bool memcached_io_write(memcached_instance_st* ptr);
@@ -57,11 +61,26 @@ void memcached_io_reset(memcached_instance_st* ptr);
 memcached_return_t memcached_io_read(memcached_instance_st* ptr,
                                      void *buffer, size_t length, ssize_t& nread);
 
+#if ENABLE_MPI_FUNCTIONS
+memcached_return_t memcached_io_read_with_status(memcached_instance_st* ptr,
+                                                 void *buffer, size_t length,
+                                                 ssize_t& nread,
+                                                 MPI_Status *status);
+#endif
+
 /* Read a line (terminated by '\n') into the buffer */
 memcached_return_t memcached_io_readline(memcached_instance_st* ptr,
                                          char *buffer_ptr,
                                          size_t size,
                                          size_t& total);
+
+#if ENABLE_MPI_FUNCTIONS
+memcached_return_t memcached_io_readline_with_status(memcached_instance_st* ptr,
+                                                     char *buffer_ptr,
+                                                     size_t size,
+                                                     size_t& total,
+                                                     MPI_Status *status);
+#endif
 
 /* Read n bytes of data from the server and store them in dta */
 memcached_return_t memcached_safe_read(memcached_instance_st* ptr,

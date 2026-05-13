@@ -267,35 +267,30 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
 
     It might be optimum to bounce the connection if count > some number.
 
-
-    여기서 비블로킹(non-block) API의 대가를 치르게 됩니다.
-    get을 시작하기 전에, 큐(queue)에 쌓여 있는 데이터를 먼저 제거해야 합니다.
+    여기서 비블로킹(non-block) API의 대가를 치르게 된다.
+    get을 시작하기 전에, 큐(queue)에 쌓여 있는 데이터를 먼저 제거해야 함.
 
     만약 대기 중인 데이터 개수(count)가 일정 수치를 초과한다면,
-    연결을 끊고 재연결(bounce the connection) 하는 것이 최적일 수도 있습니다.
-
+    연결을 끊고 재연결(bounce the connection) 하는 것이 최적일 수도
   */
-  for (uint32_t x= 0; x < memcached_server_count(ptr); x++) //현재 서버 개수만큼 for문 돌기
-  {
+  //현재 서버 개수만큼 for문 돌기
+  for (uint32_t x= 0; x < memcached_server_count(ptr); x++){
 #if ENABLE_PRINT
     printf("libmemcached/get.cc :: _mget_by_key_real memcached_server_count for문\n");
 #endif
     memcached_instance_st* instance= memcached_instance_fetch(ptr, x); //그 memcached 서버 객체를 fetch해오기
 
-    if (instance->response_count()) //여기서 cursor_active라고 하는 변수가 반환되는데, 1이라는 값이 나옴. 무슨 의미인지는 잘 모르겠심더.
-    {
+    if (instance->response_count()){
 #if ENABLE_PRINT
-      printf("libmemcached/get.cc :: _mget_by_key_real memcached_server_count for문 2\n");
+      printf("libmemcached/get.cc :: _mget_by_key_real memcached_server_count for문 2, instance->response_count() : %d\n", instance->response_count());
 #endif
       char buffer[MEMCACHED_DEFAULT_COMMAND_SIZE];
 
-      if (ptr->flags.no_block)
-      { //여기 안들어감
+      if (ptr->flags.no_block){ //여기 안들어감
         memcached_io_write(instance);
       }
 
-      while(instance->response_count())
-      {
+      while(instance->response_count()){
 #if ENABLE_PRINT
         printf("libmemcached/get.cc :: _mget_by_key_real memcached_server_count for문 3\n");
 #endif
@@ -304,8 +299,7 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
     }
   }
 
-  if (memcached_is_binary(ptr))
-  {
+  if (memcached_is_binary(ptr)){
     return binary_mget_by_key(ptr, master_server_key, is_group_key_set, keys,
                               key_length, number_of_keys, mget_mode);
   }
@@ -321,16 +315,12 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
   */
   WATCHPOINT_ASSERT(rc == MEMCACHED_SUCCESS);
   size_t hosts_connected= 0;
-  for (uint32_t x= 0; x < number_of_keys; x++)
-  {
+  for (uint32_t x= 0; x < number_of_keys; x++){
     uint32_t server_key;
 
-    if (is_group_key_set)
-    {
+    if (is_group_key_set){
       server_key= master_server_key;
-    }
-    else
-    {
+    } else{ //처음 get 시작할 때에는 여기로 들어감
 #if ENABLE_PRINT
       printf("libmemcached/get.cc - __mget_by_key_real() memcached_generate_hash_with_redistribution call2\n");
 #endif

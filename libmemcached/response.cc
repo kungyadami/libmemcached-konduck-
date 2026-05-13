@@ -37,6 +37,9 @@
 
 #include <libmemcached/common.h>
 #include <libmemcached/string.hpp>
+#include <mpi.h>
+
+#define DPU_RANK 1
 
 static memcached_return_t textual_value_fetch(memcached_instance_st* instance,
                                               char *buffer,
@@ -232,22 +235,95 @@ read_error:
   return MEMCACHED_PARTIAL_READ;
 }
 
+#if ENABLE_MPI_FUNCTIONS
+
+static memcached_return_t dpu_binary_value_fetch(memcached_instance_st* instance,
+                                                 memcached_result_st *result,
+                                                 MPI_Status *status)
+{
+  client_bin_get_resp_t resp;
+  int count = 0;
+
+  MPI_Get_count(status, MPI_BYTE, &count);
+  if (count != (int)sizeof(resp)) {
+    return memcached_set_error(*instance, MEMCACHED_UNKNOWN_READ_FAILURE, MEMCACHED_AT);
+  }
+  //printf("여기는 dpu_binary_value_fetch에서 DPU 요청 기다리는 중\n");
+  int err = MPI_Recv(&resp, sizeof(resp), MPI_BYTE,
+                     status->MPI_SOURCE,
+                     DPU_BIN_GET_RESP_TAG,
+                     MPI_COMM_WORLD,
+                     MPI_STATUS_IGNORE);
+
+  if (err != MPI_SUCCESS) {
+    return memcached_set_error(*instance, MEMCACHED_UNKNOWN_READ_FAILURE, MEMCACHED_AT);
+  }
+
+  if (resp.result != DPU_VALUE) {
+    return MEMCACHED_END;
+  }
+
+  memcached_result_reset(result);
+
+  result->item_flags = resp.flag;
+  result->key_length = resp.key_len;
+  memcpy(result->item_key, resp.key, resp.key_len);
+  result->item_key[resp.key_len] = '\0';
+
+  if (memcached_failed(memcached_string_check(&result->value, resp.value_len + 1))) {
+    return memcached_set_error(*instance, MEMCACHED_MEMORY_ALLOCATION_FAILURE, MEMCACHED_AT);
+  }
+
+  char *value_ptr = memcached_string_value_mutable(&result->value);
+  memcpy(value_ptr, resp.value, resp.value_len);
+  value_ptr[resp.value_len] = '\0';
+  memcached_string_set_length(&result->value, resp.value_len);
+
+  return MEMCACHED_SUCCESS;
+}
+#endif
+
+
+
 static memcached_return_t textual_read_one_response(memcached_instance_st* instance,
                                                     char *buffer, const size_t buffer_length,
                                                     memcached_result_st *result)
 {
-#if ENABLE_PRINT
-  printf("libmemcached/response.cc - textual_read_one_response()\n");
+
+size_t total_read;
+
+#if ENABLE_MPI_FUNCTIONS
+  MPI_Status mpi_status;
+  MPI_Status *status= NULL;
+
+  if (instance->read_buffer_length == 0)
+  {
+    //printf("여기는 textual_read_one_response 서버 요청 기다리는 중(MPI_Probe)\n");
+    MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_status);
+    //printf("여기는 textual_read_one_response 서버 요청 기다리는 중2, MPI_RANK : %d\n", mpi_status.MPI_SOURCE);
+
+    if (mpi_status.MPI_SOURCE == DPU_RANK &&
+        mpi_status.MPI_TAG == DPU_BIN_GET_RESP_TAG)
+    {
+      return dpu_binary_value_fetch(instance, result, &mpi_status);
+    }
+
+    status= &mpi_status;
+  }
+
+  //printf("server에게 받을듯, memcached_io_readline_with_status\n");
+  memcached_return_t rc=
+    memcached_io_readline_with_status(instance, buffer, buffer_length,
+                                      total_read, status);
+#else
+  memcached_return_t rc=
+    memcached_io_readline(instance, buffer, buffer_length, total_read);
 #endif
 
-  size_t total_read;
-  //여기는 보내고나서 기다리는 부분인듯 ...
-  memcached_return_t rc= memcached_io_readline(instance, buffer, buffer_length, total_read);
 #if ENABLE_PRINT
   printf("libmemcached/response.cc - textual_read_one_response() rc : %d\n", rc);
 #endif
-  if (memcached_failed(rc))
-  {
+  if (memcached_failed(rc)){
 #if ENABLE_PRINT
     printf("libmemcached/response.cc - failed\n");
 #endif
@@ -257,8 +333,7 @@ static memcached_return_t textual_read_one_response(memcached_instance_st* insta
 #if ENABLE_PRINT
   printf("libmemcached/response.cc - textual_read_one_response buffer : %s\n", buffer);
 #endif
-  switch(buffer[0])
-  {
+  switch(buffer[0]){
   case 'V':
     {
 #if ENABLE_PRINT
