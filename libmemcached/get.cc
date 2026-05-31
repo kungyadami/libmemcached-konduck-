@@ -41,6 +41,10 @@
 /*
   What happens if no servers exist?
 */
+
+
+
+
 char *memcached_get(memcached_st *ptr, const char *key,
                     size_t key_length,
                     size_t *value_length,
@@ -63,6 +67,15 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
                                              const size_t *key_length,
                                              size_t number_of_keys,
                                              const bool mget_mode);
+
+
+#if ENABLE_MPI_FUNCTIONS
+static memcached_return_t memcached_mpi_get_direct(Memcached *ptr,
+                                                   memcached_instance_st *instance,
+                                                   const char *key,
+                                                   size_t key_length);
+#endif
+
 char *memcached_get_by_key(memcached_st *shell,
                            const char *group_key,
                            size_t group_key_length,
@@ -76,14 +89,12 @@ char *memcached_get_by_key(memcached_st *shell,
 #endif
   Memcached* ptr= memcached2Memcached(shell);
   memcached_return_t unused;
-  if (error == NULL)
-  {
+  if (error == NULL){
     error= &unused;
   }
 
   uint64_t query_id= 0; //현재 보내는 쿼리가 몇 번째 쿼리인지?(매번 쿼리 보낼 때마다 1부터 시작해서 번호를 할당함)
-  if (ptr)
-  {
+  if (ptr){
     query_id= ptr->query_id;
 #if ENABLE_PRINT
     printf("libmemcached/get.cc :: memcached_get_by_key(), query_id : %d\n", query_id);
@@ -93,23 +104,19 @@ char *memcached_get_by_key(memcached_st *shell,
   /* Request the key, 여기서 key를 찾아달라고 요청하기 */
   *error= __mget_by_key_real(ptr, group_key, group_key_length, (const char * const *)&key, &key_length, 1, false);
 
-  if (ptr)
-  {
+  if (ptr){
     assert_msg(ptr->query_id == query_id +1, "Programmer error, the query_id was not incremented.");
   }
 
-  if (memcached_failed(*error))
-  {
-    if (ptr)
-    {
-      if (memcached_has_current_error(*ptr)) // Find the most accurate error
-      {
+  if (memcached_failed(*error)){
+    if (ptr){
+      if (memcached_has_current_error(*ptr)){
+        // Find the most accurate error
         *error= memcached_last_error(ptr);
       }
     }
 
-    if (value_length) 
-    {
+    if (value_length) {
       *value_length= 0;
     }
 
@@ -118,33 +125,26 @@ char *memcached_get_by_key(memcached_st *shell,
 #if ENABLE_PRINT
   printf("libmemcached/get.cc :: memcached_fetch call()\n");
 #endif
-  char *value= memcached_fetch(ptr, NULL, NULL,
-                               value_length, flags, error);
+  char *value= memcached_fetch(ptr, NULL, NULL, value_length, flags, error);
                     
   assert_msg(ptr->query_id == query_id +1, "Programmer error, the query_id was not incremented.");
 
   /* This is for historical reasons */
-  if (*error == MEMCACHED_END)
-  {
+  if (*error == MEMCACHED_END){
     *error= MEMCACHED_NOTFOUND;
   }
-  if (value == NULL)
-  {
-    if (ptr->get_key_failure and *error == MEMCACHED_NOTFOUND)
-    {
+  if (value == NULL){
+    if (ptr->get_key_failure and *error == MEMCACHED_NOTFOUND){
       memcached_result_st key_failure_result;
       memcached_result_st* result_ptr= memcached_result_create(ptr, &key_failure_result);
       memcached_return_t rc= ptr->get_key_failure(ptr, key, key_length, result_ptr);
 
       /* On all failure drop to returning NULL */
-      if (rc == MEMCACHED_SUCCESS or rc == MEMCACHED_BUFFERED)
-      {
-        if (rc == MEMCACHED_BUFFERED)
-        {
+      if (rc == MEMCACHED_SUCCESS or rc == MEMCACHED_BUFFERED){
+        if (rc == MEMCACHED_BUFFERED){
           uint64_t latch; /* We use latch to track the state of the original socket */
           latch= memcached_behavior_get(ptr, MEMCACHED_BEHAVIOR_BUFFER_REQUESTS);
-          if (latch == 0)
-          {
+          if (latch == 0){
             memcached_behavior_set(ptr, MEMCACHED_BEHAVIOR_BUFFER_REQUESTS, 1);
           }
 
@@ -154,13 +154,10 @@ char *memcached_get_by_key(memcached_st *shell,
                             0,
                             (memcached_result_flags(result_ptr)));
 
-          if (rc == MEMCACHED_BUFFERED and latch == 0)
-          {
+          if (rc == MEMCACHED_BUFFERED and latch == 0){
             memcached_behavior_set(ptr, MEMCACHED_BEHAVIOR_BUFFER_REQUESTS, 0);
           }
-        }
-        else
-        {
+        }else{
           rc= memcached_set(ptr, key, key_length,
                             (memcached_result_value(result_ptr)),
                             (memcached_result_length(result_ptr)),
@@ -168,8 +165,7 @@ char *memcached_get_by_key(memcached_st *shell,
                             (memcached_result_flags(result_ptr)));
         }
 
-        if (rc == MEMCACHED_SUCCESS or rc == MEMCACHED_BUFFERED)
-        {
+        if (rc == MEMCACHED_SUCCESS or rc == MEMCACHED_BUFFERED){
           *error= rc;
           *value_length= memcached_result_length(result_ptr);
           *flags= memcached_result_flags(result_ptr);
@@ -219,39 +215,36 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
 #if ENABLE_PRINT
   printf("libmemcached/get.cc - __mget_by_key_real()\n");
 #endif
+  bool used_direct_mpi_get = false;
   bool failures_occured_in_sending= false;
   const char *get_command= "get";
   uint8_t get_command_length= 3;
   unsigned int master_server_key= (unsigned int)-1; /* 0 is a valid server id! */
 
   memcached_return_t rc;
-  if (memcached_failed(rc= initialize_query(ptr, true)))
-  {
+  if (memcached_failed(rc= initialize_query(ptr, true))){
     return rc;
   }
 
-  if (memcached_is_udp(ptr))
-  {
+  if (memcached_is_udp(ptr)){
     return memcached_set_error(*ptr, MEMCACHED_NOT_SUPPORTED, MEMCACHED_AT);
   }
 
   LIBMEMCACHED_MEMCACHED_MGET_START();
 
-  if (number_of_keys == 0) //호출할 때에는 지금 요청하는 키가 1개니까, number_of_keys가 1이 됨.
-  {
+  //호출할 때에는 지금 요청하는 키가 1개니까, number_of_keys가 1이 됨.
+  if (number_of_keys == 0){
     return memcached_set_error(*ptr, MEMCACHED_INVALID_ARGUMENTS, MEMCACHED_AT, memcached_literal_param("Numbers of keys provided was zero"));
   }
 
-  if (memcached_failed((rc= memcached_key_test(*ptr, keys, key_length, number_of_keys))))
-  {
+  if (memcached_failed((rc= memcached_key_test(*ptr, keys, key_length, number_of_keys)))){
     assert(memcached_last_error(ptr) == rc);
 
     return rc;
   }
 
   bool is_group_key_set= false;
-  if (group_key and group_key_length) //이 group key와 length는 뭔 용도인진 모르겠는데.. 지금 넣거나 찾으려하는 key이기는 하다
-  {
+  if (group_key and group_key_length){
     //printf("libmemcached/get.cc - __mget_by_key_real() group_key : %s, group_key_length : %d\n", group_key, group_key_length);
     //printf("libmemcached/get.cc - __mget_by_key_real() memcached_generate_hash_with_redistribution call\n");
     //여기서 쓰이는 hash가 원래 대충 key%서버리스트 수 였는데, 이렇게 할 경우 새로운 서버가 추가되거나 삭제될 때마다 캐시가 매번 바뀌어서 무효화되는 문제가 있었음.
@@ -321,19 +314,13 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
   */
   WATCHPOINT_ASSERT(rc == MEMCACHED_SUCCESS);
   size_t hosts_connected= 0;
-  for (uint32_t x= 0; x < number_of_keys; x++)
-  {
+  for (uint32_t x= 0; x < number_of_keys; x++){
     uint32_t server_key;
 
-    if (is_group_key_set)
-    {
+    if (is_group_key_set){
       server_key= master_server_key;
     }
-    else
-    {
-#if ENABLE_PRINT
-      printf("libmemcached/get.cc - __mget_by_key_real() memcached_generate_hash_with_redistribution call2\n");
-#endif
+    else{
       int size;
       MPI_Comm_size(MPI_COMM_WORLD, &size);
       int server_size = size/2;
@@ -344,6 +331,22 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
     }
     memcached_instance_st* instance= memcached_instance_fetch(ptr, server_key);
 
+  #if ENABLE_MPI_FUNCTIONS
+      //printf("[client] memcached_mpi_get_direct 호출\n");
+      rc = memcached_mpi_get_direct(ptr, instance, keys[x], key_length[x]);
+      if (memcached_failed(rc)) {
+        failures_occured_in_sending = true;
+        continue;
+      }
+
+      used_direct_mpi_get = true;
+      hosts_connected++;
+      memcached_instance_response_reset(instance);
+      memcached_instance_response_increment(instance);
+      continue;
+  #endif
+
+
     libmemcached_io_vector_st vector[]=
     {
       { get_command, get_command_length },
@@ -352,16 +355,14 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
       { keys[x], key_length[x] }
     };
 
-    if (instance->response_count() == 0)
-    {
+    if (instance->response_count() == 0){
 #if ENABLE_PRINT
       printf("libmemcached/get.cc - __mget_by_key_real() memcached_connect call\n");
 #endif
 #if ENABLE_SOCKET_FUNCTIONS
       rc= memcached_connect(instance);
 
-      if (memcached_failed(rc))
-      {
+      if (memcached_failed(rc)){
         memcached_set_error(*instance, rc, MEMCACHED_AT);
         continue;
       }
@@ -371,8 +372,8 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
 #if ENABLE_PRINT
       printf("libmemcached/get.cc - __mget_by_key_real() memcached_io_writev call\n");
 #endif
-      if ((memcached_io_writev(instance, vector, 1, false)) == false) //여기 들어감
-      {
+      if ((memcached_io_writev(instance, vector, 1, false)) == false){
+        //여기 들어감
 #if ENABLE_PRINT
         printf("libmemcached/get.cc - __mget_by_key_real() 2\n");
 #endif
@@ -394,8 +395,7 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
 #if ENABLE_PRINT
       printf("libmemcached/get.cc - __mget_by_key_real() memcached_io_writev call2\n");
 #endif
-      if ((memcached_io_writev(instance, (vector + 1), 3, false)) == false)
-      {
+      if ((memcached_io_writev(instance, (vector + 1), 3, false)) == false){
 #if ENABLE_PRINT
         printf("libmemcached/get.cc - __mget_by_key_real() 5\n");
 #endif
@@ -406,8 +406,7 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
     }
   }
 
-  if (hosts_connected == 0)
-  {
+  if (hosts_connected == 0){
 #if ENABLE_PRINT
     printf("libmemcached/get.cc - __mget_by_key_real() 6\n");
 #endif
@@ -428,45 +427,35 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
     Should we muddle on if some servers are dead?
   */
   bool success_happened= false;
-  for (uint32_t x= 0; x < memcached_server_count(ptr); x++)
-  {
+#if ENABLE_MPI_FUNCTIONS
+if (used_direct_mpi_get) {
+  success_happened = (hosts_connected > 0);
+} else
+#endif
+{
+  for (uint32_t x= 0; x < memcached_server_count(ptr); x++){
     memcached_instance_st* instance= memcached_instance_fetch(ptr, x);
 
-    if (instance->response_count())
-    {
+    if (instance->response_count()){
       /* We need to do something about non-connnected hosts in the future */
-#if ENABLE_PRINT
-      printf("libmemcached/get.cc - __mget_by_key_real()2\n");
-#endif
-      if ((memcached_io_write(instance, "\r\n", 2, true)) == -1)
-      {
-#if ENABLE_PRINT
-        printf("libmemcached/get.cc - __mget_by_key_real() failures_occured_in_sending= true;\n");
-#endif
+      if ((memcached_io_write(instance, "\r\n", 2, true)) == -1){
         failures_occured_in_sending= true;
-      }
-      else
-      { //여기로 들어감
-#if ENABLE_PRINT
-        printf("libmemcached/get.cc - __mget_by_key_real() success_happened= true;\n");
-#endif
+      }else{ //여기로 들어감
         success_happened= true;
       }
     }
   }
-
+}
   LIBMEMCACHED_MEMCACHED_MGET_END();
 
-  if (failures_occured_in_sending and success_happened)
-  {
+  if (failures_occured_in_sending and success_happened){
 #if ENABLE_PRINT
     printf("libmemcached/get.cc - __mget_by_key_real() return MEMCACHED_SOME_ERRORS\n");
 #endif
     return MEMCACHED_SOME_ERRORS;
   }
 
-  if (success_happened)
-  { //여기로 들어감
+  if (success_happened){ //여기로 들어감
 #if ENABLE_PRINT
     printf("libmemcached/get.cc - __mget_by_key_real() return MEMCACHED_SUCCESS\n");
 #endif
@@ -828,3 +817,50 @@ static memcached_return_t binary_mget_by_key(memcached_st *ptr,
 
   return MEMCACHED_SUCCESS;
 }
+
+#if ENABLE_MPI_FUNCTIONS
+
+static memcached_return_t memcached_mpi_get_direct(Memcached *ptr,
+                                                   memcached_instance_st *instance,
+                                                   const char *key,
+                                                   size_t key_length)
+{
+#if ENABLE_MPI_FUNCTIONS
+  client_bin_get_req_t req;
+  memset(&req, 0, sizeof(req));
+  target_server = 0;
+
+  if (key_length == 0 || key_length > sizeof(req.key)) {
+    return memcached_set_error(*instance, MEMCACHED_WRITE_FAILURE, MEMCACHED_AT,
+                               memcached_literal_param("key too large for client_bin_get_req_t"));
+  }
+
+  req.cmd = BIN_GET;
+  req.key_len = (uint16_t)key_length;
+  req.flag = 0;
+  req.client_rank = 2;
+  req.hv = libhashkit_murmur3(key, key_length);
+
+  memcpy(req.key, key, key_length);
+  //printf("[client] MPI_Send(), TAG : %d | target_server : %d\n", GET_REQ_TAG, target_server);
+  int err = MPI_Send(&req, sizeof(req), MPI_BYTE, target_server, GET_REQ_TAG, MPI_COMM_WORLD);
+  if (err != MPI_SUCCESS) {
+    return memcached_set_error(*instance, MEMCACHED_WRITE_FAILURE, MEMCACHED_AT,
+                               memcached_literal_param("MPI_Send() failed for get request"));
+  }
+
+  return MEMCACHED_SUCCESS;
+#else
+  (void)ptr;
+  (void)instance;
+  (void)key;
+  (void)key_length;
+  return MEMCACHED_NOT_SUPPORTED;
+#endif
+}
+
+
+
+
+
+#endif

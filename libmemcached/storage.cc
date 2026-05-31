@@ -264,6 +264,91 @@ static memcached_return_t memcached_send_ascii(Memcached *ptr,        //memcache
 #if ENABLE_PRINT
   printf("libmemcached/storage.cc :: memcached_send_ascii()1\n");
 #endif
+  //****************************  내가 최적화를 위해 추가한 부분 *********************************************** */
+  #if ENABLE_MPI_FUNCTIONS
+    if (verb == SET_OP) {
+#if DPU_CACHE
+      target_server = 1; //서버
+#else
+      target_server = 0; //DPU
+#endif
+      client_bin_set_req_t req;
+      memset(&req, 0, sizeof(req));
+
+      if (key_length == 0 || key_length > sizeof(req.key) ||
+          value_length > sizeof(req.value)) {
+        return memcached_set_error(*instance, MEMCACHED_WRITE_FAILURE, MEMCACHED_AT,
+                                  memcached_literal_param("key/value too large for client_bin_set_req_t"));
+      }
+
+      req.cmd = BIN_SET;
+      req.key_len = (uint16_t)key_length;
+      req.value_len = (uint16_t)value_length;
+      req.flag = (uint16_t)flags;
+
+      memcpy(req.key, key, key_length);
+      memcpy(req.value, value, value_length);
+      
+      // printf("[set req] cmd=%u key_len=%u value_len=%u flag=%u key=%.*s value=%.*s\n",
+      //  (unsigned)req.cmd,
+      //  (unsigned)req.key_len,
+      //  (unsigned)req.value_len,
+      //  (unsigned)req.flag,
+      //  (int)req.key_len, req.key,
+      //  (int)req.value_len, req.value);
+
+      int err = MPI_Send(&req, sizeof(req), MPI_BYTE, target_server, SET_REQ_TAG, MPI_COMM_WORLD);
+      if (err != MPI_SUCCESS) {
+        return memcached_set_error(*instance, MEMCACHED_WRITE_FAILURE, MEMCACHED_AT, memcached_literal_param("MPI_Send() failed for set request"));
+      }
+
+      if (reply == false) {
+        return MEMCACHED_SUCCESS;
+      }
+
+      if (flush == false) {
+        return MEMCACHED_BUFFERED;
+      }
+
+      memcached_instance_response_reset(instance);
+      memcached_instance_response_increment(instance);
+
+      char buffer[MEMCACHED_DEFAULT_COMMAND_SIZE];
+      memcached_return_t rc = memcached_response(instance, buffer, sizeof(buffer), NULL);
+
+      if (rc == MEMCACHED_STORED) {
+        return MEMCACHED_SUCCESS;
+      }
+
+      return rc;
+    }
+  #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   char flags_buffer[MEMCACHED_MAXIMUM_INTEGER_DISPLAY_LENGTH +1];
   int flags_buffer_length= snprintf(flags_buffer, sizeof(flags_buffer), " %u", flags);
   //error

@@ -11,7 +11,6 @@ tests/libmemcached-1.0/sasl-debug.o: tests/libmemcached-1.0/debug.cc \
  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h \
- /usr/include/c++/11/pstl/pstl_config.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/x86_64-linux-gnu/bits/types.h \
@@ -151,15 +150,14 @@ tests/libmemcached-1.0/sasl-debug.o: tests/libmemcached-1.0/debug.cc \
  /usr/include/c++/11/bits/basic_string.h \
  /usr/include/c++/11/ext/alloc_traits.h \
  /usr/include/c++/11/bits/alloc_traits.h \
- /usr/include/c++/11/bits/stl_construct.h /usr/include/c++/11/string_view \
- /usr/include/c++/11/bits/functional_hash.h \
- /usr/include/c++/11/bits/string_view.tcc \
+ /usr/include/c++/11/bits/stl_construct.h \
  /usr/include/c++/11/ext/string_conversions.h /usr/include/c++/11/cerrno \
  /usr/include/errno.h /usr/include/x86_64-linux-gnu/bits/errno.h \
  /usr/include/linux/errno.h /usr/include/x86_64-linux-gnu/asm/errno.h \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
  /usr/include/c++/11/bits/charconv.h \
+ /usr/include/c++/11/bits/functional_hash.h \
  /usr/include/c++/11/bits/basic_string.tcc \
  /usr/include/c++/11/bits/locale_classes.tcc \
  /usr/include/c++/11/system_error \
@@ -295,7 +293,6 @@ mem_config.h:
 /usr/include/x86_64-linux-gnu/gnu/stubs.h:
 /usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
 /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h:
-/usr/include/c++/11/pstl/pstl_config.h:
 /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h:
 /usr/include/stdint.h:
 /usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
@@ -465,9 +462,6 @@ libtest/vchar.hpp:
 /usr/include/c++/11/ext/alloc_traits.h:
 /usr/include/c++/11/bits/alloc_traits.h:
 /usr/include/c++/11/bits/stl_construct.h:
-/usr/include/c++/11/string_view:
-/usr/include/c++/11/bits/functional_hash.h:
-/usr/include/c++/11/bits/string_view.tcc:
 /usr/include/c++/11/ext/string_conversions.h:
 /usr/include/c++/11/cerrno:
 /usr/include/errno.h:
@@ -478,6 +472,7 @@ libtest/vchar.hpp:
 /usr/include/asm-generic/errno-base.h:
 /usr/include/x86_64-linux-gnu/bits/types/error_t.h:
 /usr/include/c++/11/bits/charconv.h:
+/usr/include/c++/11/bits/functional_hash.h:
 /usr/include/c++/11/bits/basic_string.tcc:
 /usr/include/c++/11/bits/locale_classes.tcc:
 /usr/include/c++/11/system_error:

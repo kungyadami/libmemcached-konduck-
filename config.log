@@ -28,7 +28,11 @@ uname -v = #96~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Fri Jan 16 13:19:05 UTC 2
 /bin/universe          = unknown
 
 PATH: /share/shared-apps/x86/mvapich-4.1/bin/
-PATH: /opt/hpc/mpi/mvapich2-2.3.6-2/bin/
+PATH: /home/cluster/yedam-cmd/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand/
+PATH: /home/cluster/yedam-cmd/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli/
+PATH: /home/cluster/yedam-cmd/.vscode-server/cli/servers/Stable-974500e64f0d1cfdf7c9821a2a51c2cb3bf0e561/server/bin/remote-cli/
+PATH: /home/cluster/yedam-cmd/bin/
+PATH: /share/shared-apps/x86/mvapich-4.1/bin/
 PATH: /home/cluster/yedam-cmd/bin/
 PATH: /usr/local/sbin/
 PATH: /usr/local/bin/
@@ -93,27 +97,27 @@ cc: fatal error: no input files
 compilation terminated.
 configure:3572: $? = 1
 configure:3592: checking whether the C compiler works
-configure:3614: cc    conftest.c  >&5
+configure:3614: cc -Wno-error   conftest.c  >&5
 configure:3618: $? = 0
 configure:3668: result: yes
 configure:3671: checking for C compiler default output file name
 configure:3673: result: a.out
 configure:3679: checking for suffix of executables
-configure:3686: cc -o conftest    conftest.c  >&5
+configure:3686: cc -o conftest -Wno-error   conftest.c  >&5
 configure:3690: $? = 0
 configure:3713: result: 
 configure:3735: checking whether we are cross compiling
-configure:3743: cc -o conftest    conftest.c  >&5
+configure:3743: cc -o conftest -Wno-error   conftest.c  >&5
 configure:3747: $? = 0
 configure:3754: ./conftest
 configure:3758: $? = 0
 configure:3773: result: no
 configure:3778: checking for suffix of object files
-configure:3801: cc -c   conftest.c >&5
+configure:3801: cc -c -Wno-error  conftest.c >&5
 configure:3805: $? = 0
 configure:3827: result: o
 configure:3831: checking whether the compiler supports GNU C
-configure:3851: cc -c   conftest.c >&5
+configure:3851: cc -c -Wno-error  conftest.c >&5
 configure:3851: $? = 0
 configure:3861: result: yes
 configure:3872: checking whether cc accepts -g
@@ -121,7 +125,7 @@ configure:3893: cc -c -g  conftest.c >&5
 configure:3893: $? = 0
 configure:3937: result: yes
 configure:3957: checking for cc option to enable C11 features
-configure:3972: cc  -c -g -O2  conftest.c >&5
+configure:3972: cc  -c -Wno-error  conftest.c >&5
 configure:3972: $? = 0
 configure:3990: result: none needed
 configure:4111: checking whether cc understands -c and -o together
@@ -165,7 +169,7 @@ c++: fatal error: no input files
 compilation terminated.
 configure:4314: $? = 1
 configure:4318: checking whether the compiler supports GNU C++
-configure:4338: c++ -c   conftest.cpp >&5
+configure:4338: c++ -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow  conftest.cpp >&5
 configure:4338: $? = 0
 configure:4348: result: yes
 configure:4359: checking whether c++ accepts -g
@@ -173,7 +177,7 @@ configure:4380: c++ -c -g  conftest.cpp >&5
 configure:4380: $? = 0
 configure:4424: result: yes
 configure:4444: checking for c++ option to enable C++11 features
-configure:4459: c++  -c -g -O2  conftest.cpp >&5
+configure:4459: c++  -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow  conftest.cpp >&5
 conftest.cpp: In function 'int main(int, char**)':
 conftest.cpp:175:25: warning: empty parentheses were disambiguated as a function declaration [-Wvexing-parse]
   175 |   cxx11test::delegate d2();
@@ -190,47 +194,47 @@ configure:4566: result: x86_64-pc-linux-gnu
 configure:4586: checking host system type
 configure:4600: result: x86_64-pc-linux-gnu
 configure:4635: checking for stdio.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for stdlib.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for string.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for inttypes.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for stdint.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for strings.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for sys/stat.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for sys/types.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for unistd.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for wchar.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for minix/config.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 conftest.c:47:10: fatal error: minix/config.h: No such file or directory
    47 | #include <minix/config.h>
       |          ^~~~~~~~~~~~~~~~
@@ -286,39 +290,39 @@ configure: failed program was:
 | #include <minix/config.h>
 configure:4635: result: no
 configure:4635: checking for arpa/inet.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for errno.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for execinfo.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for fcntl.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for features.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for fnmatch.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for libintl.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for limits.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for mach/mach.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 conftest.c:55:10: fatal error: mach/mach.h: No such file or directory
    55 | #include <mach/mach.h>
       |          ^~~~~~~~~~~~~
@@ -382,51 +386,51 @@ configure: failed program was:
 | #include <mach/mach.h>
 configure:4635: result: no
 configure:4635: checking for malloc.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for math.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for netdb.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for netinet/in.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for netinet/tcp.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for poll.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for pthread.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for spawn.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for stdarg.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for stddef.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for sys/socket.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for sys/sysctl.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 conftest.c:66:10: fatal error: sys/sysctl.h: No such file or directory
    66 | #include <sys/sysctl.h>
       |          ^~~~~~~~~~~~~~
@@ -501,27 +505,27 @@ configure: failed program was:
 | #include <sys/sysctl.h>
 configure:4635: result: no
 configure:4635: checking for sys/time.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for sys/un.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for sys/wait.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for syslog.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for time.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 configure:4635: $? = 0
 configure:4635: result: yes
 configure:4635: checking for winsock2.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 conftest.c:71:10: fatal error: winsock2.h: No such file or directory
    71 | #include <winsock2.h>
       |          ^~~~~~~~~~~~
@@ -601,7 +605,7 @@ configure: failed program was:
 | #include <winsock2.h>
 configure:4635: result: no
 configure:4635: checking for ws2tcpip.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 conftest.c:71:10: fatal error: ws2tcpip.h: No such file or directory
    71 | #include <ws2tcpip.h>
       |          ^~~~~~~~~~~~
@@ -681,7 +685,7 @@ configure: failed program was:
 | #include <ws2tcpip.h>
 configure:4635: result: no
 configure:4635: checking for vfork.h
-configure:4635: cc -c -g -O2  conftest.c >&5
+configure:4635: cc -c -Wno-error  conftest.c >&5
 conftest.c:71:10: fatal error: vfork.h: No such file or directory
    71 | #include <vfork.h>
       |          ^~~~~~~~~
@@ -761,11 +765,11 @@ configure: failed program was:
 | #include <vfork.h>
 configure:4635: result: no
 configure:4666: checking whether it is safe to define __EXTENSIONS__
-configure:4685: cc -c -g -O2  conftest.c >&5
+configure:4685: cc -c -Wno-error  conftest.c >&5
 configure:4685: $? = 0
 configure:4693: result: yes
 configure:4696: checking whether _XOPEN_SOURCE should be defined
-configure:4718: cc -c -g -O2  conftest.c >&5
+configure:4718: cc -c -Wno-error  conftest.c >&5
 configure:4718: $? = 0
 configure:4745: result: no
 configure:4819: checking for a BSD-compatible install
@@ -783,6 +787,8 @@ configure:5197: checking whether make sets $(MAKE)
 configure:5220: result: yes
 configure:5242: checking whether make supports the include directive
 configure:5257: make -f confmf.GNU && cat confinc.out
+make: Warning: File 'confinc.mk' has modification time 0.0031 s in the future
+make: warning:  Clock skew detected.  Your build may be incomplete.
 this is the am__doit target
 configure:5260: $? = 0
 configure:5279: result: yes (GNU style)
@@ -831,7 +837,7 @@ configure:6419: result: yes
 configure:6431: checking for BSD- or MS-compatible name lister (nm)
 configure:6486: result: /usr/bin/nm -B
 configure:6626: checking the name lister (/usr/bin/nm -B) interface
-configure:6634: cc -c -g -O2  conftest.c >&5
+configure:6634: cc -c -Wno-error  conftest.c >&5
 configure:6637: /usr/bin/nm -B "conftest.o"
 configure:6640: output
 0000000000000000 B some_variable
@@ -859,7 +865,7 @@ configure:7518: checking for ar
 configure:7539: found /usr/bin/ar
 configure:7550: result: ar
 configure:7587: checking for archiver @FILE support
-configure:7605: cc -c -g -O2  conftest.c >&5
+configure:7605: cc -c -Wno-error  conftest.c >&5
 configure:7605: $? = 0
 configure:7609: ar cr libconftest.a @conftest.lst >&5
 configure:7612: $? = 0
@@ -874,10 +880,10 @@ configure:7804: checking for ranlib
 configure:7825: found /usr/bin/ranlib
 configure:7836: result: ranlib
 configure:7938: checking command to parse /usr/bin/nm -B output from cc object
-configure:8092: cc -c -g -O2  conftest.c >&5
+configure:8092: cc -c -Wno-error  conftest.c >&5
 configure:8095: $? = 0
 configure:8099: /usr/bin/nm -B conftest.o | sed -n -e 's/^.*[	 ]\([ABCDGIRSTW][ABCDGIRSTW]*\)[	 ][	 ]*\([_A-Za-z][_A-Za-z0-9]*\)$/\1 \2 \2/p' | sed '/ __gnu_lto/d' > conftest.nm
-configure:8165: cc -o conftest -g -O2   conftest.c conftstm.o >&5
+configure:8165: cc -o conftest -Wno-error   conftest.c conftstm.o >&5
 configure:8168: $? = 0
 configure:8206: result: ok
 configure:8253: checking for sysroot
@@ -886,7 +892,7 @@ configure:8291: checking for a working dd
 configure:8335: result: /usr/bin/dd
 configure:8339: checking how to truncate binary pipes
 configure:8355: result: /usr/bin/dd bs=4096 count=1
-configure:8492: cc -c -g -O2  conftest.c >&5
+configure:8492: cc -c -Wno-error  conftest.c >&5
 configure:8495: $? = 0
 configure:8692: checking for mt
 configure:8713: found /usr/bin/mt
@@ -895,26 +901,26 @@ configure:8747: checking if mt is a manifest tool
 configure:8754: mt '-?'
 configure:8762: result: no
 configure:9488: checking for dlfcn.h
-configure:9488: cc -c -g -O2  conftest.c >&5
+configure:9488: cc -c -Wno-error  conftest.c >&5
 configure:9488: $? = 0
 configure:9488: result: yes
 configure:9757: checking for objdir
 configure:9773: result: .libs
 configure:10037: checking if cc supports -fno-rtti -fno-exceptions
-configure:10056: cc -c -g -O2  -fno-rtti -fno-exceptions conftest.c >&5
+configure:10056: cc -c -Wno-error  -fno-rtti -fno-exceptions conftest.c >&5
 cc1: warning: command-line option '-fno-rtti' is valid for C++/D/ObjC++ but not for C
 configure:10060: $? = 0
 configure:10073: result: no
 configure:10437: checking for cc option to produce PIC
 configure:10445: result: -fPIC -DPIC
 configure:10453: checking if cc PIC flag -fPIC -DPIC works
-configure:10472: cc -c -g -O2  -fPIC -DPIC -DPIC conftest.c >&5
+configure:10472: cc -c -Wno-error  -fPIC -DPIC -DPIC conftest.c >&5
 configure:10476: $? = 0
 configure:10489: result: yes
 configure:10518: checking if cc static flag -static works
 configure:10547: result: yes
 configure:10562: checking if cc supports -c -o file.o
-configure:10584: cc -c -g -O2  -o out/conftest2.o conftest.c >&5
+configure:10584: cc -c -Wno-error  -o out/conftest2.o conftest.c >&5
 configure:10588: $? = 0
 configure:10610: result: yes
 configure:10618: checking if cc supports -c -o file.o
@@ -922,21 +928,21 @@ configure:10666: result: yes
 configure:10699: checking whether the cc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries
 configure:11969: result: yes
 configure:12006: checking whether -lc should be explicitly linked in
-configure:12015: cc -c -g -O2  conftest.c >&5
+configure:12015: cc -c -Wno-error  conftest.c >&5
 configure:12018: $? = 0
 configure:12033: cc -shared  -fPIC -DPIC conftest.o  -v -Wl,-soname -Wl,conftest -o conftest 2\>\&1 \| /usr/bin/grep  -lc  \>/dev/null 2\>\&1
 configure:12036: $? = 0
 configure:12050: result: no
 configure:12210: checking dynamic linker characteristics
-configure:12792: cc -o conftest -g -O2   -Wl,-rpath -Wl,/foo conftest.c  >&5
+configure:12792: cc -o conftest -Wno-error   -Wl,-rpath -Wl,/foo conftest.c  >&5
 configure:12792: $? = 0
 configure:13043: result: GNU/Linux ld.so
 configure:13165: checking how to hardcode library paths into programs
 configure:13190: result: immediate
 configure:13292: checking for shl_load
-configure:13292: cc -o conftest -g -O2   conftest.c  >&5
-/usr/bin/ld: /tmp/ccrD9485.o: in function `main':
-/home/cluster/yedam-cmd/libmemcached-konduck-/conftest.c:91: undefined reference to `shl_load'
+configure:13292: cc -o conftest -Wno-error   conftest.c  >&5
+/usr/bin/ld: /tmp/ccQML4MO.o: in function `main':
+conftest.c:(.text+0xe): undefined reference to `shl_load'
 collect2: error: ld returned 1 exit status
 configure:13292: $? = 1
 configure: failed program was:
@@ -1036,7 +1042,7 @@ configure: failed program was:
 | }
 configure:13292: result: no
 configure:13297: checking for shl_load in -ldld
-configure:13320: cc -o conftest -g -O2   conftest.c -ldld   >&5
+configure:13320: cc -o conftest -Wno-error   conftest.c -ldld   >&5
 /usr/bin/ld: cannot find -ldld: No such file or directory
 collect2: error: ld returned 1 exit status
 configure:13320: $? = 1
@@ -1118,17 +1124,17 @@ configure: failed program was:
 | }
 configure:13330: result: no
 configure:13336: checking for dlopen
-configure:13336: cc -o conftest -g -O2   conftest.c  >&5
+configure:13336: cc -o conftest -Wno-error   conftest.c  >&5
 configure:13336: $? = 0
 configure:13336: result: yes
 configure:13494: checking whether a program can dlopen itself
-configure:13575: cc -o conftest -g -O2  -DHAVE_DLFCN_H  -Wl,--export-dynamic conftest.c   >&5
+configure:13575: cc -o conftest -Wno-error  -DHAVE_DLFCN_H  -Wl,--export-dynamic conftest.c   >&5
 configure:13578: $? = 0
 configure:13596: result: yes
 configure:13601: checking whether a statically linked program can dlopen itself
-configure:13682: cc -o conftest -g -O2  -DHAVE_DLFCN_H  -Wl,--export-dynamic -static conftest.c   >&5
-/usr/bin/ld: /tmp/ccwAR6Pv.o: in function `main':
-/home/cluster/yedam-cmd/libmemcached-konduck-/configure:13661: warning: Using 'dlopen' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
+configure:13682: cc -o conftest -Wno-error  -DHAVE_DLFCN_H  -Wl,--export-dynamic -static conftest.c   >&5
+/usr/bin/ld: /tmp/ccjpRZb6.o: in function `main':
+conftest.c:(.text+0x26): warning: Using 'dlopen' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
 configure:13685: $? = 0
 conftest: undefined symbol: _fnord
 configure:13703: result: no
@@ -1294,18 +1300,18 @@ configure:14175: checking if the linker (/usr/bin/ld -m elf_x86_64) is GNU ld
 configure:14191: result: yes
 configure:14246: checking whether the c++ linker (/usr/bin/ld -m elf_x86_64) supports shared libraries
 configure:15323: result: yes
-configure:15359: c++ -c -g -O2  conftest.cpp >&5
+configure:15359: c++ -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow  conftest.cpp >&5
 configure:15362: $? = 0
 configure:15843: checking for c++ option to produce PIC
 configure:15851: result: -fPIC -DPIC
 configure:15859: checking if c++ PIC flag -fPIC -DPIC works
-configure:15878: c++ -c -g -O2  -fPIC -DPIC -DPIC conftest.cpp >&5
+configure:15878: c++ -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow  -fPIC -DPIC -DPIC conftest.cpp >&5
 configure:15882: $? = 0
 configure:15895: result: yes
 configure:15918: checking if c++ static flag -static works
 configure:15947: result: yes
 configure:15959: checking if c++ supports -c -o file.o
-configure:15981: c++ -c -g -O2  -o out/conftest2.o conftest.cpp >&5
+configure:15981: c++ -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow  -o out/conftest2.o conftest.cpp >&5
 configure:15985: $? = 0
 configure:16007: result: yes
 configure:16012: checking if c++ supports -c -o file.o
@@ -1317,7 +1323,7 @@ configure:17035: result: GNU/Linux ld.so
 configure:17100: checking how to hardcode library paths into programs
 configure:17125: result: immediate
 configure:17275: checking for cos in -lm
-configure:17298: cc -o conftest -g -O2   conftest.c -lm   >&5
+configure:17298: cc -o conftest -Wno-error   conftest.c -lm   >&5
 conftest.c:68:6: warning: conflicting types for built-in function 'cos'; expected 'double(double)' [-Wbuiltin-declaration-mismatch]
    68 | char cos ();
       |      ^~~
@@ -1326,11 +1332,11 @@ conftest.c:1:1: note: 'cos' is declared in header '<math.h>'
 configure:17298: $? = 0
 configure:17308: result: yes
 configure:17337: checking whether C++ compiler accepts -std=c++0x
-configure:17357: c++ -c -g -O2  -std=c++0x  conftest.cpp >&5
+configure:17357: c++ -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow  -std=c++0x  conftest.cpp >&5
 configure:17357: $? = 0
 configure:17366: result: yes
 configure:17384: checking whether the linker accepts 
-configure:17404: cc -o conftest -g -O2     conftest.c  >&5
+configure:17404: cc -o conftest -Wno-error     conftest.c  >&5
 configure:17404: $? = 0
 configure:17414: result: yes
 configure:17434: : CFLAGS="$CFLAGS "
@@ -1351,7 +1357,7 @@ configure:18019: checking for libmemcachedprotocol
 configure:18021: result: no
 configure:18165: checking for mysqld
 configure:18201: result: nocommand
-configure:18210: WARNING: mysqld not found in /share/shared-apps/x86/mvapich-4.1/bin:/opt/hpc/mpi/mvapich2-2.3.6-2/bin:/home/cluster/yedam-cmd/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+configure:18210: WARNING: mysqld not found in /share/shared-apps/x86/mvapich-4.1/bin:/home/cluster/yedam-cmd/.vscode-server/data/User/globalStorage/github.copilot-chat/debugCommand:/home/cluster/yedam-cmd/.vscode-server/data/User/globalStorage/github.copilot-chat/copilotCli:/home/cluster/yedam-cmd/.vscode-server/cli/servers/Stable-974500e64f0d1cfdf7c9821a2a51c2cb3bf0e561/server/bin/remote-cli:/home/cluster/yedam-cmd/bin:/share/shared-apps/x86/mvapich-4.1/bin:/home/cluster/yedam-cmd/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
 configure:18251: checking for mysql_config
 configure:18289: result: no
 configure:18251: checking for mysql_config5
@@ -1361,7 +1367,7 @@ configure:18501: result: no
 configure:18505: checking for gearmand
 configure:18543: result: no
 configure:18664: checking for libgearman/gearman.h
-configure:18664: cc -c -g -O2   conftest.c >&5
+configure:18664: cc -c -Wno-error   conftest.c >&5
 conftest.c:104:10: fatal error: libgearman/gearman.h: No such file or directory
   104 | #include <libgearman/gearman.h>
       |          ^~~~~~~~~~~~~~~~~~~~~~
@@ -1474,17 +1480,17 @@ configure: failed program was:
 | #include <libgearman/gearman.h>
 configure:18664: result: no
 configure:18826: checking for location of cstdint
-configure:18925: c++ -std=c++0x -c  -g -O2  conftest.cpp >&5
+configure:18925: c++ -std=c++0x -c  -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow  conftest.cpp >&5
 configure:18925: $? = 0
 configure:19049: result: <cstdint>
 configure:19054: result: <cstdint>
 configure:19076: checking for location of cinttypes
-configure:19175: c++ -std=c++0x -c  -g -O2  conftest.cpp >&5
+configure:19175: c++ -std=c++0x -c  -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow  conftest.cpp >&5
 configure:19175: $? = 0
 configure:19305: result: <cinttypes>
 configure:19311: result: <cinttypes>
 configure:19338: checking whether byte ordering is bigendian
-configure:19354: cc -c -g -O2   conftest.c >&5
+configure:19354: cc -c -Wno-error   conftest.c >&5
 conftest.c:82:16: error: unknown type name 'not'
    82 |                not a universal capable compiler
       |                ^~~
@@ -1579,9 +1585,9 @@ configure: failed program was:
 | 	     #endif
 | 	     typedef int dummy;
 | 
-configure:19400: cc -c -g -O2   conftest.c >&5
+configure:19400: cc -c -Wno-error   conftest.c >&5
 configure:19400: $? = 0
-configure:19419: cc -c -g -O2   conftest.c >&5
+configure:19419: cc -c -Wno-error   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:88:18: error: unknown type name 'not'; did you mean 'ino_t'?
    88 |                  not big endian
@@ -1687,7 +1693,7 @@ configure: failed program was:
 | }
 configure:19553: result: no
 configure:19579: checking for htonll
-configure:19599: c++ -std=c++0x -c -g -O2  conftest.cpp >&5
+configure:19599: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow  conftest.cpp >&5
 conftest.cpp: In function 'int main()':
 conftest.cpp:88:9: error: 'htonll' was not declared in this scope; did you mean 'htonl'?
    88 |  return htonll(0)
@@ -1788,26 +1794,24 @@ configure: failed program was:
 | }
 configure:19608: result: no
 configure:19634: checking for working SO_SNDTIMEO
-configure:19682: cc -o conftest -g -O2    conftest.c  >&5
+configure:19682: cc -o conftest -Wno-error    conftest.c  >&5
 configure:19682: $? = 0
 configure:19682: ./conftest
 configure:19682: $? = 0
 configure:19708: result: yes
 configure:19711: checking for working SO_RCVTIMEO
-configure:19759: cc -o conftest -g -O2    conftest.c  >&5
+configure:19759: cc -o conftest -Wno-error    conftest.c  >&5
 configure:19759: $? = 0
 configure:19759: ./conftest
 configure:19759: $? = 0
 configure:19785: result: yes
 configure:19879: checking for supported struct padding
-configure:19908: c++ -std=c++0x -c -g -O2  conftest.cpp >&5
-conftest.cpp: In function 'int main()':
-conftest.cpp:95:11: error: duplicate case value
-   95 |           case sizeof(request.bytes):
-      |           ^~~~
-conftest.cpp:94:11: note: previously used here
-   94 |           case sizeof(request):
-      |           ^~~~
+configure:19908: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow  conftest.cpp >&5
+In file included from conftest.cpp:86:
+libmemcached/memcached/protocol_binary.h:39:10: fatal error: libmemcachedprotocol-0.0/vbucket.h: No such file or directory
+   39 | #include <libmemcachedprotocol-0.0/vbucket.h>
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
 configure:19908: $? = 1
 configure: failed program was:
 | /* confdefs.h */
@@ -1958,43 +1962,43 @@ configure:21101: result: no
 configure:21105: checking for genhtml
 configure:21143: result: no
 configure:21164: checking for library containing getopt_long
-configure:21194: cc -o conftest -g -O2    conftest.c  >&5
+configure:21194: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21194: $? = 0
 configure:21214: result: none required
 configure:21223: checking for library containing gethostbyname
-configure:21253: cc -o conftest -g -O2    conftest.c  >&5
+configure:21253: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21253: $? = 0
 configure:21273: result: none required
 configure:21352: checking for alarm
-configure:21352: cc -o conftest -g -O2    conftest.c  >&5
+configure:21352: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21352: $? = 0
 configure:21352: result: yes
 configure:21359: checking for atexit
-configure:21359: cc -o conftest -g -O2    conftest.c  >&5
+configure:21359: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21359: $? = 0
 configure:21359: result: yes
 configure:21366: checking for clock_gettime
-configure:21366: cc -o conftest -g -O2    conftest.c  >&5
+configure:21366: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21366: $? = 0
 configure:21366: result: yes
 configure:21373: checking for dup2
-configure:21373: cc -o conftest -g -O2    conftest.c  >&5
+configure:21373: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21373: $? = 0
 configure:21373: result: yes
 configure:21380: checking for fcntl
-configure:21380: cc -o conftest -g -O2    conftest.c  >&5
+configure:21380: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21380: $? = 0
 configure:21380: result: yes
 configure:21387: checking for floor
-configure:21387: cc -o conftest -g -O2    conftest.c  >&5
+configure:21387: cc -o conftest -Wno-error    conftest.c  >&5
 conftest.c:108:6: warning: conflicting types for built-in function 'floor'; expected 'double(double)' [-Wbuiltin-declaration-mismatch]
   108 | char floor ();
       |      ^~~~~
 conftest.c:100:1: note: 'floor' is declared in header '<math.h>'
    99 | #include <limits.h>
   100 | #undef floor
-/usr/bin/ld: /tmp/cclqELnc.o: in function `main':
-/home/cluster/yedam-cmd/libmemcached-konduck-/conftest.c:119: undefined reference to `floor'
+/usr/bin/ld: /tmp/ccfXzZda.o: in function `main':
+conftest.c:(.text+0xe): undefined reference to `floor'
 collect2: error: ld returned 1 exit status
 configure:21387: $? = 1
 configure: failed program was:
@@ -2122,23 +2126,23 @@ configure: failed program was:
 | }
 configure:21387: result: no
 configure:21394: checking for getcwd
-configure:21394: cc -o conftest -g -O2    conftest.c  >&5
+configure:21394: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21394: $? = 0
 configure:21394: result: yes
 configure:21401: checking for getline
-configure:21401: cc -o conftest -g -O2    conftest.c  >&5
+configure:21401: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21401: $? = 0
 configure:21401: result: yes
 configure:21408: checking for gettimeofday
-configure:21408: cc -o conftest -g -O2    conftest.c  >&5
+configure:21408: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21408: $? = 0
 configure:21408: result: yes
 configure:21415: checking for inet_ntoa
-configure:21415: cc -o conftest -g -O2    conftest.c  >&5
+configure:21415: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21415: $? = 0
 configure:21415: result: yes
 configure:21422: checking for memchr
-configure:21422: cc -o conftest -g -O2    conftest.c  >&5
+configure:21422: cc -o conftest -Wno-error    conftest.c  >&5
 conftest.c:112:6: warning: conflicting types for built-in function 'memchr'; expected 'void *(const void *, int,  long unsigned int)' [-Wbuiltin-declaration-mismatch]
   112 | char memchr ();
       |      ^~~~~~
@@ -2148,7 +2152,7 @@ conftest.c:104:1: note: 'memchr' is declared in header '<string.h>'
 configure:21422: $? = 0
 configure:21422: result: yes
 configure:21429: checking for memmove
-configure:21429: cc -o conftest -g -O2    conftest.c  >&5
+configure:21429: cc -o conftest -Wno-error    conftest.c  >&5
 conftest.c:113:6: warning: conflicting types for built-in function 'memmove'; expected 'void *(void *, const void *, long unsigned int)' [-Wbuiltin-declaration-mismatch]
   113 | char memmove ();
       |      ^~~~~~~
@@ -2158,7 +2162,7 @@ conftest.c:105:1: note: 'memmove' is declared in header '<string.h>'
 configure:21429: $? = 0
 configure:21429: result: yes
 configure:21436: checking for memset
-configure:21436: cc -o conftest -g -O2    conftest.c  >&5
+configure:21436: cc -o conftest -Wno-error    conftest.c  >&5
 conftest.c:114:6: warning: conflicting types for built-in function 'memset'; expected 'void *(void *, int,  long unsigned int)' [-Wbuiltin-declaration-mismatch]
   114 | char memset ();
       |      ^~~~~~
@@ -2168,39 +2172,39 @@ conftest.c:106:1: note: 'memset' is declared in header '<string.h>'
 configure:21436: $? = 0
 configure:21436: result: yes
 configure:21443: checking for pipe2
-configure:21443: cc -o conftest -g -O2    conftest.c  >&5
+configure:21443: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21443: $? = 0
 configure:21443: result: yes
 configure:21450: checking for putenv
-configure:21450: cc -o conftest -g -O2    conftest.c  >&5
+configure:21450: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21450: $? = 0
 configure:21450: result: yes
 configure:21457: checking for select
-configure:21457: cc -o conftest -g -O2    conftest.c  >&5
+configure:21457: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21457: $? = 0
 configure:21457: result: yes
 configure:21464: checking for setenv
-configure:21464: cc -o conftest -g -O2    conftest.c  >&5
+configure:21464: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21464: $? = 0
 configure:21464: result: yes
 configure:21471: checking for sigignore
-configure:21471: cc -o conftest -g -O2    conftest.c  >&5
+configure:21471: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21471: $? = 0
 configure:21471: result: yes
 configure:21478: checking for socket
-configure:21478: cc -o conftest -g -O2    conftest.c  >&5
+configure:21478: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21478: $? = 0
 configure:21478: result: yes
 configure:21485: checking for sqrt
-configure:21485: cc -o conftest -g -O2    conftest.c  >&5
+configure:21485: cc -o conftest -Wno-error    conftest.c  >&5
 conftest.c:121:6: warning: conflicting types for built-in function 'sqrt'; expected 'double(double)' [-Wbuiltin-declaration-mismatch]
   121 | char sqrt ();
       |      ^~~~
 conftest.c:113:1: note: 'sqrt' is declared in header '<math.h>'
   112 | #include <limits.h>
   113 | #undef sqrt
-/usr/bin/ld: /tmp/ccafd4Bd.o: in function `main':
-/home/cluster/yedam-cmd/libmemcached-konduck-/conftest.c:132: undefined reference to `sqrt'
+/usr/bin/ld: /tmp/cchlDNBm.o: in function `main':
+conftest.c:(.text+0xe): undefined reference to `sqrt'
 collect2: error: ld returned 1 exit status
 configure:21485: $? = 1
 configure: failed program was:
@@ -2341,14 +2345,14 @@ configure: failed program was:
 | }
 configure:21485: result: no
 configure:21492: checking for strcasecmp
-configure:21492: cc -o conftest -g -O2    conftest.c  >&5
+configure:21492: cc -o conftest -Wno-error    conftest.c  >&5
 conftest.c:121:6: warning: conflicting types for built-in function 'strcasecmp'; expected 'int(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
   121 | char strcasecmp ();
       |      ^~~~~~~~~~
 configure:21492: $? = 0
 configure:21492: result: yes
 configure:21499: checking for strchr
-configure:21499: cc -o conftest -g -O2    conftest.c  >&5
+configure:21499: cc -o conftest -Wno-error    conftest.c  >&5
 conftest.c:122:6: warning: conflicting types for built-in function 'strchr'; expected 'char *(const char *, int)' [-Wbuiltin-declaration-mismatch]
   122 | char strchr ();
       |      ^~~~~~
@@ -2358,18 +2362,18 @@ conftest.c:114:1: note: 'strchr' is declared in header '<string.h>'
 configure:21499: $? = 0
 configure:21499: result: yes
 configure:21506: checking for strdup
-configure:21506: cc -o conftest -g -O2    conftest.c  >&5
+configure:21506: cc -o conftest -Wno-error    conftest.c  >&5
 conftest.c:123:6: warning: conflicting types for built-in function 'strdup'; expected 'char *(const char *)' [-Wbuiltin-declaration-mismatch]
   123 | char strdup ();
       |      ^~~~~~
 configure:21506: $? = 0
 configure:21506: result: yes
 configure:21513: checking for strerror
-configure:21513: cc -o conftest -g -O2    conftest.c  >&5
+configure:21513: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21513: $? = 0
 configure:21513: result: yes
 configure:21520: checking for strstr
-configure:21520: cc -o conftest -g -O2    conftest.c  >&5
+configure:21520: cc -o conftest -Wno-error    conftest.c  >&5
 conftest.c:125:6: warning: conflicting types for built-in function 'strstr'; expected 'char *(const char *, const char *)' [-Wbuiltin-declaration-mismatch]
   125 | char strstr ();
       |      ^~~~~~
@@ -2379,21 +2383,21 @@ conftest.c:117:1: note: 'strstr' is declared in header '<string.h>'
 configure:21520: $? = 0
 configure:21520: result: yes
 configure:21527: checking for strtol
-configure:21527: cc -o conftest -g -O2    conftest.c  >&5
+configure:21527: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21527: $? = 0
 configure:21527: result: yes
 configure:21534: checking for strtoul
-configure:21534: cc -o conftest -g -O2    conftest.c  >&5
+configure:21534: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21534: $? = 0
 configure:21534: result: yes
 configure:21541: checking for strtoull
-configure:21541: cc -o conftest -g -O2    conftest.c  >&5
+configure:21541: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21541: $? = 0
 configure:21541: result: yes
 configure:21548: checking for size_t
-configure:21548: cc -c -g -O2   conftest.c >&5
+configure:21548: cc -c -Wno-error   conftest.c >&5
 configure:21548: $? = 0
-configure:21548: cc -c -g -O2   conftest.c >&5
+configure:21548: cc -c -Wno-error   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:144:21: error: expected expression before ')' token
   144 | if (sizeof ((size_t)))
@@ -2550,19 +2554,19 @@ configure: failed program was:
 | }
 configure:21548: result: yes
 configure:21560: checking for working alloca.h
-configure:21578: cc -o conftest -g -O2    conftest.c  >&5
+configure:21578: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21578: $? = 0
 configure:21587: result: yes
 configure:21595: checking for alloca
 configure:21640: result: yes
 configure:21707: checking for error_at_line
-configure:21724: cc -o conftest -g -O2    conftest.c  >&5
+configure:21724: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21724: $? = 0
 configure:21733: result: yes
 configure:21745: checking for pid_t
-configure:21745: cc -c -g -O2   conftest.c >&5
+configure:21745: cc -c -Wno-error   conftest.c >&5
 configure:21745: $? = 0
-configure:21745: cc -c -g -O2   conftest.c >&5
+configure:21745: cc -c -Wno-error   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:147:20: error: expected expression before ')' token
   147 | if (sizeof ((pid_t)))
@@ -2722,18 +2726,18 @@ configure: failed program was:
 | }
 configure:21745: result: yes
 configure:21786: checking for fork
-configure:21786: cc -o conftest -g -O2    conftest.c  >&5
+configure:21786: cc -o conftest -Wno-error    conftest.c  >&5
 conftest.c:131:6: warning: conflicting types for built-in function 'fork'; expected 'int(void)' [-Wbuiltin-declaration-mismatch]
   131 | char fork ();
       |      ^~~~
 configure:21786: $? = 0
 configure:21786: result: yes
 configure:21786: checking for vfork
-configure:21786: cc -o conftest -g -O2    conftest.c  >&5
+configure:21786: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21786: $? = 0
 configure:21786: result: yes
 configure:21799: checking for working fork
-configure:21823: cc -o conftest -g -O2    conftest.c  >&5
+configure:21823: cc -o conftest -Wno-error    conftest.c  >&5
 configure:21823: $? = 0
 configure:21823: ./conftest
 configure:21823: $? = 0
@@ -2741,7 +2745,7 @@ configure:21834: result: yes
 configure:21855: checking for working vfork
 configure:21984: result: yes
 configure:22009: checking for cc options needed to detect all undeclared functions
-configure:22031: cc -c -g -O2    conftest.c >&5
+configure:22031: cc -c -Wno-error    conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:123:8: error: 'strchr' undeclared (first use in this function)
   123 | (void) strchr;
@@ -2879,19 +2883,19 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:22058: cc -c -g -O2    conftest.c >&5
+configure:22058: cc -c -Wno-error    conftest.c >&5
 configure:22058: $? = 0
 configure:22075: result: none needed
 configure:22089: checking whether strerror_r is declared
-configure:22089: cc -c -g -O2    conftest.c >&5
+configure:22089: cc -c -Wno-error    conftest.c >&5
 configure:22089: $? = 0
 configure:22089: result: yes
 configure:22108: checking whether strerror_r returns char *
-configure:22133: cc -c -g -O2   conftest.c >&5
+configure:22133: cc -c -Wno-error   conftest.c >&5
 configure:22133: $? = 0
 configure:22142: result: yes
 configure:22151: checking for umem.h
-configure:22151: cc -c -g -O2   conftest.c >&5
+configure:22151: cc -c -Wno-error   conftest.c >&5
 conftest.c:150:10: fatal error: umem.h: No such file or directory
   150 | #include <umem.h>
       |          ^~~~~~~~
@@ -3050,7 +3054,7 @@ configure: failed program was:
 | #include <umem.h>
 configure:22151: result: no
 configure:22172: checking for C compiler vendor
-configure:22219: cc -c -g -O2   conftest.c >&5
+configure:22219: cc -c -Wno-error   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:128:9: error: 'thisisanerror' undeclared (first use in this function)
   128 |         thisisanerror;
@@ -3191,7 +3195,7 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:22219: cc -c -g -O2   conftest.c >&5
+configure:22219: cc -c -Wno-error   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:128:9: error: 'thisisanerror' undeclared (first use in this function)
   128 |         thisisanerror;
@@ -3332,7 +3336,7 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:22219: cc -c -g -O2   conftest.c >&5
+configure:22219: cc -c -Wno-error   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:128:9: error: 'thisisanerror' undeclared (first use in this function)
   128 |         thisisanerror;
@@ -3473,7 +3477,7 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:22219: cc -c -g -O2   conftest.c >&5
+configure:22219: cc -c -Wno-error   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:128:9: error: 'thisisanerror' undeclared (first use in this function)
   128 |         thisisanerror;
@@ -3614,7 +3618,7 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:22219: cc -c -g -O2   conftest.c >&5
+configure:22219: cc -c -Wno-error   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:128:9: error: 'thisisanerror' undeclared (first use in this function)
   128 |         thisisanerror;
@@ -3755,13 +3759,13 @@ configure: failed program was:
 |   ;
 |   return 0;
 | }
-configure:22219: cc -c -g -O2   conftest.c >&5
+configure:22219: cc -c -Wno-error   conftest.c >&5
 configure:22219: $? = 0
 configure:22228: result: gnu
 configure:22232: checking for in_port_t
-configure:22232: cc -c -g -O2   conftest.c >&5
+configure:22232: cc -c -Wno-error   conftest.c >&5
 configure:22232: $? = 0
-configure:22232: cc -c -g -O2   conftest.c >&5
+configure:22232: cc -c -Wno-error   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:136:24: error: expected expression before ')' token
   136 | if (sizeof ((in_port_t)))
@@ -3910,9 +3914,9 @@ configure: failed program was:
 | }
 configure:22232: result: yes
 configure:22251: checking for ptrdiff_t
-configure:22251: cc -c -g -O2   conftest.c >&5
+configure:22251: cc -c -Wno-error   conftest.c >&5
 configure:22251: $? = 0
-configure:22251: cc -c -g -O2   conftest.c >&5
+configure:22251: cc -c -Wno-error   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:154:24: error: expected expression before ')' token
   154 | if (sizeof ((ptrdiff_t)))
@@ -4079,9 +4083,9 @@ configure: failed program was:
 | }
 configure:22251: result: yes
 configure:22260: checking for _Bool
-configure:22260: cc -c -g -O2   conftest.c >&5
+configure:22260: cc -c -Wno-error   conftest.c >&5
 configure:22260: $? = 0
-configure:22260: cc -c -g -O2   conftest.c >&5
+configure:22260: cc -c -Wno-error   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:155:20: error: expected expression before ')' token
   155 | if (sizeof ((_Bool)))
@@ -4249,13 +4253,13 @@ configure: failed program was:
 | }
 configure:22260: result: yes
 configure:22269: checking for stdbool.h that conforms to C99
-configure:22385: cc -c -g -O2   conftest.c >&5
+configure:22385: cc -c -Wno-error   conftest.c >&5
 configure:22385: $? = 0
 configure:22393: result: yes
 configure:22402: checking for int16_t
-configure:22402: cc -c -g -O2   conftest.c >&5
+configure:22402: cc -c -Wno-error   conftest.c >&5
 configure:22402: $? = 0
-configure:22402: cc -c -g -O2   conftest.c >&5
+configure:22402: cc -c -Wno-error   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:158:12: error: size of array 'test_array' is negative
   158 | static int test_array [1 - 2 * !((int16_t) (((((int16_t) 1 << N) << N) - 1) * 2 + 1)
@@ -4429,9 +4433,9 @@ configure: failed program was:
 | }
 configure:22402: result: yes
 configure:22411: checking for int32_t
-configure:22411: cc -c -g -O2   conftest.c >&5
+configure:22411: cc -c -Wno-error   conftest.c >&5
 configure:22411: $? = 0
-configure:22411: cc -c -g -O2   conftest.c >&5
+configure:22411: cc -c -Wno-error   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:159:67: warning: integer overflow in expression of type 'int' results in '-2147483648' [-Woverflow]
   159 |                  < (int32_t) (((((int32_t) 1 << N) << N) - 1) * 2 + 2))];
@@ -4608,9 +4612,9 @@ configure: failed program was:
 | }
 configure:22411: result: yes
 configure:22420: checking for int64_t
-configure:22420: cc -c -g -O2   conftest.c >&5
+configure:22420: cc -c -Wno-error   conftest.c >&5
 configure:22420: $? = 0
-configure:22420: cc -c -g -O2   conftest.c >&5
+configure:22420: cc -c -Wno-error   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:159:67: warning: integer overflow in expression of type 'long int' results in '-9223372036854775808' [-Woverflow]
   159 |                  < (int64_t) (((((int64_t) 1 << N) << N) - 1) * 2 + 2))];
@@ -4787,9 +4791,9 @@ configure: failed program was:
 | }
 configure:22420: result: yes
 configure:22429: checking for int8_t
-configure:22429: cc -c -g -O2   conftest.c >&5
+configure:22429: cc -c -Wno-error   conftest.c >&5
 configure:22429: $? = 0
-configure:22429: cc -c -g -O2   conftest.c >&5
+configure:22429: cc -c -Wno-error   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:158:12: error: size of array 'test_array' is negative
   158 | static int test_array [1 - 2 * !((int8_t) (((((int8_t) 1 << N) << N) - 1) * 2 + 1)
@@ -4963,9 +4967,9 @@ configure: failed program was:
 | }
 configure:22429: result: yes
 configure:22438: checking for off_t
-configure:22438: cc -c -g -O2   conftest.c >&5
+configure:22438: cc -c -Wno-error   conftest.c >&5
 configure:22438: $? = 0
-configure:22438: cc -c -g -O2   conftest.c >&5
+configure:22438: cc -c -Wno-error   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:157:20: error: expected expression before ')' token
   157 | if (sizeof ((off_t)))
@@ -5137,9 +5141,9 @@ configure:22438: result: yes
 configure:22449: checking for pid_t
 configure:22449: result: yes
 configure:22485: checking for ssize_t
-configure:22485: cc -c -g -O2   conftest.c >&5
+configure:22485: cc -c -Wno-error   conftest.c >&5
 configure:22485: $? = 0
-configure:22485: cc -c -g -O2   conftest.c >&5
+configure:22485: cc -c -Wno-error   conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:157:22: error: expected expression before ')' token
   157 | if (sizeof ((ssize_t)))
@@ -5309,41 +5313,41 @@ configure: failed program was:
 | }
 configure:22485: result: yes
 configure:22495: checking for uint16_t
-configure:22495: cc -c -g -O2   conftest.c >&5
+configure:22495: cc -c -Wno-error   conftest.c >&5
 configure:22495: $? = 0
 configure:22495: result: yes
 configure:22505: checking for uint32_t
-configure:22505: cc -c -g -O2   conftest.c >&5
+configure:22505: cc -c -Wno-error   conftest.c >&5
 configure:22505: $? = 0
 configure:22505: result: yes
 configure:22517: checking for uint64_t
-configure:22517: cc -c -g -O2   conftest.c >&5
+configure:22517: cc -c -Wno-error   conftest.c >&5
 configure:22517: $? = 0
 configure:22517: result: yes
 configure:22529: checking for uint8_t
-configure:22529: cc -c -g -O2   conftest.c >&5
+configure:22529: cc -c -Wno-error   conftest.c >&5
 configure:22529: $? = 0
 configure:22529: result: yes
 configure:22542: checking whether byte ordering is bigendian
 configure:22757: result: no
 configure:22775: checking for an ANSI C-conforming const
-configure:22842: cc -c -g -O2   conftest.c >&5
+configure:22842: cc -c -Wno-error   conftest.c >&5
 configure:22842: $? = 0
 configure:22850: result: yes
 configure:22858: checking for inline
-configure:22875: cc -c -g -O2   conftest.c >&5
+configure:22875: cc -c -Wno-error   conftest.c >&5
 configure:22875: $? = 0
 configure:22884: result: inline
 configure:22902: checking for working volatile
-configure:22922: cc -c -g -O2   conftest.c >&5
+configure:22922: cc -c -Wno-error   conftest.c >&5
 configure:22922: $? = 0
 configure:22930: result: yes
 configure:22938: checking for C/C++ restrict keyword
-configure:22968: cc -c -g -O2   conftest.c >&5
+configure:22968: cc -c -Wno-error   conftest.c >&5
 configure:22968: $? = 0
 configure:22977: result: __restrict__
 configure:22989: checking whether the compiler supports GCC C++ ABI name demangling
-configure:23034: c++ -std=c++0x -o conftest -g -O2   conftest.cpp  >&5
+configure:23034: c++ -std=c++0x -o conftest -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow   conftest.cpp  >&5
 configure:23034: $? = 0
 configure:23034: ./conftest
 configure:23034: $? = 0
@@ -5351,17 +5355,17 @@ configure:23051: result: yes
 configure:23053: checking checking for cxx_gcc_abi_demangle
 configure:23055: result: "yes"
 configure:23065: checking test for a working libevent
-configure:23172: cc -o conftest -g -O2    conftest.c -levent  >&5
+configure:23172: cc -o conftest -Wno-error    conftest.c -levent  >&5
 configure:23172: $? = 0
 configure:23172: ./conftest
 configure:23172: $? = 0
 configure:23243: result: yes
 configure:23274: checking for clock_gettime in -lrt
-configure:23297: cc -o conftest -g -O2    conftest.c -lrt   >&5
+configure:23297: cc -o conftest -Wno-error    conftest.c -lrt   >&5
 configure:23297: $? = 0
 configure:23307: result: yes
 configure:23324: checking for atomic.h
-configure:23324: cc -c -g -O2   conftest.c >&5
+configure:23324: cc -c -Wno-error   conftest.c >&5
 conftest.c:158:10: fatal error: atomic.h: No such file or directory
   158 | #include <atomic.h>
       |          ^~~~~~~~~~
@@ -5528,9 +5532,9 @@ configure: failed program was:
 | #include <atomic.h>
 configure:23324: result: no
 configure:23383: checking for setppriv
-configure:23383: cc -o conftest -g -O2    conftest.c  >&5
-/usr/bin/ld: /tmp/ccie9lT0.o: in function `main':
-/home/cluster/yedam-cmd/libmemcached-konduck-/conftest.c:163: undefined reference to `setppriv'
+configure:23383: cc -o conftest -Wno-error    conftest.c  >&5
+/usr/bin/ld: /tmp/ccy4PFpO.o: in function `main':
+conftest.c:(.text+0xe): undefined reference to `setppriv'
 collect2: error: ld returned 1 exit status
 configure:23383: $? = 1
 configure: failed program was:
@@ -5702,19 +5706,19 @@ configure: failed program was:
 | }
 configure:23383: result: no
 configure:23424: checking for MSG_NOSIGNAL
-configure:23519: cc -c -g -O2  -I.  conftest.c >&5
+configure:23519: cc -c -Wno-error  -I.  conftest.c >&5
 configure:23519: $? = 0
 configure:23584: result: yes
 configure:23587: checking for MSG_DONTWAIT
-configure:23682: cc -c -g -O2  -I.  conftest.c >&5
+configure:23682: cc -c -Wno-error  -I.  conftest.c >&5
 configure:23682: $? = 0
 configure:23747: result: yes
 configure:23750: checking for MSG_MORE
-configure:23844: cc -c -g -O2  -I.  conftest.c >&5
+configure:23844: cc -c -Wno-error  -I.  conftest.c >&5
 configure:23844: $? = 0
 configure:23909: result: yes
 configure:23932: checking for uuid/uuid.h
-configure:23932: cc -c -g -O2   conftest.c >&5
+configure:23932: cc -c -Wno-error   conftest.c >&5
 conftest.c:167:10: fatal error: uuid/uuid.h: No such file or directory
   167 | #include <uuid/uuid.h>
       |          ^~~~~~~~~~~~~
@@ -5890,7 +5894,7 @@ configure: failed program was:
 | #include <uuid/uuid.h>
 configure:23932: result: no
 configure:24209: checking for uuid_generate_time_safe
-configure:24312: cc -o conftest -g -O2    conftest.c   >&5
+configure:24312: cc -o conftest -Wno-error    conftest.c   >&5
 conftest.c:141:20: fatal error: uuid/uuid.h: No such file or directory
   141 |           #include <uuid/uuid.h>
       |                    ^~~~~~~~~~~~~
@@ -6051,7 +6055,7 @@ configure: failed program was:
 | }
 configure:24383: result: no
 configure:24488: checking for sasl/sasl.h
-configure:24488: cc -c -g -O2   conftest.c >&5
+configure:24488: cc -c -Wno-error   conftest.c >&5
 conftest.c:169:10: fatal error: sasl/sasl.h: No such file or directory
   169 | #include <sasl/sasl.h>
       |          ^~~~~~~~~~~~~
@@ -6231,7 +6235,7 @@ configure:24488: result: no
 configure:24608: checking checking to see if sasl works
 configure:24610: result: "no"
 configure:24729: checking if compiler needs -Werror to reject unknown flags
-configure:24745: cc -c -g -O2  -Werror -Wunknown-warning-option -Wsizeof-array-argument  conftest.c >&5
+configure:24745: cc -c -Wno-error  -Werror -Wunknown-warning-option -Wsizeof-array-argument  conftest.c >&5
 cc: error: unrecognized command-line option '-Wunknown-warning-option'
 configure:24745: $? = 1
 configure: failed program was:
@@ -6385,7 +6389,7 @@ configure: failed program was:
 | }
 configure:24751: result: no
 configure:24822: checking for the pthreads library -lpthreads
-configure:24860: cc -o conftest -g -O2      conftest.c -lpthreads  >&5
+configure:24860: cc -o conftest -Wno-error      conftest.c -lpthreads  >&5
 /usr/bin/ld: cannot find -lpthreads: No such file or directory
 collect2: error: ld returned 1 exit status
 configure:24860: $? = 1
@@ -6547,17 +6551,17 @@ configure: failed program was:
 | }
 configure:24870: result: no
 configure:24762: checking whether pthreads work without any flags
-configure:24860: cc -o conftest -g -O2      conftest.c   >&5
+configure:24860: cc -o conftest -Wno-error      conftest.c   >&5
 configure:24860: $? = 0
 configure:24870: result: yes
 configure:24889: checking for joinable pthread attribute
-configure:24904: cc -o conftest -g -O2     conftest.c   >&5
+configure:24904: cc -o conftest -Wno-error     conftest.c   >&5
 configure:24904: $? = 0
 configure:24911: result: PTHREAD_CREATE_JOINABLE
 configure:24919: checking if more special flags are required for pthreads
 configure:24934: result: no
 configure:24940: checking for PTHREAD_PRIO_INHERIT
-configure:24958: cc -o conftest -g -O2     conftest.c   >&5
+configure:24958: cc -o conftest -Wno-error     conftest.c   >&5
 configure:24958: $? = 0
 configure:24968: result: yes
 configure:25075: checking check for pthread_timedjoin_np
@@ -6568,7 +6572,7 @@ configure:25280: checking checking to see if enabling sasl
 configure:25288: WARNING: request to add sasl support failed, please see config.log
 configure:25293: result: "no"
 configure:25479: checking whether the compiler provides atomic builtins
-configure:25593: cc -o conftest -g -O2    conftest.c  >&5
+configure:25593: cc -o conftest -Wno-error    conftest.c  >&5
 configure:25593: $? = 0
 configure:25593: ./conftest
 configure:25593: $? = 0
@@ -6583,7 +6587,7 @@ configure:25979: checking C++ Compiler version
 configure:25997: result: "c++ (Ubuntu 11.4.0-1ubuntu1~22.04.2) 11.4.0"
 configure:26006: checking MINGW
 configure:26008: checking whether __MINGW32__ is declared
-configure:26008: cc -c -g -O2    conftest.c >&5
+configure:26008: cc -c -Wno-error    conftest.c >&5
 conftest.c: In function 'main':
 conftest.c:180:10: error: '__MINGW32__' undeclared (first use in this function)
   180 |   (void) __MINGW32__;
@@ -6779,7 +6783,7 @@ configure: failed program was:
 | }
 configure:26008: result: no
 configure:26016: result: no
-configure:26038: cc -c -g -O2   conftest.c >&5
+configure:26038: cc -c -Wno-error   conftest.c >&5
 conftest.c:147:3: error: #error GCC is Too Old!
   147 | # error GCC is Too Old!
       |   ^~~~~
@@ -6942,11 +6946,11 @@ configure: failed program was:
 |   return 0;
 | }
 configure:26053: checking whether the -Werror option is usable
-configure:26073: cc -c -g -O2  -Werror  conftest.c >&5
+configure:26073: cc -c -Wno-error  -Werror  conftest.c >&5
 configure:26073: $? = 0
 configure:26083: result: yes
 configure:26085: checking for simple visibility declarations
-configure:26113: cc -c -g -O2  -fvisibility=hidden -Werror  conftest.c >&5
+configure:26113: cc -c -Wno-error  -fvisibility=hidden -Werror  conftest.c >&5
 configure:26113: $? = 0
 configure:26123: result: yes
 configure:26139: checking if all warnings into errors
@@ -6954,7 +6958,7 @@ configure:26153: result: yes
 configure:26187: checking if all warnings into errors
 configure:26201: result: yes
 configure:26210: checking whether the linker accepts -z
-configure:26230: cc -o conftest -g -O2   -fvisibility=hidden  -Werror -z conftest.c  >&5
+configure:26230: cc -o conftest -Wno-error   -fvisibility=hidden  -Werror -z conftest.c  >&5
 cc: fatal error: no input files
 compilation terminated.
 configure:26230: $? = 1
@@ -7114,7 +7118,7 @@ configure: failed program was:
 | }
 configure:26241: result: no
 configure:26210: checking whether the linker accepts relro
-configure:26230: cc -o conftest -g -O2   -fvisibility=hidden  -Werror relro conftest.c  >&5
+configure:26230: cc -o conftest -Wno-error   -fvisibility=hidden  -Werror relro conftest.c  >&5
 /usr/bin/ld: cannot find relro: No such file or directory
 collect2: error: ld returned 1 exit status
 configure:26230: $? = 1
@@ -7276,7 +7280,7 @@ configure:26241: result: no
 configure:26210: checking whether the linker accepts -z
 configure:26241: result: no
 configure:26210: checking whether the linker accepts now
-configure:26230: cc -o conftest -g -O2   -fvisibility=hidden  -Werror now conftest.c  >&5
+configure:26230: cc -o conftest -Wno-error   -fvisibility=hidden  -Werror now conftest.c  >&5
 /usr/bin/ld: cannot find now: No such file or directory
 collect2: error: ld returned 1 exit status
 configure:26230: $? = 1
@@ -7436,31 +7440,31 @@ configure: failed program was:
 | }
 configure:26241: result: no
 configure:26281: checking whether the linker accepts -Werror
-configure:26301: cc -o conftest -g -O2   -fvisibility=hidden   -Werror conftest.c  >&5
+configure:26301: cc -o conftest -Wno-error   -fvisibility=hidden   -Werror conftest.c  >&5
 configure:26301: $? = 0
 configure:26312: result: yes
 configure:26327: : LDFLAGS="$LDFLAGS $flag"
 configure:26330: $? = 0
 configure:26352: checking whether the linker accepts -rdynamic
-configure:26372: cc -o conftest -g -O2   -fvisibility=hidden  -Werror -Werror -rdynamic conftest.c  >&5
+configure:26372: cc -o conftest -Wno-error   -fvisibility=hidden  -Werror -Werror -rdynamic conftest.c  >&5
 configure:26372: $? = 0
 configure:26383: result: yes
 configure:26398: : LDFLAGS="$LDFLAGS $flag"
 configure:26401: $? = 0
 configure:26846: checking whether C compiler accepts -g
-configure:26866: cc -c -g -O2  -Werror -g  -fvisibility=hidden conftest.c >&5
+configure:26866: cc -c -Wno-error  -Werror -g  -fvisibility=hidden conftest.c >&5
 configure:26866: $? = 0
 configure:26876: result: yes
-configure:26884: : CFLAGS already contains $flag
-configure:26887: $? = 0
+configure:26891: : CFLAGS="$CFLAGS $flag"
+configure:26894: $? = 0
 configure:26914: checking whether C compiler accepts -O2
-configure:26934: cc -c -g -O2  -Werror -O2  -fvisibility=hidden conftest.c >&5
+configure:26934: cc -c -Wno-error  -g -Werror -O2  -fvisibility=hidden conftest.c >&5
 configure:26934: $? = 0
 configure:26944: result: yes
-configure:26952: : CFLAGS already contains $flag
-configure:26955: $? = 0
+configure:26959: : CFLAGS="$CFLAGS $flag"
+configure:26962: $? = 0
 configure:26987: checking whether C compiler accepts -fstack-check
-configure:27007: cc -c -g -O2  -Werror -fstack-check  -fvisibility=hidden conftest.c >&5
+configure:27007: cc -c -Wno-error  -g -O2 -Werror -fstack-check  -fvisibility=hidden conftest.c >&5
 cc1: error: '-fstack-check=' and '-fstack-clash_protection' are mutually exclusive; disabling '-fstack-check=' [-Werror]
 cc1: all warnings being treated as errors
 configure:27007: $? = 1
@@ -7620,31 +7624,31 @@ configure: failed program was:
 | }
 configure:27017: result: no
 configure:27056: checking whether C compiler accepts -Wpragmas
-configure:27076: cc -c -g -O2  -Werror -Wpragmas  -fvisibility=hidden conftest.c >&5
+configure:27076: cc -c -Wno-error  -g -O2 -Werror -Wpragmas  -fvisibility=hidden conftest.c >&5
 configure:27076: $? = 0
 configure:27086: result: yes
 configure:27101: : CFLAGS="$CFLAGS $flag"
 configure:27104: $? = 0
 configure:27124: checking whether C compiler accepts -Wunknown-pragmas
-configure:27144: cc -c -g -O2  -Wpragmas -Werror -Wunknown-pragmas  -fvisibility=hidden conftest.c >&5
+configure:27144: cc -c -Wno-error  -g -O2 -Wpragmas -Werror -Wunknown-pragmas  -fvisibility=hidden conftest.c >&5
 configure:27144: $? = 0
 configure:27154: result: yes
 configure:27169: : CFLAGS="$CFLAGS $flag"
 configure:27172: $? = 0
 configure:27403: checking whether C compiler accepts -Wall
-configure:27423: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Werror -Wall  -fvisibility=hidden conftest.c >&5
+configure:27423: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Werror -Wall  -fvisibility=hidden conftest.c >&5
 configure:27423: $? = 0
 configure:27433: result: yes
 configure:27448: : CFLAGS="$CFLAGS $flag"
 configure:27451: $? = 0
 configure:27471: checking whether C compiler accepts -Wextra
-configure:27491: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Werror -Wextra  -fvisibility=hidden conftest.c >&5
+configure:27491: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Werror -Wextra  -fvisibility=hidden conftest.c >&5
 configure:27491: $? = 0
 configure:27501: result: yes
 configure:27516: : CFLAGS="$CFLAGS $flag"
 configure:27519: $? = 0
 configure:27539: checking whether C compiler accepts -Weverything
-configure:27559: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Werror -Weverything  -fvisibility=hidden conftest.c >&5
+configure:27559: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Werror -Weverything  -fvisibility=hidden conftest.c >&5
 cc: error: unrecognized command-line option '-Weverything'
 configure:27559: $? = 1
 configure: failed program was:
@@ -7803,7 +7807,7 @@ configure: failed program was:
 | }
 configure:27569: result: no
 configure:27607: checking whether C compiler accepts -Wthis-test-should-fail
-configure:27627: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Werror -Wthis-test-should-fail  -fvisibility=hidden conftest.c >&5
+configure:27627: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Werror -Wthis-test-should-fail  -fvisibility=hidden conftest.c >&5
 cc: error: unrecognized command-line option '-Wthis-test-should-fail'
 configure:27627: $? = 1
 configure: failed program was:
@@ -7962,157 +7966,157 @@ configure: failed program was:
 | }
 configure:27637: result: no
 configure:27677: checking whether C compiler accepts -Wunsuffixed-float-constants
-configure:27697: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Werror -Wunsuffixed-float-constants  -fvisibility=hidden conftest.c >&5
+configure:27697: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Werror -Wunsuffixed-float-constants  -fvisibility=hidden conftest.c >&5
 configure:27697: $? = 0
 configure:27707: result: yes
 configure:27722: : CFLAGS="$CFLAGS $flag"
 configure:27725: $? = 0
 configure:27745: checking whether C compiler accepts -Wjump-misses-init
-configure:27765: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Werror -Wjump-misses-init  -fvisibility=hidden conftest.c >&5
+configure:27765: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Werror -Wjump-misses-init  -fvisibility=hidden conftest.c >&5
 configure:27765: $? = 0
 configure:27775: result: yes
 configure:27790: : CFLAGS="$CFLAGS $flag"
 configure:27793: $? = 0
 configure:27813: checking whether C compiler accepts -Wno-attributes
-configure:27833: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Werror -Wno-attributes  -fvisibility=hidden conftest.c >&5
+configure:27833: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Werror -Wno-attributes  -fvisibility=hidden conftest.c >&5
 configure:27833: $? = 0
 configure:27843: result: yes
 configure:27858: : CFLAGS="$CFLAGS $flag"
 configure:27861: $? = 0
 configure:27881: checking whether C compiler accepts -Waddress
-configure:27901: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Werror -Waddress  -fvisibility=hidden conftest.c >&5
+configure:27901: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Werror -Waddress  -fvisibility=hidden conftest.c >&5
 configure:27901: $? = 0
 configure:27911: result: yes
 configure:27926: : CFLAGS="$CFLAGS $flag"
 configure:27929: $? = 0
 configure:27949: checking whether C compiler accepts -Wvarargs
-configure:27969: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Werror -Wvarargs  -fvisibility=hidden conftest.c >&5
+configure:27969: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Werror -Wvarargs  -fvisibility=hidden conftest.c >&5
 configure:27969: $? = 0
 configure:27979: result: yes
 configure:27994: : CFLAGS="$CFLAGS $flag"
 configure:27997: $? = 0
 configure:28017: checking whether C compiler accepts -Warray-bounds
-configure:28037: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Werror -Warray-bounds  -fvisibility=hidden conftest.c >&5
+configure:28037: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Werror -Warray-bounds  -fvisibility=hidden conftest.c >&5
 configure:28037: $? = 0
 configure:28047: result: yes
 configure:28062: : CFLAGS="$CFLAGS $flag"
 configure:28065: $? = 0
 configure:28085: checking whether C compiler accepts -Wbad-function-cast
-configure:28105: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Werror -Wbad-function-cast  -fvisibility=hidden conftest.c >&5
+configure:28105: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Werror -Wbad-function-cast  -fvisibility=hidden conftest.c >&5
 configure:28105: $? = 0
 configure:28115: result: yes
 configure:28130: : CFLAGS="$CFLAGS $flag"
 configure:28133: $? = 0
 configure:28154: checking whether C compiler accepts -Wchar-subscripts
-configure:28174: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Werror -Wchar-subscripts  -fvisibility=hidden conftest.c >&5
+configure:28174: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Werror -Wchar-subscripts  -fvisibility=hidden conftest.c >&5
 configure:28174: $? = 0
 configure:28184: result: yes
 configure:28199: : CFLAGS="$CFLAGS $flag"
 configure:28202: $? = 0
 configure:28222: checking whether C compiler accepts -Wcomment
-configure:28242: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Werror -Wcomment  -fvisibility=hidden conftest.c >&5
+configure:28242: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Werror -Wcomment  -fvisibility=hidden conftest.c >&5
 configure:28242: $? = 0
 configure:28252: result: yes
 configure:28267: : CFLAGS="$CFLAGS $flag"
 configure:28270: $? = 0
 configure:28290: checking whether C compiler accepts -Wfloat-equal
-configure:28310: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Werror -Wfloat-equal  -fvisibility=hidden conftest.c >&5
+configure:28310: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Werror -Wfloat-equal  -fvisibility=hidden conftest.c >&5
 configure:28310: $? = 0
 configure:28320: result: yes
 configure:28335: : CFLAGS="$CFLAGS $flag"
 configure:28338: $? = 0
 configure:28358: checking whether C compiler accepts -Wformat-security
-configure:28378: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Werror -Wformat-security  -fvisibility=hidden conftest.c >&5
+configure:28378: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Werror -Wformat-security  -fvisibility=hidden conftest.c >&5
 configure:28378: $? = 0
 configure:28388: result: yes
 configure:28403: : CFLAGS="$CFLAGS $flag"
 configure:28406: $? = 0
 configure:28426: checking whether C compiler accepts -Wformat=2
-configure:28446: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Werror -Wformat=2  -fvisibility=hidden conftest.c >&5
+configure:28446: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Werror -Wformat=2  -fvisibility=hidden conftest.c >&5
 configure:28446: $? = 0
 configure:28456: result: yes
 configure:28471: : CFLAGS="$CFLAGS $flag"
 configure:28474: $? = 0
 configure:28494: checking whether C compiler accepts -Wformat-y2k
-configure:28514: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Werror -Wformat-y2k  -fvisibility=hidden conftest.c >&5
+configure:28514: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Werror -Wformat-y2k  -fvisibility=hidden conftest.c >&5
 configure:28514: $? = 0
 configure:28524: result: yes
 configure:28539: : CFLAGS="$CFLAGS $flag"
 configure:28542: $? = 0
 configure:28562: checking whether C compiler accepts -Wlogical-op
-configure:28582: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Werror -Wlogical-op  -fvisibility=hidden conftest.c >&5
+configure:28582: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Werror -Wlogical-op  -fvisibility=hidden conftest.c >&5
 configure:28582: $? = 0
 configure:28592: result: yes
 configure:28607: : CFLAGS="$CFLAGS $flag"
 configure:28610: $? = 0
 configure:28630: checking whether C compiler accepts -Wmaybe-uninitialized
-configure:28650: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Werror -Wmaybe-uninitialized  -fvisibility=hidden conftest.c >&5
+configure:28650: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Werror -Wmaybe-uninitialized  -fvisibility=hidden conftest.c >&5
 configure:28650: $? = 0
 configure:28660: result: yes
 configure:28675: : CFLAGS="$CFLAGS $flag"
 configure:28678: $? = 0
 configure:28698: checking whether C compiler accepts -Wmissing-field-initializers
-configure:28718: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Werror -Wmissing-field-initializers  -fvisibility=hidden conftest.c >&5
+configure:28718: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Werror -Wmissing-field-initializers  -fvisibility=hidden conftest.c >&5
 configure:28718: $? = 0
 configure:28728: result: yes
 configure:28743: : CFLAGS="$CFLAGS $flag"
 configure:28746: $? = 0
 configure:28837: checking whether C compiler accepts -Wmissing-noreturn
-configure:28857: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Werror -Wmissing-noreturn  -fvisibility=hidden conftest.c >&5
+configure:28857: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Werror -Wmissing-noreturn  -fvisibility=hidden conftest.c >&5
 configure:28857: $? = 0
 configure:28867: result: yes
 configure:28882: : CFLAGS="$CFLAGS $flag"
 configure:28885: $? = 0
 configure:28906: checking whether C compiler accepts -Wmissing-prototypes
-configure:28926: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Werror -Wmissing-prototypes  -fvisibility=hidden conftest.c >&5
+configure:28926: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Werror -Wmissing-prototypes  -fvisibility=hidden conftest.c >&5
 configure:28926: $? = 0
 configure:28936: result: yes
 configure:28951: : CFLAGS="$CFLAGS $flag"
 configure:28954: $? = 0
 configure:28974: checking whether C compiler accepts -Wnested-externs
-configure:28994: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Werror -Wnested-externs  -fvisibility=hidden conftest.c >&5
+configure:28994: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Werror -Wnested-externs  -fvisibility=hidden conftest.c >&5
 configure:28994: $? = 0
 configure:29004: result: yes
 configure:29019: : CFLAGS="$CFLAGS $flag"
 configure:29022: $? = 0
 configure:29042: checking whether C compiler accepts -Wnormalized=id
-configure:29062: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Werror -Wnormalized=id  -fvisibility=hidden conftest.c >&5
+configure:29062: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Werror -Wnormalized=id  -fvisibility=hidden conftest.c >&5
 configure:29062: $? = 0
 configure:29072: result: yes
 configure:29087: : CFLAGS="$CFLAGS $flag"
 configure:29090: $? = 0
 configure:29110: checking whether C compiler accepts -Woverride-init
-configure:29130: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Werror -Woverride-init  -fvisibility=hidden conftest.c >&5
+configure:29130: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Werror -Woverride-init  -fvisibility=hidden conftest.c >&5
 configure:29130: $? = 0
 configure:29140: result: yes
 configure:29155: : CFLAGS="$CFLAGS $flag"
 configure:29158: $? = 0
 configure:29178: checking whether C compiler accepts -Wpointer-arith
-configure:29198: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Werror -Wpointer-arith  -fvisibility=hidden conftest.c >&5
+configure:29198: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Werror -Wpointer-arith  -fvisibility=hidden conftest.c >&5
 configure:29198: $? = 0
 configure:29208: result: yes
 configure:29223: : CFLAGS="$CFLAGS $flag"
 configure:29226: $? = 0
 configure:29246: checking whether C compiler accepts -Wpointer-sign
-configure:29266: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Werror -Wpointer-sign  -fvisibility=hidden conftest.c >&5
+configure:29266: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Werror -Wpointer-sign  -fvisibility=hidden conftest.c >&5
 configure:29266: $? = 0
 configure:29276: result: yes
 configure:29291: : CFLAGS="$CFLAGS $flag"
 configure:29294: $? = 0
 configure:29589: checking whether C compiler accepts -Wredundant-decls
-configure:29609: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Werror -Wredundant-decls  -fvisibility=hidden conftest.c >&5
+configure:29609: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Werror -Wredundant-decls  -fvisibility=hidden conftest.c >&5
 configure:29609: $? = 0
 configure:29619: result: yes
 configure:29634: : CFLAGS="$CFLAGS $flag"
 configure:29637: $? = 0
 configure:29658: checking whether C compiler accepts -Wshadow
-configure:29678: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Werror -Wshadow  -fvisibility=hidden conftest.c >&5
+configure:29678: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Werror -Wshadow  -fvisibility=hidden conftest.c >&5
 configure:29678: $? = 0
 configure:29688: result: yes
 configure:29703: : CFLAGS="$CFLAGS $flag"
 configure:29706: $? = 0
 configure:29726: checking whether C compiler accepts -Wshorten-64-to-32
-configure:29746: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Werror -Wshorten-64-to-32  -fvisibility=hidden conftest.c >&5
+configure:29746: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Werror -Wshorten-64-to-32  -fvisibility=hidden conftest.c >&5
 cc: error: unrecognized command-line option '-Wshorten-64-to-32'
 configure:29746: $? = 1
 configure: failed program was:
@@ -8271,103 +8275,103 @@ configure: failed program was:
 | }
 configure:29756: result: no
 configure:29794: checking whether C compiler accepts -Wsign-compare
-configure:29814: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Werror -Wsign-compare  -fvisibility=hidden conftest.c >&5
+configure:29814: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Werror -Wsign-compare  -fvisibility=hidden conftest.c >&5
 configure:29814: $? = 0
 configure:29824: result: yes
 configure:29839: : CFLAGS="$CFLAGS $flag"
 configure:29842: $? = 0
 configure:29862: checking whether C compiler accepts -Wstrict-overflow=1
-configure:29882: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Werror -Wstrict-overflow=1  -fvisibility=hidden conftest.c >&5
+configure:29882: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Werror -Wstrict-overflow=1  -fvisibility=hidden conftest.c >&5
 configure:29882: $? = 0
 configure:29892: result: yes
 configure:29907: : CFLAGS="$CFLAGS $flag"
 configure:29910: $? = 0
 configure:29930: checking whether C compiler accepts -Wstrict-prototypes
-configure:29950: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Werror -Wstrict-prototypes  -fvisibility=hidden conftest.c >&5
+configure:29950: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Werror -Wstrict-prototypes  -fvisibility=hidden conftest.c >&5
 configure:29950: $? = 0
 configure:29960: result: yes
 configure:29975: : CFLAGS="$CFLAGS $flag"
 configure:29978: $? = 0
 configure:29998: checking whether C compiler accepts -Wswitch-enum
-configure:30018: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Werror -Wswitch-enum  -fvisibility=hidden conftest.c >&5
+configure:30018: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Werror -Wswitch-enum  -fvisibility=hidden conftest.c >&5
 configure:30018: $? = 0
 configure:30028: result: yes
 configure:30043: : CFLAGS="$CFLAGS $flag"
 configure:30046: $? = 0
 configure:30066: checking whether C compiler accepts -Wtrampolines
-configure:30086: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Werror -Wtrampolines  -fvisibility=hidden conftest.c >&5
+configure:30086: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Werror -Wtrampolines  -fvisibility=hidden conftest.c >&5
 configure:30086: $? = 0
 configure:30096: result: yes
 configure:30111: : CFLAGS="$CFLAGS $flag"
 configure:30114: $? = 0
 configure:30134: checking whether C compiler accepts -Wundef
-configure:30154: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Werror -Wundef  -fvisibility=hidden conftest.c >&5
+configure:30154: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Werror -Wundef  -fvisibility=hidden conftest.c >&5
 configure:30154: $? = 0
 configure:30164: result: yes
 configure:30179: : CFLAGS="$CFLAGS $flag"
 configure:30182: $? = 0
 configure:30202: checking whether C compiler accepts -Wunsafe-loop-optimizations
-configure:30222: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Werror -Wunsafe-loop-optimizations  -fvisibility=hidden conftest.c >&5
+configure:30222: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Werror -Wunsafe-loop-optimizations  -fvisibility=hidden conftest.c >&5
 configure:30222: $? = 0
 configure:30232: result: yes
 configure:30247: : CFLAGS="$CFLAGS $flag"
 configure:30250: $? = 0
 configure:30270: checking whether C compiler accepts -funsafe-loop-optimizations
-configure:30290: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -Werror -funsafe-loop-optimizations  -fvisibility=hidden conftest.c >&5
+configure:30290: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -Werror -funsafe-loop-optimizations  -fvisibility=hidden conftest.c >&5
 configure:30290: $? = 0
 configure:30300: result: yes
 configure:30315: : CFLAGS="$CFLAGS $flag"
 configure:30318: $? = 0
 configure:30339: checking whether C compiler accepts -Wclobbered
-configure:30359: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Werror -Wclobbered  -fvisibility=hidden conftest.c >&5
+configure:30359: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Werror -Wclobbered  -fvisibility=hidden conftest.c >&5
 configure:30359: $? = 0
 configure:30369: result: yes
 configure:30384: : CFLAGS="$CFLAGS $flag"
 configure:30387: $? = 0
 configure:30407: checking whether C compiler accepts -Wunused
-configure:30427: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Werror -Wunused  -fvisibility=hidden conftest.c >&5
+configure:30427: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Werror -Wunused  -fvisibility=hidden conftest.c >&5
 configure:30427: $? = 0
 configure:30437: result: yes
 configure:30452: : CFLAGS="$CFLAGS $flag"
 configure:30455: $? = 0
 configure:30475: checking whether C compiler accepts -Wunused-result
-configure:30495: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Werror -Wunused-result  -fvisibility=hidden conftest.c >&5
+configure:30495: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Werror -Wunused-result  -fvisibility=hidden conftest.c >&5
 configure:30495: $? = 0
 configure:30505: result: yes
 configure:30520: : CFLAGS="$CFLAGS $flag"
 configure:30523: $? = 0
 configure:30543: checking whether C compiler accepts -Wunused-variable
-configure:30563: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Werror -Wunused-variable  -fvisibility=hidden conftest.c >&5
+configure:30563: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Werror -Wunused-variable  -fvisibility=hidden conftest.c >&5
 configure:30563: $? = 0
 configure:30573: result: yes
 configure:30588: : CFLAGS="$CFLAGS $flag"
 configure:30591: $? = 0
 configure:30611: checking whether C compiler accepts -Wunused-parameter
-configure:30631: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Werror -Wunused-parameter  -fvisibility=hidden conftest.c >&5
+configure:30631: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Werror -Wunused-parameter  -fvisibility=hidden conftest.c >&5
 configure:30631: $? = 0
 configure:30641: result: yes
 configure:30656: : CFLAGS="$CFLAGS $flag"
 configure:30659: $? = 0
 configure:30679: checking whether C compiler accepts -Wunused-local-typedefs
-configure:30699: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Werror -Wunused-local-typedefs  -fvisibility=hidden conftest.c >&5
+configure:30699: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Werror -Wunused-local-typedefs  -fvisibility=hidden conftest.c >&5
 configure:30699: $? = 0
 configure:30709: result: yes
 configure:30724: : CFLAGS="$CFLAGS $flag"
 configure:30727: $? = 0
 configure:30747: checking whether C compiler accepts -Wwrite-strings
-configure:30767: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Werror -Wwrite-strings  -fvisibility=hidden conftest.c >&5
+configure:30767: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Werror -Wwrite-strings  -fvisibility=hidden conftest.c >&5
 configure:30767: $? = 0
 configure:30777: result: yes
 configure:30792: : CFLAGS="$CFLAGS $flag"
 configure:30795: $? = 0
 configure:30815: checking whether C compiler accepts -fwrapv
-configure:30835: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Werror -fwrapv  -fvisibility=hidden conftest.c >&5
+configure:30835: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Werror -fwrapv  -fvisibility=hidden conftest.c >&5
 configure:30835: $? = 0
 configure:30845: result: yes
 configure:30860: : CFLAGS="$CFLAGS $flag"
 configure:30863: $? = 0
 configure:30883: checking whether C compiler accepts -fmudflapt
-configure:30903: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -fwrapv -Werror -fmudflapt  -fvisibility=hidden conftest.c >&5
+configure:30903: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -fwrapv -Werror -fmudflapt  -fvisibility=hidden conftest.c >&5
 cc: error: unrecognized command-line option '-fmudflapt'; did you mean '-fmudflap'?
 configure:30903: $? = 1
 configure: failed program was:
@@ -8526,31 +8530,31 @@ configure: failed program was:
 | }
 configure:30913: result: no
 configure:30951: checking whether C compiler accepts -pipe
-configure:30971: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -fwrapv -Werror -pipe  -fvisibility=hidden conftest.c >&5
+configure:30971: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -fwrapv -Werror -pipe  -fvisibility=hidden conftest.c >&5
 configure:30971: $? = 0
 configure:30981: result: yes
 configure:30996: : CFLAGS="$CFLAGS $flag"
 configure:30999: $? = 0
 configure:31019: checking whether C compiler accepts -fPIE
-configure:31039: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -fwrapv -pipe -Werror -fPIE  -fvisibility=hidden conftest.c >&5
+configure:31039: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -fwrapv -pipe -Werror -fPIE  -fvisibility=hidden conftest.c >&5
 configure:31039: $? = 0
 configure:31049: result: yes
 configure:31064: : CFLAGS="$CFLAGS $flag"
 configure:31067: $? = 0
 configure:31019: checking whether C compiler accepts -pie
-configure:31039: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -fwrapv -pipe -fPIE -Werror -pie  -fvisibility=hidden conftest.c >&5
+configure:31039: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -fwrapv -pipe -fPIE -Werror -pie  -fvisibility=hidden conftest.c >&5
 configure:31039: $? = 0
 configure:31049: result: yes
 configure:31064: : CFLAGS="$CFLAGS $flag"
 configure:31067: $? = 0
 configure:31087: checking whether C compiler accepts -Wsizeof-pointer-memaccess
-configure:31107: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -fwrapv -pipe -fPIE -pie -Werror -Wsizeof-pointer-memaccess  -fvisibility=hidden conftest.c >&5
+configure:31107: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -fwrapv -pipe -fPIE -pie -Werror -Wsizeof-pointer-memaccess  -fvisibility=hidden conftest.c >&5
 configure:31107: $? = 0
 configure:31117: result: yes
 configure:31132: : CFLAGS="$CFLAGS $flag"
 configure:31135: $? = 0
 configure:31155: checking whether C compiler accepts -Wpacked
-configure:31175: cc -c -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -fwrapv -pipe -fPIE -pie -Wsizeof-pointer-memaccess -Werror -Wpacked  -fvisibility=hidden conftest.c >&5
+configure:31175: cc -c -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -fwrapv -pipe -fPIE -pie -Wsizeof-pointer-memaccess -Werror -Wpacked  -fvisibility=hidden conftest.c >&5
 configure:31175: $? = 0
 configure:31185: result: yes
 configure:31200: : CFLAGS="$CFLAGS $flag"
@@ -8558,19 +8562,19 @@ configure:31203: $? = 0
 configure:32837: : CFLAGS="$CFLAGS -Werror"
 configure:32840: $? = 0
 configure:33350: checking whether C++ compiler accepts -g
-configure:33370: c++ -std=c++0x -c -g -O2 -Werror -g  -fvisibility=hidden conftest.cpp >&5
+configure:33370: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -Werror -g  -fvisibility=hidden conftest.cpp >&5
 configure:33370: $? = 0
 configure:33380: result: yes
-configure:33388: : CXXFLAGS already contains $flag
-configure:33391: $? = 0
+configure:33395: : CXXFLAGS="$CXXFLAGS $flag"
+configure:33398: $? = 0
 configure:33418: checking whether C++ compiler accepts -O2
-configure:33438: c++ -std=c++0x -c -g -O2 -Werror -O2  -fvisibility=hidden conftest.cpp >&5
+configure:33438: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -Werror -O2  -fvisibility=hidden conftest.cpp >&5
 configure:33438: $? = 0
 configure:33448: result: yes
-configure:33456: : CXXFLAGS already contains $flag
-configure:33459: $? = 0
+configure:33463: : CXXFLAGS="$CXXFLAGS $flag"
+configure:33466: $? = 0
 configure:33491: checking whether C++ compiler accepts -fstack-check
-configure:33511: c++ -std=c++0x -c -g -O2 -Werror -fstack-check  -fvisibility=hidden conftest.cpp >&5
+configure:33511: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Werror -fstack-check  -fvisibility=hidden conftest.cpp >&5
 cc1plus: error: '-fstack-check=' and '-fstack-clash_protection' are mutually exclusive; disabling '-fstack-check=' [-Werror]
 cc1plus: all warnings being treated as errors
 configure:33511: $? = 1
@@ -8730,31 +8734,31 @@ configure: failed program was:
 | }
 configure:33521: result: no
 configure:33560: checking whether C++ compiler accepts -Wpragmas
-configure:33580: c++ -std=c++0x -c -g -O2 -Werror -Wpragmas  -fvisibility=hidden conftest.cpp >&5
+configure:33580: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Werror -Wpragmas  -fvisibility=hidden conftest.cpp >&5
 configure:33580: $? = 0
 configure:33590: result: yes
 configure:33605: : CXXFLAGS="$CXXFLAGS $flag"
 configure:33608: $? = 0
 configure:33628: checking whether C++ compiler accepts -Wunknown-pragmas
-configure:33648: c++ -std=c++0x -c -g -O2 -Wpragmas -Werror -Wunknown-pragmas  -fvisibility=hidden conftest.cpp >&5
+configure:33648: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Werror -Wunknown-pragmas  -fvisibility=hidden conftest.cpp >&5
 configure:33648: $? = 0
 configure:33658: result: yes
 configure:33673: : CXXFLAGS="$CXXFLAGS $flag"
 configure:33676: $? = 0
 configure:33907: checking whether C++ compiler accepts -Wall
-configure:33927: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Werror -Wall  -fvisibility=hidden conftest.cpp >&5
+configure:33927: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Werror -Wall  -fvisibility=hidden conftest.cpp >&5
 configure:33927: $? = 0
 configure:33937: result: yes
 configure:33952: : CXXFLAGS="$CXXFLAGS $flag"
 configure:33955: $? = 0
 configure:33975: checking whether C++ compiler accepts -Wextra
-configure:33995: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Werror -Wextra  -fvisibility=hidden conftest.cpp >&5
+configure:33995: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Werror -Wextra  -fvisibility=hidden conftest.cpp >&5
 configure:33995: $? = 0
 configure:34005: result: yes
 configure:34020: : CXXFLAGS="$CXXFLAGS $flag"
 configure:34023: $? = 0
 configure:34043: checking whether C++ compiler accepts -Weverything
-configure:34063: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Werror -Weverything  -fvisibility=hidden conftest.cpp >&5
+configure:34063: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Werror -Weverything  -fvisibility=hidden conftest.cpp >&5
 c++: error: unrecognized command-line option '-Weverything'
 configure:34063: $? = 1
 configure: failed program was:
@@ -8913,7 +8917,7 @@ configure: failed program was:
 | }
 configure:34073: result: no
 configure:34111: checking whether C++ compiler accepts -Wthis-test-should-fail
-configure:34131: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Werror -Wthis-test-should-fail  -fvisibility=hidden conftest.cpp >&5
+configure:34131: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Werror -Wthis-test-should-fail  -fvisibility=hidden conftest.cpp >&5
 c++: error: unrecognized command-line option '-Wthis-test-should-fail'
 configure:34131: $? = 1
 configure: failed program was:
@@ -9072,121 +9076,121 @@ configure: failed program was:
 | }
 configure:34141: result: no
 configure:34181: checking whether C++ compiler accepts -Wno-attributes
-configure:34201: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Werror -Wno-attributes  -fvisibility=hidden conftest.cpp >&5
+configure:34201: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Werror -Wno-attributes  -fvisibility=hidden conftest.cpp >&5
 configure:34201: $? = 0
 configure:34211: result: yes
 configure:34226: : CXXFLAGS="$CXXFLAGS $flag"
 configure:34229: $? = 0
 configure:34249: checking whether C++ compiler accepts -Wvarargs
-configure:34269: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Werror -Wvarargs  -fvisibility=hidden conftest.cpp >&5
+configure:34269: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Werror -Wvarargs  -fvisibility=hidden conftest.cpp >&5
 configure:34269: $? = 0
 configure:34279: result: yes
 configure:34294: : CXXFLAGS="$CXXFLAGS $flag"
 configure:34297: $? = 0
 configure:34317: checking whether C++ compiler accepts -Waddress
-configure:34337: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Werror -Waddress  -fvisibility=hidden conftest.cpp >&5
+configure:34337: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Werror -Waddress  -fvisibility=hidden conftest.cpp >&5
 configure:34337: $? = 0
 configure:34347: result: yes
 configure:34362: : CXXFLAGS="$CXXFLAGS $flag"
 configure:34365: $? = 0
 configure:34385: checking whether C++ compiler accepts -Warray-bounds
-configure:34405: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Werror -Warray-bounds  -fvisibility=hidden conftest.cpp >&5
+configure:34405: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Werror -Warray-bounds  -fvisibility=hidden conftest.cpp >&5
 configure:34405: $? = 0
 configure:34415: result: yes
 configure:34430: : CXXFLAGS="$CXXFLAGS $flag"
 configure:34433: $? = 0
 configure:34453: checking whether C++ compiler accepts -Wchar-subscripts
-configure:34473: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Werror -Wchar-subscripts  -fvisibility=hidden conftest.cpp >&5
+configure:34473: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Werror -Wchar-subscripts  -fvisibility=hidden conftest.cpp >&5
 configure:34473: $? = 0
 configure:34483: result: yes
 configure:34498: : CXXFLAGS="$CXXFLAGS $flag"
 configure:34501: $? = 0
 configure:34521: checking whether C++ compiler accepts -Wcomment
-configure:34541: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Werror -Wcomment  -fvisibility=hidden conftest.cpp >&5
+configure:34541: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Werror -Wcomment  -fvisibility=hidden conftest.cpp >&5
 configure:34541: $? = 0
 configure:34551: result: yes
 configure:34566: : CXXFLAGS="$CXXFLAGS $flag"
 configure:34569: $? = 0
 configure:34589: checking whether C++ compiler accepts -Wctor-dtor-privacy
-configure:34609: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Werror -Wctor-dtor-privacy  -fvisibility=hidden conftest.cpp >&5
+configure:34609: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Werror -Wctor-dtor-privacy  -fvisibility=hidden conftest.cpp >&5
 configure:34609: $? = 0
 configure:34619: result: yes
 configure:34634: : CXXFLAGS="$CXXFLAGS $flag"
 configure:34637: $? = 0
 configure:34657: checking whether C++ compiler accepts -Wfloat-equal
-configure:34677: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Werror -Wfloat-equal  -fvisibility=hidden conftest.cpp >&5
+configure:34677: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Werror -Wfloat-equal  -fvisibility=hidden conftest.cpp >&5
 configure:34677: $? = 0
 configure:34687: result: yes
 configure:34702: : CXXFLAGS="$CXXFLAGS $flag"
 configure:34705: $? = 0
 configure:34725: checking whether C++ compiler accepts -Wformat=2
-configure:34745: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Werror -Wformat=2  -fvisibility=hidden conftest.cpp >&5
+configure:34745: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Werror -Wformat=2  -fvisibility=hidden conftest.cpp >&5
 configure:34745: $? = 0
 configure:34755: result: yes
 configure:34770: : CXXFLAGS="$CXXFLAGS $flag"
 configure:34773: $? = 0
 configure:34793: checking whether C++ compiler accepts -Wformat-y2k
-configure:34813: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Werror -Wformat-y2k  -fvisibility=hidden conftest.cpp >&5
+configure:34813: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Werror -Wformat-y2k  -fvisibility=hidden conftest.cpp >&5
 configure:34813: $? = 0
 configure:34823: result: yes
 configure:34838: : CXXFLAGS="$CXXFLAGS $flag"
 configure:34841: $? = 0
 configure:34861: checking whether C++ compiler accepts -Wmaybe-uninitialized
-configure:34881: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Werror -Wmaybe-uninitialized  -fvisibility=hidden conftest.cpp >&5
+configure:34881: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Werror -Wmaybe-uninitialized  -fvisibility=hidden conftest.cpp >&5
 configure:34881: $? = 0
 configure:34891: result: yes
 configure:34906: : CXXFLAGS="$CXXFLAGS $flag"
 configure:34909: $? = 0
 configure:34929: checking whether C++ compiler accepts -Wmissing-field-initializers
-configure:34949: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Werror -Wmissing-field-initializers  -fvisibility=hidden conftest.cpp >&5
+configure:34949: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Werror -Wmissing-field-initializers  -fvisibility=hidden conftest.cpp >&5
 configure:34949: $? = 0
 configure:34959: result: yes
 configure:34974: : CXXFLAGS="$CXXFLAGS $flag"
 configure:34977: $? = 0
 configure:34997: checking whether C++ compiler accepts -Wlogical-op
-configure:35017: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Werror -Wlogical-op  -fvisibility=hidden conftest.cpp >&5
+configure:35017: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Werror -Wlogical-op  -fvisibility=hidden conftest.cpp >&5
 configure:35017: $? = 0
 configure:35027: result: yes
 configure:35042: : CXXFLAGS="$CXXFLAGS $flag"
 configure:35045: $? = 0
 configure:35065: checking whether C++ compiler accepts -Wnon-virtual-dtor
-configure:35085: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Werror -Wnon-virtual-dtor  -fvisibility=hidden conftest.cpp >&5
+configure:35085: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Werror -Wnon-virtual-dtor  -fvisibility=hidden conftest.cpp >&5
 configure:35085: $? = 0
 configure:35095: result: yes
 configure:35110: : CXXFLAGS="$CXXFLAGS $flag"
 configure:35113: $? = 0
 configure:35133: checking whether C++ compiler accepts -Wnormalized=id
-configure:35153: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Werror -Wnormalized=id  -fvisibility=hidden conftest.cpp >&5
+configure:35153: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Werror -Wnormalized=id  -fvisibility=hidden conftest.cpp >&5
 configure:35153: $? = 0
 configure:35163: result: yes
 configure:35178: : CXXFLAGS="$CXXFLAGS $flag"
 configure:35181: $? = 0
 configure:35201: checking whether C++ compiler accepts -Woverloaded-virtual
-configure:35221: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Werror -Woverloaded-virtual  -fvisibility=hidden conftest.cpp >&5
+configure:35221: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Werror -Woverloaded-virtual  -fvisibility=hidden conftest.cpp >&5
 configure:35221: $? = 0
 configure:35231: result: yes
 configure:35246: : CXXFLAGS="$CXXFLAGS $flag"
 configure:35249: $? = 0
 configure:35269: checking whether C++ compiler accepts -Wpointer-arith
-configure:35289: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Werror -Wpointer-arith  -fvisibility=hidden conftest.cpp >&5
+configure:35289: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Werror -Wpointer-arith  -fvisibility=hidden conftest.cpp >&5
 configure:35289: $? = 0
 configure:35299: result: yes
 configure:35314: : CXXFLAGS="$CXXFLAGS $flag"
 configure:35317: $? = 0
 configure:35748: checking whether C++ compiler accepts -Wredundant-decls
-configure:35768: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Werror -Wredundant-decls  -fvisibility=hidden conftest.cpp >&5
+configure:35768: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Werror -Wredundant-decls  -fvisibility=hidden conftest.cpp >&5
 configure:35768: $? = 0
 configure:35778: result: yes
 configure:35793: : CXXFLAGS="$CXXFLAGS $flag"
 configure:35796: $? = 0
 configure:35817: checking whether C++ compiler accepts -Wshadow
-configure:35837: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Werror -Wshadow  -fvisibility=hidden conftest.cpp >&5
+configure:35837: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Werror -Wshadow  -fvisibility=hidden conftest.cpp >&5
 configure:35837: $? = 0
 configure:35847: result: yes
 configure:35862: : CXXFLAGS="$CXXFLAGS $flag"
 configure:35865: $? = 0
 configure:35885: checking whether C++ compiler accepts -Wshorten-64-to-32
-configure:35905: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Werror -Wshorten-64-to-32  -fvisibility=hidden conftest.cpp >&5
+configure:35905: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Werror -Wshorten-64-to-32  -fvisibility=hidden conftest.cpp >&5
 c++: error: unrecognized command-line option '-Wshorten-64-to-32'
 configure:35905: $? = 1
 configure: failed program was:
@@ -9345,109 +9349,109 @@ configure: failed program was:
 | }
 configure:35915: result: no
 configure:35953: checking whether C++ compiler accepts -Wsign-compare
-configure:35973: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Werror -Wsign-compare  -fvisibility=hidden conftest.cpp >&5
+configure:35973: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Werror -Wsign-compare  -fvisibility=hidden conftest.cpp >&5
 configure:35973: $? = 0
 configure:35983: result: yes
 configure:35998: : CXXFLAGS="$CXXFLAGS $flag"
 configure:36001: $? = 0
 configure:36021: checking whether C++ compiler accepts -Wstrict-overflow=1
-configure:36041: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Werror -Wstrict-overflow=1  -fvisibility=hidden conftest.cpp >&5
+configure:36041: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Werror -Wstrict-overflow=1  -fvisibility=hidden conftest.cpp >&5
 configure:36041: $? = 0
 configure:36051: result: yes
 configure:36066: : CXXFLAGS="$CXXFLAGS $flag"
 configure:36069: $? = 0
 configure:36089: checking whether C++ compiler accepts -Wswitch-enum
-configure:36109: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Werror -Wswitch-enum  -fvisibility=hidden conftest.cpp >&5
+configure:36109: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Werror -Wswitch-enum  -fvisibility=hidden conftest.cpp >&5
 configure:36109: $? = 0
 configure:36119: result: yes
 configure:36134: : CXXFLAGS="$CXXFLAGS $flag"
 configure:36137: $? = 0
 configure:36157: checking whether C++ compiler accepts -Wtrampolines
-configure:36177: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Werror -Wtrampolines  -fvisibility=hidden conftest.cpp >&5
+configure:36177: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Werror -Wtrampolines  -fvisibility=hidden conftest.cpp >&5
 configure:36177: $? = 0
 configure:36187: result: yes
 configure:36202: : CXXFLAGS="$CXXFLAGS $flag"
 configure:36205: $? = 0
 configure:36225: checking whether C++ compiler accepts -Wundef
-configure:36245: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Werror -Wundef  -fvisibility=hidden conftest.cpp >&5
+configure:36245: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Werror -Wundef  -fvisibility=hidden conftest.cpp >&5
 configure:36245: $? = 0
 configure:36255: result: yes
 configure:36270: : CXXFLAGS="$CXXFLAGS $flag"
 configure:36273: $? = 0
 configure:36293: checking whether C++ compiler accepts -Wunsafe-loop-optimizations
-configure:36313: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Werror -Wunsafe-loop-optimizations  -fvisibility=hidden conftest.cpp >&5
+configure:36313: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Werror -Wunsafe-loop-optimizations  -fvisibility=hidden conftest.cpp >&5
 configure:36313: $? = 0
 configure:36323: result: yes
 configure:36338: : CXXFLAGS="$CXXFLAGS $flag"
 configure:36341: $? = 0
 configure:36361: checking whether C++ compiler accepts -funsafe-loop-optimizations
-configure:36381: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -Werror -funsafe-loop-optimizations  -fvisibility=hidden conftest.cpp >&5
+configure:36381: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -Werror -funsafe-loop-optimizations  -fvisibility=hidden conftest.cpp >&5
 configure:36381: $? = 0
 configure:36391: result: yes
 configure:36406: : CXXFLAGS="$CXXFLAGS $flag"
 configure:36409: $? = 0
 configure:36429: checking whether C++ compiler accepts -Wc++11-compat
-configure:36449: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Werror -Wc++11-compat  -fvisibility=hidden conftest.cpp >&5
+configure:36449: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Werror -Wc++11-compat  -fvisibility=hidden conftest.cpp >&5
 configure:36449: $? = 0
 configure:36459: result: yes
 configure:36474: : CXXFLAGS="$CXXFLAGS $flag"
 configure:36477: $? = 0
 configure:36499: checking whether C++ compiler accepts -Wclobbered
-configure:36519: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Werror -Wclobbered  -fvisibility=hidden conftest.cpp >&5
+configure:36519: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Werror -Wclobbered  -fvisibility=hidden conftest.cpp >&5
 configure:36519: $? = 0
 configure:36529: result: yes
 configure:36544: : CXXFLAGS="$CXXFLAGS $flag"
 configure:36547: $? = 0
 configure:36567: checking whether C++ compiler accepts -Wunused
-configure:36587: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Werror -Wunused  -fvisibility=hidden conftest.cpp >&5
+configure:36587: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Werror -Wunused  -fvisibility=hidden conftest.cpp >&5
 configure:36587: $? = 0
 configure:36597: result: yes
 configure:36612: : CXXFLAGS="$CXXFLAGS $flag"
 configure:36615: $? = 0
 configure:36635: checking whether C++ compiler accepts -Wunused-result
-configure:36655: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Werror -Wunused-result  -fvisibility=hidden conftest.cpp >&5
+configure:36655: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Werror -Wunused-result  -fvisibility=hidden conftest.cpp >&5
 configure:36655: $? = 0
 configure:36665: result: yes
 configure:36680: : CXXFLAGS="$CXXFLAGS $flag"
 configure:36683: $? = 0
 configure:36703: checking whether C++ compiler accepts -Wunused-variable
-configure:36723: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Werror -Wunused-variable  -fvisibility=hidden conftest.cpp >&5
+configure:36723: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Werror -Wunused-variable  -fvisibility=hidden conftest.cpp >&5
 configure:36723: $? = 0
 configure:36733: result: yes
 configure:36748: : CXXFLAGS="$CXXFLAGS $flag"
 configure:36751: $? = 0
 configure:36771: checking whether C++ compiler accepts -Wunused-parameter
-configure:36791: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Werror -Wunused-parameter  -fvisibility=hidden conftest.cpp >&5
+configure:36791: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Werror -Wunused-parameter  -fvisibility=hidden conftest.cpp >&5
 configure:36791: $? = 0
 configure:36801: result: yes
 configure:36816: : CXXFLAGS="$CXXFLAGS $flag"
 configure:36819: $? = 0
 configure:36839: checking whether C++ compiler accepts -Wunused-local-typedefs
-configure:36859: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Werror -Wunused-local-typedefs  -fvisibility=hidden conftest.cpp >&5
+configure:36859: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Werror -Wunused-local-typedefs  -fvisibility=hidden conftest.cpp >&5
 configure:36859: $? = 0
 configure:36869: result: yes
 configure:36884: : CXXFLAGS="$CXXFLAGS $flag"
 configure:36887: $? = 0
 configure:36907: checking whether C++ compiler accepts -Wwrite-strings
-configure:36927: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Werror -Wwrite-strings  -fvisibility=hidden conftest.cpp >&5
+configure:36927: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Werror -Wwrite-strings  -fvisibility=hidden conftest.cpp >&5
 configure:36927: $? = 0
 configure:36937: result: yes
 configure:36952: : CXXFLAGS="$CXXFLAGS $flag"
 configure:36955: $? = 0
 configure:36975: checking whether C++ compiler accepts -Wformat-security
-configure:36995: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Werror -Wformat-security  -fvisibility=hidden conftest.cpp >&5
+configure:36995: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Werror -Wformat-security  -fvisibility=hidden conftest.cpp >&5
 configure:36995: $? = 0
 configure:37005: result: yes
 configure:37020: : CXXFLAGS="$CXXFLAGS $flag"
 configure:37023: $? = 0
 configure:37043: checking whether C++ compiler accepts -fwrapv
-configure:37063: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Wformat-security -Werror -fwrapv  -fvisibility=hidden conftest.cpp >&5
+configure:37063: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Wformat-security -Werror -fwrapv  -fvisibility=hidden conftest.cpp >&5
 configure:37063: $? = 0
 configure:37073: result: yes
 configure:37088: : CXXFLAGS="$CXXFLAGS $flag"
 configure:37091: $? = 0
 configure:37111: checking whether C++ compiler accepts -fmudflapt
-configure:37131: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Wformat-security -fwrapv -Werror -fmudflapt  -fvisibility=hidden conftest.cpp >&5
+configure:37131: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Wformat-security -fwrapv -Werror -fmudflapt  -fvisibility=hidden conftest.cpp >&5
 c++: error: unrecognized command-line option '-fmudflapt'; did you mean '-fmudflap'?
 configure:37131: $? = 1
 configure: failed program was:
@@ -9606,31 +9610,31 @@ configure: failed program was:
 | }
 configure:37141: result: no
 configure:37179: checking whether C++ compiler accepts -pipe
-configure:37199: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Wformat-security -fwrapv -Werror -pipe  -fvisibility=hidden conftest.cpp >&5
+configure:37199: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Wformat-security -fwrapv -Werror -pipe  -fvisibility=hidden conftest.cpp >&5
 configure:37199: $? = 0
 configure:37209: result: yes
 configure:37224: : CXXFLAGS="$CXXFLAGS $flag"
 configure:37227: $? = 0
 configure:37247: checking whether C++ compiler accepts -fPIE
-configure:37267: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Wformat-security -fwrapv -pipe -Werror -fPIE  -fvisibility=hidden conftest.cpp >&5
+configure:37267: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Wformat-security -fwrapv -pipe -Werror -fPIE  -fvisibility=hidden conftest.cpp >&5
 configure:37267: $? = 0
 configure:37277: result: yes
 configure:37292: : CXXFLAGS="$CXXFLAGS $flag"
 configure:37295: $? = 0
 configure:37247: checking whether C++ compiler accepts -pie
-configure:37267: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Wformat-security -fwrapv -pipe -fPIE -Werror -pie  -fvisibility=hidden conftest.cpp >&5
+configure:37267: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Wformat-security -fwrapv -pipe -fPIE -Werror -pie  -fvisibility=hidden conftest.cpp >&5
 configure:37267: $? = 0
 configure:37277: result: yes
 configure:37292: : CXXFLAGS="$CXXFLAGS $flag"
 configure:37295: $? = 0
 configure:37315: checking whether C++ compiler accepts -Wsizeof-pointer-memaccess
-configure:37335: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Wformat-security -fwrapv -pipe -fPIE -pie -Werror -Wsizeof-pointer-memaccess  -fvisibility=hidden conftest.cpp >&5
+configure:37335: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Wformat-security -fwrapv -pipe -fPIE -pie -Werror -Wsizeof-pointer-memaccess  -fvisibility=hidden conftest.cpp >&5
 configure:37335: $? = 0
 configure:37345: result: yes
 configure:37360: : CXXFLAGS="$CXXFLAGS $flag"
 configure:37363: $? = 0
 configure:37383: checking whether C++ compiler accepts -Wpacked
-configure:37403: c++ -std=c++0x -c -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Wformat-security -fwrapv -pipe -fPIE -pie -Wsizeof-pointer-memaccess -Werror -Wpacked  -fvisibility=hidden conftest.cpp >&5
+configure:37403: c++ -std=c++0x -c -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Wformat-security -fwrapv -pipe -fPIE -pie -Wsizeof-pointer-memaccess -Werror -Wpacked  -fvisibility=hidden conftest.cpp >&5
 configure:37403: $? = 0
 configure:37413: result: yes
 configure:37428: : CXXFLAGS="$CXXFLAGS $flag"
@@ -9659,21 +9663,22 @@ generated by GNU Autoconf 2.71.  Invocation command line was
 
 on ep-ubuntu
 
-config.status:1393: creating libhashkit/hashkitcon.h
-config.status:1393: creating libhashkit-1.0/configure.h
-config.status:1393: creating libtest/version.h
-config.status:1393: creating libtest/yatlcon.h
-config.status:1393: creating Makefile
-config.status:1393: creating docs/conf.py
-config.status:1393: creating libmemcached-1.0/configure.h
-config.status:1393: creating support/libmemcached.pc
-config.status:1393: creating support/libmemcached.spec
-config.status:1393: creating mem_config.h
-config.status:1622: executing depfiles commands
-config.status:1699: cd .       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
+config.status:1394: creating libhashkit/hashkitcon.h
+config.status:1394: creating libhashkit-1.0/configure.h
+config.status:1394: creating libtest/version.h
+config.status:1394: creating libtest/yatlcon.h
+config.status:1394: creating Makefile
+config.status:1394: creating docs/conf.py
+config.status:1394: creating libmemcached-1.0/configure.h
+config.status:1394: creating support/libmemcached.pc
+config.status:1394: creating support/libmemcached.spec
+config.status:1394: creating mem_config.h
+config.status:1575: mem_config.h is unchanged
+config.status:1623: executing depfiles commands
+config.status:1700: cd .       && sed -e '/# am--include-marker/d' Makefile         | make -f - am--depfiles
 make: Nothing to be done for 'am--depfiles'.
-config.status:1704: $? = 0
-config.status:1622: executing libtool commands
+config.status:1705: $? = 0
+config.status:1623: executing libtool commands
 
 ## ---------------- ##
 ## Cache variables. ##
@@ -9707,14 +9712,14 @@ ac_cv_env_CCC_set=
 ac_cv_env_CCC_value=
 ac_cv_env_CC_set=
 ac_cv_env_CC_value=
-ac_cv_env_CFLAGS_set=
-ac_cv_env_CFLAGS_value=
+ac_cv_env_CFLAGS_set=set
+ac_cv_env_CFLAGS_value=-Wno-error
 ac_cv_env_CPPFLAGS_set=
 ac_cv_env_CPPFLAGS_value=
 ac_cv_env_CXXCPP_set=
 ac_cv_env_CXXCPP_value=
-ac_cv_env_CXXFLAGS_set=
-ac_cv_env_CXXFLAGS_value=
+ac_cv_env_CXXFLAGS_set=set
+ac_cv_env_CXXFLAGS_value='-std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow'
 ac_cv_env_CXX_set=
 ac_cv_env_CXX_value=
 ac_cv_env_GEARMAND_BINARY_set=
@@ -10111,7 +10116,7 @@ CC='cc'
 CCDEPMODE='depmode=gcc3'
 CC_VERSION='cc (Ubuntu 11.4.0-1ubuntu1~22.04.2) 11.4.0'
 CC_VERSION_VENDOR='gnu'
-CFLAGS='-g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -fwrapv -pipe -fPIE -pie -Wsizeof-pointer-memaccess -Wpacked -Werror'
+CFLAGS='-Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -fwrapv -pipe -fPIE -pie -Wsizeof-pointer-memaccess -Wpacked -Werror'
 CFLAG_VISIBILITY='-fvisibility=hidden'
 CPPFLAGS=' -fvisibility=hidden'
 CSCOPE='cscope'
@@ -10119,7 +10124,7 @@ CTAGS='ctags'
 CXX='c++ -std=c++0x'
 CXXCPP='c++ -E'
 CXXDEPMODE='depmode=gcc3'
-CXXFLAGS='-g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Wformat-security -fwrapv -pipe -fPIE -pie -Wsizeof-pointer-memaccess -Wpacked -Werror'
+CXXFLAGS='-std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Wformat-security -fwrapv -pipe -fPIE -pie -Wsizeof-pointer-memaccess -Wpacked -Werror'
 CXX_VERSION='c++ (Ubuntu 11.4.0-1ubuntu1~22.04.2) 11.4.0'
 CXX_VERSION_VENDOR='gnu'
 CYGPATH_W='echo'
