@@ -268,7 +268,7 @@ static memcached_return_t memcached_send_ascii(Memcached *ptr,        //memcache
   #if ENABLE_MPI_FUNCTIONS
     if (verb == SET_OP) {
 #if DPU_CACHE
-      target_server = 1; //서버
+      target_server = 0; //서버
 #else
       target_server = 0; //DPU
 #endif

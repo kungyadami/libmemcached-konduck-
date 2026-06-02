@@ -828,8 +828,11 @@ static memcached_return_t memcached_mpi_get_direct(Memcached *ptr,
 #if ENABLE_MPI_FUNCTIONS
   client_bin_get_req_t req;
   memset(&req, 0, sizeof(req));
-  target_server = 0;
-
+#if DPU_CACHE
+  target_server = 1;
+#else
+  target_server = 1;
+#endif
   if (key_length == 0 || key_length > sizeof(req.key)) {
     return memcached_set_error(*instance, MEMCACHED_WRITE_FAILURE, MEMCACHED_AT,
                                memcached_literal_param("key too large for client_bin_get_req_t"));
