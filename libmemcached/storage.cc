@@ -270,7 +270,7 @@ static memcached_return_t memcached_send_ascii(Memcached *ptr,        //memcache
 #if DPU_CACHE
       target_server = 1; //서버
 #else
-      target_server = 0; //DPU
+      target_server = 0; 
 #endif
       client_bin_set_req_t req;
       memset(&req, 0, sizeof(req));
@@ -289,7 +289,7 @@ static memcached_return_t memcached_send_ascii(Memcached *ptr,        //memcache
       memcpy(req.key, key, key_length);
       memcpy(req.value, value, value_length);
       
-      // printf("[set req] cmd=%u key_len=%u value_len=%u flag=%u key=%.*s value=%.*s\n",
+      //printf("[set req] cmd=%u key_len=%u value_len=%u flag=%u key=%.*s value=%.*s\n",
       //  (unsigned)req.cmd,
       //  (unsigned)req.key_len,
       //  (unsigned)req.value_len,

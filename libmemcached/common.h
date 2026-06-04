@@ -287,4 +287,4 @@ bool memcached_purge(memcached_instance_st*);
 memcached_instance_st* memcached_instance_by_position(const memcached_st *ptr, uint32_t server_key);
 #endif
 
-void memcached_wait(); //yedam
+void memcached_wait(void); //yedam
