@@ -289,7 +289,7 @@ static memcached_return_t memcached_send_ascii(Memcached *ptr,        //memcache
       memcpy(req.key, key, key_length);
       memcpy(req.value, value, value_length);
       
-      //printf("[set req] cmd=%u key_len=%u value_len=%u flag=%u key=%.*s value=%.*s\n",
+      // printf("[set req] cmd=%u key_len=%u value_len=%u flag=%u key=%.*s value=%.*s\n",
       //  (unsigned)req.cmd,
       //  (unsigned)req.key_len,
       //  (unsigned)req.value_len,

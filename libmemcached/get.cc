@@ -842,6 +842,7 @@ static memcached_return_t memcached_mpi_get_direct(Memcached *ptr,
   req.hv = libhashkit_murmur3(key, key_length);
 
   memcpy(req.key, key, key_length);
+  //printf("[client] hv=%u key=%s\n", req.hv, key);
   //printf("[client] MPI_Send(), TAG : %d | target_server : %d\n", GET_REQ_TAG, target_server);
   int err = MPI_Send(&req, sizeof(req), MPI_BYTE, target_server, GET_REQ_TAG, MPI_COMM_WORLD);
   if (err != MPI_SUCCESS) {
