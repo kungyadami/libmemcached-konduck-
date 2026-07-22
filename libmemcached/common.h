@@ -230,3 +230,29 @@ memcached_instance_st* memcached_instance_by_position(const memcached_st *ptr, u
 #endif
 
 void memcached_wait(); //yedam
+
+static int mpi_rank_env_int(const char *env_name, int default_value){
+    const char *name = getenv(env_name); //SERVER/DPU/CLIENT
+
+    if(name == NULL || name[0] == '\0'){
+        return default_value;
+    }
+
+    int parsed = atoi(name);
+    
+    if (parsed <= 0) {
+        return default_value;
+    }
+    
+    return parsed;
+}
+
+//현재 DPU_Cache를 담당하는 rank 개수 반환
+static inline int client_rank_count(void) {
+  return mpi_rank_env_int("CLIENT_COUNT", 1);
+}
+
+//현재 Memcached server를 담당하는 rank 개수 반환
+static inline int server_rank_count(void) {
+  return mpi_rank_env_int("SERVER_COUNT", 1);
+}

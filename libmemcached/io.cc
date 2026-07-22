@@ -46,7 +46,7 @@ MPI_Request request;
 MPI_Status mpi_recv_status;
 struct timespec start, end;
 #define BILLION 1000000000UL
-#define DPU_CACHE 1
+#define DPU_CACHE 0
 
 #ifdef HAVE_SYS_SOCKET_H
 # include <sys/socket.h>

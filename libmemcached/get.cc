@@ -336,7 +336,7 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
 #endif
       int size;
       MPI_Comm_size(MPI_COMM_WORLD, &size);
-      int server_size = size/2;
+      int server_size = server_rank_count();
       server_key= memcached_generate_hash_with_redistribution(ptr, keys[x], key_length[x]);
       uint32_t hash =  libhashkit_murmur3(keys[x], key_length[x]);
       //printf("[libmemcached] key : %s | hash : %d | key_length : %d\n", keys[x], hash, key_length[x]);

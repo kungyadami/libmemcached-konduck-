@@ -396,7 +396,7 @@ static inline memcached_return_t memcached_send(memcached_st *shell,
   //verb : operation 이름(ex : SET_OP, REPLACE_OP, ...)
   //일단 내가 실행할 때에는 group_key == key, group_key_length == key_length임.
   MPI_Comm_size(MPI_COMM_WORLD, &size);
-  int server_size = size/2;
+  int server_size = server_rank_count();
 
   Memcached* ptr= memcached2Memcached(shell);
   memcached_return_t rc;
