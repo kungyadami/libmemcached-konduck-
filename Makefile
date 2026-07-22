@@ -3296,7 +3296,7 @@ AUTOHEADER = ${SHELL} '/home/cluster/yedam-cmd/libmemcached-konduck-/build-aux/m
 AUTOHEADER_FILE = mem_config.h
 AUTOMAKE = ${SHELL} '/home/cluster/yedam-cmd/libmemcached-konduck-/build-aux/missing' automake-1.16
 AWK = mawk
-CC = cc
+CC = mpicc
 CCDEPMODE = depmode=gcc3
 CC_VERSION = cc (Ubuntu 11.4.0-1ubuntu1~22.04.2) 11.4.0
 CC_VERSION_VENDOR = gnu
@@ -3305,7 +3305,7 @@ CFLAG_VISIBILITY = -fvisibility=hidden
 CPPFLAGS =  -fvisibility=hidden
 CSCOPE = cscope
 CTAGS = ctags
-CXX = c++ -std=c++0x
+CXX = mpicxx
 CXXCPP = c++ -E
 CXXDEPMODE = depmode=gcc3
 CXXFLAGS = -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Wformat-security -fwrapv -pipe -fPIE -pie -Wsizeof-pointer-memaccess -Wpacked 

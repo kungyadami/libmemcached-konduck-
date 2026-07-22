@@ -326,8 +326,10 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
       int server_size = size/2;
       server_key= memcached_generate_hash_with_redistribution(ptr, keys[x], key_length[x]);
       uint32_t hash =  libhashkit_murmur3(keys[x], key_length[x]);
-      //printf("[libmemcached] key : %s | hash : %d | key_length : %d\n", keys[x], hash, key_length[x]);
-      target_server = hash % server_size;
+      
+      
+      target_server = (hash % dpu_rank_count());
+      //printf("[GET] target_server : %d\n", target_server);
     }
     memcached_instance_st* instance= memcached_instance_fetch(ptr, server_key);
 
@@ -826,9 +828,11 @@ static memcached_return_t memcached_mpi_get_direct(Memcached *ptr,
                                                    size_t key_length)
 {
 #if ENABLE_MPI_FUNCTIONS
+  int rank;
   client_bin_get_req_t req;
   memset(&req, 0, sizeof(req));
-  target_server = 0;
+  // target_server = 0;
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
   if (key_length == 0 || key_length > sizeof(req.key)) {
     return memcached_set_error(*instance, MEMCACHED_WRITE_FAILURE, MEMCACHED_AT,
@@ -838,7 +842,7 @@ static memcached_return_t memcached_mpi_get_direct(Memcached *ptr,
   req.cmd = BIN_GET;
   req.key_len = (uint16_t)key_length;
   req.flag = 0;
-  req.client_rank = 2;
+  req.client_rank = rank;
   req.hv = libhashkit_murmur3(key, key_length);
 
   memcpy(req.key, key, key_length);

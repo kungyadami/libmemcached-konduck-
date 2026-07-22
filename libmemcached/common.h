@@ -43,6 +43,7 @@
 #pragma once
 
 #include <mem_config.h>
+#include <stdlib.h>
 
 
 #define ENABLE_SOCKET_FUNCTIONS 0
@@ -92,6 +93,7 @@ typedef struct { //client_bin_get_req_t는
     uint16_t key_len; //키 길이, client가 그냥 strlen(key)로 길이를 계산해서 여기다가 넣어주기
     uint16_t value_len;
     uint16_t flag; //구조체 정렬을 맞추거나 flag가 필요할 경우 만들어둔 공간
+    uint32_t hv;
     char key[64]; //실제 키 길이
     char value[64]; //실제 키 길이
 } client_bin_set_req_t;
@@ -108,6 +110,35 @@ typedef struct {
     char key[64];
     char value[64];
 } client_bin_get_resp_t;
+
+static int mpi_rank_env_int(const char *env_name, int default_value){
+    const char *name = getenv(env_name); //SERVER/DPU/CLIENT
+
+    if(name == NULL || name[0] == '\0'){
+        return default_value;
+    }
+
+    int parsed = atoi(name);
+    
+    if (parsed <= 0) {
+        return default_value;
+    }
+    
+    return parsed;
+}
+
+//현재 DPU_Cache를 담당하는 rank 개수 반환
+static inline int dpu_rank_count(void) {
+  return mpi_rank_env_int("DPU_COUNT", 1);
+}
+
+//현재 Memcached server를 담당하는 rank 개수 반환
+static inline int server_rank_count(void) {
+  return mpi_rank_env_int("SERVER_COUNT", 1);
+}
+
+
+
 
 
 #ifdef __cplusplus

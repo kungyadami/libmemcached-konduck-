@@ -267,11 +267,11 @@ static memcached_return_t memcached_send_ascii(Memcached *ptr,        //memcache
   //****************************  내가 최적화를 위해 추가한 부분 *********************************************** */
   #if ENABLE_MPI_FUNCTIONS
     if (verb == SET_OP) {
-#if DPU_CACHE
-      target_server = 1; //서버
-#else
-      target_server = 0; 
-#endif
+// #if DPU_CACHE
+//       target_server = 1; //서버
+// #else
+//       target_server = 0; 
+// #endif
       client_bin_set_req_t req;
       memset(&req, 0, sizeof(req));
 
@@ -296,7 +296,7 @@ static memcached_return_t memcached_send_ascii(Memcached *ptr,        //memcache
       //  (unsigned)req.flag,
       //  (int)req.key_len, req.key,
       //  (int)req.value_len, req.value);
-
+      //printf("[SET] MPI_Send() target_server : %d\n", target_server);
       int err = MPI_Send(&req, sizeof(req), MPI_BYTE, target_server, SET_REQ_TAG, MPI_COMM_WORLD);
       if (err != MPI_SUCCESS) {
         return memcached_set_error(*instance, MEMCACHED_WRITE_FAILURE, MEMCACHED_AT, memcached_literal_param("MPI_Send() failed for set request"));
@@ -481,26 +481,23 @@ static inline memcached_return_t memcached_send(memcached_st *shell,
   //verb : operation 이름(ex : SET_OP, REPLACE_OP, ...)
   //일단 내가 실행할 때에는 group_key == key, group_key_length == key_length임.
   MPI_Comm_size(MPI_COMM_WORLD, &size);
-  int server_size = size/2;
+  int server_base_rank = dpu_rank_count();
 
   Memcached* ptr= memcached2Memcached(shell);
   memcached_return_t rc;
-  if (memcached_failed(rc= initialize_query(ptr, true)))
-  { //안 들어감
+  if (memcached_failed(rc= initialize_query(ptr, true))){
     return rc;
   }
 
-  if (memcached_failed(memcached_key_test(*ptr, (const char **)&key, &key_length, 1)))
-  { //안 들어감
+  if (memcached_failed(memcached_key_test(*ptr, (const char **)&key, &key_length, 1))){ //안 들어감
     return memcached_last_error(ptr);
   }
 
   //어느 서버에 배치할 지 해시값 돌리기
   uint32_t server_key= memcached_generate_hash_with_redistribution(ptr, group_key, group_key_length);
-
   uint32_t hash =  libhashkit_murmur3(key, key_length);
-  //printf("[libmemcached] key : %s | hash : %d | key_length : %d\n", key, hash, key_length);
-  target_server = hash % server_size;
+  target_server = server_base_rank + (hash % server_rank_count());
+  //printf("[SET] target_server : %d\n", target_server);
   //해당 서버 포인터? 가져오기.. 아마도 서버키에 매핑되는, 서버리스트 배열에 있는 서버정보를 가져오는듯
   
   memcached_instance_st* instance= memcached_instance_fetch(ptr, server_key);

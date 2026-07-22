@@ -396,7 +396,7 @@ static bool io_flush(memcached_instance_st* instance, const bool with_flush, mem
       req.cmd = BIN_GET;
       req.key_len = key_len;
       req.flag = 0;
-      req.client_rank = 2;
+      req.client_rank = rank;
       //req.hv = libhashkit_murmur3(key_start, key_len);
       memcpy(req.key, key_start, key_len);
       //printf("dpu에게 MPI_Send로 get 요청 보내기, target_server : %d\n", target_server);
