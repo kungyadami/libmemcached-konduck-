@@ -37,12 +37,92 @@
 
 #include <libmemcached/common.h>
 #include <mpi.h>
+#include <time.h>
 
 /*
   What happens if no servers exist?
 */
 
 
+
+
+static unsigned long client_wait_response_time_ns= 0;
+static unsigned long client_wait_response_count= 0;
+static unsigned long client_send_time_ns= 0;
+static unsigned long client_probe_time_ns= 0;
+static unsigned long client_recv_time_ns= 0;
+static bool client_wait_response_active= false;
+static struct timespec client_wait_response_start;
+
+static inline unsigned long client_elapsed_ns(const struct timespec *start,
+                                              const struct timespec *end)
+{
+  return (unsigned long)((end->tv_sec - start->tv_sec) * 1000000000UL +
+                         (end->tv_nsec - start->tv_nsec));
+}
+
+extern "C" void get_wait_reset(void)
+{
+  client_wait_response_time_ns= 0;
+  client_wait_response_count= 0;
+  client_send_time_ns= 0;
+  client_probe_time_ns= 0;
+  client_recv_time_ns= 0;
+  client_wait_response_active= false;
+}
+
+extern "C" void get_wait_start(void)
+{
+  clock_gettime(CLOCK_MONOTONIC, &client_wait_response_start);
+  client_wait_response_active= true;
+}
+
+extern "C" void get_wait_end(void)
+{
+  if (client_wait_response_active)
+  {
+    struct timespec end;
+    clock_gettime(CLOCK_MONOTONIC, &end);
+    client_wait_response_time_ns+= client_elapsed_ns(&client_wait_response_start, &end);
+    client_wait_response_count++;
+    client_wait_response_active= false;
+  }
+}
+
+extern "C" void get_wait_add_send(unsigned long elapsed_ns)
+{
+  client_send_time_ns+= elapsed_ns;
+}
+
+extern "C" void get_wait_add_probe(unsigned long elapsed_ns)
+{
+  client_probe_time_ns+= elapsed_ns;
+}
+
+extern "C" void get_wait_add_recv(unsigned long elapsed_ns)
+{
+  client_recv_time_ns+= elapsed_ns;
+}
+
+extern "C" void get_wait_print(void)
+{
+  int rank= -1;
+  unsigned long wait_other_time_ns= 0;
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+  if (client_wait_response_time_ns > client_probe_time_ns + client_recv_time_ns)
+  {
+    wait_other_time_ns= client_wait_response_time_ns - client_probe_time_ns - client_recv_time_ns;
+  }
+  printf("[client_wait_response_breakdown] rank=%d wait_response_count=%lu send_time=%lu probe_time=%lu recv_time=%lu wait_response_time=%lu wait_other_time=%lu\n",
+         rank,
+         client_wait_response_count,
+         client_send_time_ns,
+         client_probe_time_ns,
+         client_recv_time_ns,
+         client_wait_response_time_ns,
+         wait_other_time_ns);
+  fflush(stdout);
+}
 
 
 char *memcached_get(memcached_st *ptr, const char *key,
@@ -848,11 +928,16 @@ static memcached_return_t memcached_mpi_get_direct(Memcached *ptr,
   memcpy(req.key, key, key_length);
   //printf("[client] hv=%u key=%s\n", req.hv, key);
   //printf("[client] MPI_Send(), TAG : %d | target_server : %d\n", GET_REQ_TAG, target_server);
+  struct timespec send_start, send_end;
+  clock_gettime(CLOCK_MONOTONIC, &send_start);
   int err = MPI_Send(&req, sizeof(req), MPI_BYTE, target_server, GET_REQ_TAG, MPI_COMM_WORLD);
+  clock_gettime(CLOCK_MONOTONIC, &send_end);
+  get_wait_add_send(client_elapsed_ns(&send_start, &send_end));
   if (err != MPI_SUCCESS) {
     return memcached_set_error(*instance, MEMCACHED_WRITE_FAILURE, MEMCACHED_AT,
                                memcached_literal_param("MPI_Send() failed for get request"));
   }
+  get_wait_start();
 
   return MEMCACHED_SUCCESS;
 #else

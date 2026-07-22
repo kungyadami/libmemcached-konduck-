@@ -38,8 +38,20 @@
 #include <libmemcached/common.h>
 #include <libmemcached/string.hpp>
 #include <mpi.h>
+#include <time.h>
 
 #define DPU_RANK 0
+
+extern "C" void get_wait_end(void);
+extern "C" void get_wait_add_probe(unsigned long elapsed_ns);
+extern "C" void get_wait_add_recv(unsigned long elapsed_ns);
+
+static inline unsigned long client_elapsed_ns(const struct timespec *start,
+                                              const struct timespec *end)
+{
+  return (unsigned long)((end->tv_sec - start->tv_sec) * 1000000000UL +
+                         (end->tv_nsec - start->tv_nsec));
+}
 
 static memcached_return_t textual_value_fetch(memcached_instance_st* instance,
                                               char *buffer,
@@ -251,16 +263,21 @@ static memcached_return_t get_binary_value_fetch(memcached_instance_st* instance
     return memcached_set_error(*instance, MEMCACHED_UNKNOWN_READ_FAILURE, MEMCACHED_AT);
   }
 
+  struct timespec recv_start, recv_end;
+  clock_gettime(CLOCK_MONOTONIC, &recv_start);
   int err = MPI_Recv(&resp, sizeof(resp), MPI_BYTE,
                      status->MPI_SOURCE,
                      status->MPI_TAG,
                      MPI_COMM_WORLD,
                      MPI_STATUS_IGNORE);
+  clock_gettime(CLOCK_MONOTONIC, &recv_end);
+  get_wait_add_recv(client_elapsed_ns(&recv_start, &recv_end));
   //printf("[client] MPI_Recv, resp.result : %d\n", resp.result);
 
   if (err != MPI_SUCCESS) {
     return memcached_set_error(*instance, MEMCACHED_UNKNOWN_READ_FAILURE, MEMCACHED_AT);
   }
+  get_wait_end();
 
   if (resp.result != BIN_VALUE) { //만약 응답 구조체에 result값이 VALUE값이 아닌 다른 변수면 그냥 END
     return MEMCACHED_END;
@@ -338,9 +355,13 @@ size_t total_read;
   if (instance->read_buffer_length == 0)
   {
     //printf("여기는 textual_read_one_response 서버 요청 기다리는 중(MPI_Probe)\n");
+    struct timespec probe_start, probe_end;
+    clock_gettime(CLOCK_MONOTONIC, &probe_start);
     MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_status);
+    clock_gettime(CLOCK_MONOTONIC, &probe_end);
 
     if (mpi_status.MPI_TAG == GET_RESP_TAG) {
+        get_wait_add_probe(client_elapsed_ns(&probe_start, &probe_end));
         return get_binary_value_fetch(instance, result, &mpi_status);
     }
 
