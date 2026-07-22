@@ -43,6 +43,36 @@
 #include <time.h>
 
 MPI_Request request;
+
+static unsigned long client_send_time_ns= 0;
+static unsigned long client_probe_time_ns= 0;
+static unsigned long client_recv_time_ns= 0;
+
+static inline unsigned long client_elapsed_ns(const struct timespec *start,
+                                              const struct timespec *end)
+{
+  return (unsigned long)((end->tv_sec - start->tv_sec) * 1000000000UL +
+                         (end->tv_nsec - start->tv_nsec));
+}
+
+extern "C" void get_wait_reset(void)
+{
+  client_send_time_ns= 0;
+  client_probe_time_ns= 0;
+  client_recv_time_ns= 0;
+}
+
+extern "C" void get_wait_print(void)
+{
+  int rank= -1;
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+  printf("[client_mpi_breakdown] rank=%d send_time=%lu probe_time=%lu recv_time=%lu\n",
+         rank,
+         client_send_time_ns,
+         client_probe_time_ns,
+         client_recv_time_ns);
+  fflush(stdout);
+}
 MPI_Status mpi_recv_status;
 struct timespec start, end;
 #define BILLION 1000000000UL
@@ -372,6 +402,7 @@ static bool io_flush(memcached_instance_st* instance, const bool with_flush, mem
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     int client_size = size/2;
     //printf("client, [%d]에게 전송 메세지 : %s\n",target_server, local_write_ptr);
+    struct timespec send_start, send_end;
 
 #if DPU_CACHE
     char first = local_write_ptr[0];
@@ -386,11 +417,16 @@ static bool io_flush(memcached_instance_st* instance, const bool with_flush, mem
         //printf("client set, [%d]에게 전송 메세지 : \"%s\"\n",target_server, local_write_ptr);
       }
     }
+    clock_gettime(CLOCK_MONOTONIC, &send_start);
     MPI_Send(local_write_ptr, write_length, MPI_CHAR, target_server, SEND_TAG, MPI_COMM_WORLD);
+    clock_gettime(CLOCK_MONOTONIC, &send_end);
 #else
   //printf("[client] send[%d] \"%s\" \n", target_server, local_write_ptr);
+  clock_gettime(CLOCK_MONOTONIC, &send_start);
   MPI_Send(local_write_ptr, write_length, MPI_CHAR, target_server, SEND_TAG, MPI_COMM_WORLD);
+  clock_gettime(CLOCK_MONOTONIC, &send_end);
 #endif
+    client_send_time_ns += client_elapsed_ns(&send_start, &send_end);
     ssize_t mpi_sent_length = write_length;
 #endif
 
@@ -526,13 +562,21 @@ static memcached_return_t _io_fill(memcached_instance_st* instance)
 
 #if ENABLE_MPI_FUNCTIONS
     //target_server = 0;
+    struct timespec probe_start, probe_end;
+    clock_gettime(CLOCK_MONOTONIC, &probe_start);
     MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_recv_status);
+    clock_gettime(CLOCK_MONOTONIC, &probe_end);
+    client_probe_time_ns += client_elapsed_ns(&probe_start, &probe_end);
     int count;
     MPI_Get_count(&mpi_recv_status, MPI_CHAR, &count);
+    struct timespec recv_start, recv_end;
+    clock_gettime(CLOCK_MONOTONIC, &recv_start);
     int err = MPI_Recv(instance->read_buffer, count, MPI_CHAR,
             mpi_recv_status.MPI_SOURCE,
             mpi_recv_status.MPI_TAG,
             MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    clock_gettime(CLOCK_MONOTONIC, &recv_end);
+    client_recv_time_ns += client_elapsed_ns(&recv_start, &recv_end);
     //printf("[client] recv[%d] \"%s\" \n", mpi_recv_status.MPI_SOURCE, instance->read_buffer);
     //printf("client, [%d]에게 받은 메세지, \"%s\"\n", mpi_recv_status.MPI_SOURCE, instance->read_buffer);
     MPI_Get_count(&mpi_recv_status, MPI_CHAR, &data_read);
