@@ -49,6 +49,7 @@
 #define ENABLE_SOCKET_FUNCTIONS 0
 #define ENABLE_MPI_FUNCTIONS 1
 #define ENABLE_PRINT 0
+#define CLIENT_MPI_BREAKDOWN 0
 extern int target_server;
 /****************** DPU와의 구조체 통신을 위한 변수 ********************* */
 

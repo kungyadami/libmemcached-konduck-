@@ -46,6 +46,7 @@
 
 
 
+#if CLIENT_MPI_BREAKDOWN
 static unsigned long client_wait_response_time_ns= 0;
 static unsigned long client_wait_response_count= 0;
 static unsigned long client_send_time_ns= 0;
@@ -60,25 +61,31 @@ static inline unsigned long client_elapsed_ns(const struct timespec *start,
   return (unsigned long)((end->tv_sec - start->tv_sec) * 1000000000UL +
                          (end->tv_nsec - start->tv_nsec));
 }
+#endif
 
 extern "C" void get_wait_reset(void)
 {
+#if CLIENT_MPI_BREAKDOWN
   client_wait_response_time_ns= 0;
   client_wait_response_count= 0;
   client_send_time_ns= 0;
   client_probe_time_ns= 0;
   client_recv_time_ns= 0;
   client_wait_response_active= false;
+#endif
 }
 
 extern "C" void get_wait_start(void)
 {
+#if CLIENT_MPI_BREAKDOWN
   clock_gettime(CLOCK_MONOTONIC, &client_wait_response_start);
   client_wait_response_active= true;
+#endif
 }
 
 extern "C" void get_wait_end(void)
 {
+#if CLIENT_MPI_BREAKDOWN
   if (client_wait_response_active)
   {
     struct timespec end;
@@ -87,25 +94,39 @@ extern "C" void get_wait_end(void)
     client_wait_response_count++;
     client_wait_response_active= false;
   }
+#endif
 }
 
 extern "C" void get_wait_add_send(unsigned long elapsed_ns)
 {
+#if CLIENT_MPI_BREAKDOWN
   client_send_time_ns+= elapsed_ns;
+#else
+  (void)elapsed_ns;
+#endif
 }
 
 extern "C" void get_wait_add_probe(unsigned long elapsed_ns)
 {
+#if CLIENT_MPI_BREAKDOWN
   client_probe_time_ns+= elapsed_ns;
+#else
+  (void)elapsed_ns;
+#endif
 }
 
 extern "C" void get_wait_add_recv(unsigned long elapsed_ns)
 {
+#if CLIENT_MPI_BREAKDOWN
   client_recv_time_ns+= elapsed_ns;
+#else
+  (void)elapsed_ns;
+#endif
 }
 
 extern "C" void get_wait_print(void)
 {
+#if CLIENT_MPI_BREAKDOWN
   int rank= -1;
   unsigned long wait_other_time_ns= 0;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -122,6 +143,7 @@ extern "C" void get_wait_print(void)
          client_wait_response_time_ns,
          wait_other_time_ns);
   fflush(stdout);
+#endif
 }
 
 
@@ -928,11 +950,15 @@ static memcached_return_t memcached_mpi_get_direct(Memcached *ptr,
   memcpy(req.key, key, key_length);
   //printf("[client] hv=%u key=%s\n", req.hv, key);
   //printf("[client] MPI_Send(), TAG : %d | target_server : %d\n", GET_REQ_TAG, target_server);
+#if CLIENT_MPI_BREAKDOWN
   struct timespec send_start, send_end;
   clock_gettime(CLOCK_MONOTONIC, &send_start);
+#endif
   int err = MPI_Send(&req, sizeof(req), MPI_BYTE, target_server, GET_REQ_TAG, MPI_COMM_WORLD);
+#if CLIENT_MPI_BREAKDOWN
   clock_gettime(CLOCK_MONOTONIC, &send_end);
   get_wait_add_send(client_elapsed_ns(&send_start, &send_end));
+#endif
   if (err != MPI_SUCCESS) {
     return memcached_set_error(*instance, MEMCACHED_WRITE_FAILURE, MEMCACHED_AT,
                                memcached_literal_param("MPI_Send() failed for get request"));
