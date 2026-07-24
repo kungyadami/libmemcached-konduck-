@@ -265,25 +265,17 @@ static memcached_return_t get_binary_value_fetch(memcached_instance_st* instance
     return memcached_set_error(*instance, MEMCACHED_UNKNOWN_READ_FAILURE, MEMCACHED_AT);
   }
 
-#if CLIENT_MPI_BREAKDOWN
-  struct timespec recv_start, recv_end;
-  clock_gettime(CLOCK_MONOTONIC, &recv_start);
-#endif
   int err = MPI_Recv(&resp, sizeof(resp), MPI_BYTE,
                      status->MPI_SOURCE,
                      status->MPI_TAG,
                      MPI_COMM_WORLD,
                      MPI_STATUS_IGNORE);
-#if CLIENT_MPI_BREAKDOWN
-  clock_gettime(CLOCK_MONOTONIC, &recv_end);
-  get_wait_add_recv(client_elapsed_ns(&recv_start, &recv_end));
-#endif
+
   //printf("[client] MPI_Recv, resp.result : %d\n", resp.result);
 
   if (err != MPI_SUCCESS) {
     return memcached_set_error(*instance, MEMCACHED_UNKNOWN_READ_FAILURE, MEMCACHED_AT);
   }
-  get_wait_end();
 
   if (resp.result != BIN_VALUE) { //만약 응답 구조체에 result값이 VALUE값이 아닌 다른 변수면 그냥 END
     return MEMCACHED_END;

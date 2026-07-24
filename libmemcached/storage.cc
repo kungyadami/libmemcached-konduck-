@@ -267,11 +267,11 @@ static memcached_return_t memcached_send_ascii(Memcached *ptr,        //memcache
   //****************************  내가 최적화를 위해 추가한 부분 *********************************************** */
   #if ENABLE_MPI_FUNCTIONS
     if (verb == SET_OP) {
-// #if DPU_CACHE
-//       target_server = 1; //서버
-// #else
-//       target_server = 0; 
-// #endif
+#if DPU_CACHE
+      target_server = 1; //서버
+#else
+      target_server = 0; 
+#endif
       client_bin_set_req_t req;
       memset(&req, 0, sizeof(req));
 
