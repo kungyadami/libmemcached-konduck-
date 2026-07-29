@@ -47,6 +47,10 @@ MPI_Request request;
 static unsigned long client_send_time_ns= 0;
 static unsigned long client_probe_time_ns= 0;
 static unsigned long client_recv_time_ns= 0;
+static unsigned long client_get_wait_response_time_ns= 0;
+static unsigned long client_get_wait_response_count= 0;
+static bool client_get_wait_active= false;
+static struct timespec client_get_wait_start;
 
 static inline unsigned long client_elapsed_ns(const struct timespec *start,
                                               const struct timespec *end)
@@ -60,6 +64,9 @@ extern "C" void get_wait_reset(void)
   client_send_time_ns= 0;
   client_probe_time_ns= 0;
   client_recv_time_ns= 0;
+  client_get_wait_response_time_ns= 0;
+  client_get_wait_response_count= 0;
+  client_get_wait_active= false;
 }
 
 extern "C" void get_wait_print(void)
@@ -71,6 +78,11 @@ extern "C" void get_wait_print(void)
          client_send_time_ns,
          client_probe_time_ns,
          client_recv_time_ns);
+  printf("[client_get_wait_response] rank=%d count=%lu total_time=%lu avg_time=%lu\n",
+         rank,
+         client_get_wait_response_count,
+         client_get_wait_response_time_ns,
+         client_get_wait_response_count ? client_get_wait_response_time_ns / client_get_wait_response_count : 0);
   fflush(stdout);
 }
 MPI_Status mpi_recv_status;
@@ -403,30 +415,31 @@ static bool io_flush(memcached_instance_st* instance, const bool with_flush, mem
     int client_size = size/2;
     //printf("client, [%d]에게 전송 메세지 : %s\n",target_server, local_write_ptr);
     struct timespec send_start, send_end;
+    bool is_get_request= (write_length >= 3 && strncmp(local_write_ptr, "get", 3) == 0);
 
 #if DPU_CACHE
     char first = local_write_ptr[0];
     if(first == 'g'){
       if(strncmp(local_write_ptr, "get", 3) == 0){
         target_server=0;
-        //printf("client get, [%d]에게 전송 메세지 : \"%s\"\n",target_server, local_write_ptr);
       } 
     }else if(first == 's'){
       if(strncmp(local_write_ptr, "set", 3) == 0){
         target_server=1;
-        //printf("client set, [%d]에게 전송 메세지 : \"%s\"\n",target_server, local_write_ptr);
       }
     }
-    clock_gettime(CLOCK_MONOTONIC, &send_start);
+    if (is_get_request) {
+      clock_gettime(CLOCK_MONOTONIC, &client_get_wait_start);
+      client_get_wait_active= true;
+    }
     MPI_Send(local_write_ptr, write_length, MPI_CHAR, target_server, SEND_TAG, MPI_COMM_WORLD);
-    clock_gettime(CLOCK_MONOTONIC, &send_end);
 #else
-  //printf("[client] send[%d] \"%s\" \n", target_server, local_write_ptr);
-  clock_gettime(CLOCK_MONOTONIC, &send_start);
+  if (is_get_request) {
+    clock_gettime(CLOCK_MONOTONIC, &client_get_wait_start);
+    client_get_wait_active= true;
+  }
   MPI_Send(local_write_ptr, write_length, MPI_CHAR, target_server, SEND_TAG, MPI_COMM_WORLD);
-  clock_gettime(CLOCK_MONOTONIC, &send_end);
 #endif
-    client_send_time_ns += client_elapsed_ns(&send_start, &send_end);
     ssize_t mpi_sent_length = write_length;
 #endif
 
@@ -562,24 +575,32 @@ static memcached_return_t _io_fill(memcached_instance_st* instance)
 
 #if ENABLE_MPI_FUNCTIONS
     //target_server = 0;
-    struct timespec probe_start, probe_end;
-    clock_gettime(CLOCK_MONOTONIC, &probe_start);
+    // struct timespec probe_start, probe_end;
+    // clock_gettime(CLOCK_MONOTONIC, &probe_start);
     MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_recv_status);
-    clock_gettime(CLOCK_MONOTONIC, &probe_end);
-    client_probe_time_ns += client_elapsed_ns(&probe_start, &probe_end);
+    // clock_gettime(CLOCK_MONOTONIC, &probe_end);
+    // client_probe_time_ns += client_elapsed_ns(&probe_start, &probe_end);
     int count;
     MPI_Get_count(&mpi_recv_status, MPI_CHAR, &count);
     struct timespec recv_start, recv_end;
-    clock_gettime(CLOCK_MONOTONIC, &recv_start);
+    //clock_gettime(CLOCK_MONOTONIC, &recv_start);
     int err = MPI_Recv(instance->read_buffer, count, MPI_CHAR,
             mpi_recv_status.MPI_SOURCE,
             mpi_recv_status.MPI_TAG,
             MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    clock_gettime(CLOCK_MONOTONIC, &recv_end);
-    client_recv_time_ns += client_elapsed_ns(&recv_start, &recv_end);
+    if (client_get_wait_active) {
+      struct timespec wait_end;
+      clock_gettime(CLOCK_MONOTONIC, &wait_end);
+      client_get_wait_response_time_ns += client_elapsed_ns(&client_get_wait_start, &wait_end);
+      client_get_wait_response_count++;
+      client_get_wait_active= false;
+    }
+    // clock_gettime(CLOCK_MONOTONIC, &recv_end);
+    // client_recv_time_ns += client_elapsed_ns(&recv_start, &recv_end);
     //printf("[client] recv[%d] \"%s\" \n", mpi_recv_status.MPI_SOURCE, instance->read_buffer);
     //printf("client, [%d]에게 받은 메세지, \"%s\"\n", mpi_recv_status.MPI_SOURCE, instance->read_buffer);
-    MPI_Get_count(&mpi_recv_status, MPI_CHAR, &data_read);
+    //MPI_Get_count(&mpi_recv_status, MPI_CHAR, &data_read);
+    data_read = count;
 #endif
 
     int local_errno= get_socket_errno(); // We cache in case memcached_quit_server() modifies errno
