@@ -39,6 +39,8 @@
 #include <mpi.h>
 #include <time.h>
 
+extern "C" void get_wait_start(void);
+
 /*
   What happens if no servers exist?
 */
@@ -774,6 +776,7 @@ static memcached_return_t memcached_mpi_get_direct(Memcached *ptr,
 
   memcpy(req.key, key, key_length);
 
+  //get_wait_start();
   int err = MPI_Send(&req, sizeof(req), MPI_BYTE, target_server, GET_REQ_TAG, MPI_COMM_WORLD);
 
   if (err != MPI_SUCCESS) {
