@@ -57,6 +57,7 @@
 #endif
 
 #include "libmemcached/string.hpp"
+#include <mpi.h>
 
 // @todo Complete class transformation
 struct memcached_instance_st {
@@ -175,6 +176,12 @@ struct memcached_instance_st {
   struct memcached_error_t *error_messages;
   char read_buffer[MEMCACHED_MAX_BUFFER];
   char write_buffer[MEMCACHED_MAX_BUFFER];
+  char mpi_send_buffer[MEMCACHED_MAX_BUFFER];
+  char mpi_recv_buffer[MEMCACHED_MAX_BUFFER];
+  MPI_Request mpi_send_request;
+  MPI_Request mpi_recv_request;
+  bool mpi_send_pending;
+  bool mpi_recv_pending;
   char _hostname[MEMCACHED_NI_MAXHOST];
 
   void clear_addrinfo()

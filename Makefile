@@ -2783,7 +2783,7 @@ AM_V_CXX = $(am__v_CXX_$(V))
 am__v_CXX_ = $(am__v_CXX_$(AM_DEFAULT_VERBOSITY))
 am__v_CXX_0 = @echo "  CXX     " $@;
 am__v_CXX_1 = 
-CXXLD = $(CXX)
+CXXLD = mpicxx
 CXXLINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
@@ -3296,20 +3296,20 @@ AUTOHEADER = ${SHELL} '/home/cluster/yedam-cmd/libmemcached-konduck-/build-aux/m
 AUTOHEADER_FILE = mem_config.h
 AUTOMAKE = ${SHELL} '/home/cluster/yedam-cmd/libmemcached-konduck-/build-aux/missing' automake-1.16
 AWK = mawk
-CC = mpicc
+CC = gcc
 CCDEPMODE = depmode=gcc3
-CC_VERSION = cc (Ubuntu 11.4.0-1ubuntu1~22.04.2) 11.4.0
+CC_VERSION = gcc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
 CC_VERSION_VENDOR = gnu
-CFLAGS = -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -fwrapv -pipe -fPIE -pie -Wsizeof-pointer-memaccess -Wpacked 
+CFLAGS = -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -fwrapv -pipe -fPIE -pie -Wsizeof-pointer-memaccess -Wpacked
 CFLAG_VISIBILITY = -fvisibility=hidden
-CPPFLAGS =  -fvisibility=hidden
+CPPFLAGS = -I/share/shared-apps/x86/mvapich-4.1/include -fvisibility=hidden
 CSCOPE = cscope
 CTAGS = ctags
-CXX = mpicxx
-CXXCPP = c++ -E
+CXX = g++ -std=c++0x
+CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Wformat-security -fwrapv -pipe -fPIE -pie -Wsizeof-pointer-memaccess -Wpacked 
-CXX_VERSION = c++ (Ubuntu 11.4.0-1ubuntu1~22.04.2) 11.4.0
+CXXFLAGS = -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Wformat-security -fwrapv -pipe -fPIE -pie -Wsizeof-pointer-memaccess -Wpacked
+CXX_VERSION = g++ (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
 CXX_VERSION_VENDOR = gnu
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
@@ -3341,7 +3341,7 @@ INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LCOV = 
 LCOV_GENHTML = 
 LD = /usr/bin/ld -m elf_x86_64
-LDFLAGS =   -rdynamic
+LDFLAGS = -L/share/shared-apps/x86/mvapich-4.1/lib -Wl,--allow-shlib-undefined -rdynamic
 LEX = flex
 LIBEVENT_LIB = -levent
 LIBGEARMAN_CPPFLAGS = 
@@ -3353,7 +3353,7 @@ LIBMEMCACHED_VERSION_HEX = 0x01000018
 LIBMEMCACHED_VERSION_STRING = 1.0.18
 LIBMEMCACHED_WITH_SASL_SUPPORT = #define LIBMEMCACHED_WITH_SASL_SUPPORT 0
 LIBOBJS = 
-LIBS = 
+LIBS = /share/shared-apps/x86/mvapich-4.1/lib/libmpi.so
 LIBSASL_CPPFLAGS = 
 LIBSASL_LDFLAGS = 
 LIBTEST_VERSION = 1.0
@@ -3394,7 +3394,7 @@ PACKAGE_URL =
 PACKAGE_VERSION = 1.0.18
 PATH_SEPARATOR = :
 PERL = perl
-PTHREAD_CC = cc
+PTHREAD_CC = gcc
 PTHREAD_CFLAGS = 
 PTHREAD_LIBS = 
 RANLIB = ranlib
@@ -3418,8 +3418,8 @@ abs_srcdir = /home/cluster/yedam-cmd/libmemcached-konduck-
 abs_top_builddir = /home/cluster/yedam-cmd/libmemcached-konduck-
 abs_top_srcdir = /home/cluster/yedam-cmd/libmemcached-konduck-
 ac_ct_AR = ar
-ac_ct_CC = cc
-ac_ct_CXX = c++
+ac_ct_CC = 
+ac_ct_CXX = 
 ac_ct_DUMPBIN = 
 am__include = include
 am__leading_dot = .

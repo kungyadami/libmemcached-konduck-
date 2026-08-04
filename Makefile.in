@@ -2783,7 +2783,7 @@ AM_V_CXX = $(am__v_CXX_@AM_V@)
 am__v_CXX_ = $(am__v_CXX_@AM_DEFAULT_V@)
 am__v_CXX_0 = @echo "  CXX     " $@;
 am__v_CXX_1 = 
-CXXLD = $(CXX)
+CXXLD = mpicxx
 CXXLINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CXXLD) $(AM_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@

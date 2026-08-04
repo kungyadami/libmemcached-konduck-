@@ -76,6 +76,10 @@ static inline void _server_init(memcached_instance_st* self, Memcached *root,
   self->read_buffer_length= 0;
   self->read_data_length= 0;
   self->write_buffer_offset= 0;
+  self->mpi_send_request= MPI_REQUEST_NULL;
+  self->mpi_recv_request= MPI_REQUEST_NULL;
+  self->mpi_send_pending= false;
+  self->mpi_recv_pending= false;
   self->address_info= NULL;
   self->address_info_next= NULL;
 

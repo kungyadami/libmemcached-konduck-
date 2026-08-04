@@ -47,6 +47,9 @@
 
 #define ENABLE_SOCKET_FUNCTIONS 0
 #define ENABLE_MPI_FUNCTIONS 1
+#ifndef ENABLE_MPI_ASYNC
+#define ENABLE_MPI_ASYNC 1
+#endif
 #define ENABLE_PRINT 0
 #define SEND_TAG 100
 #define RECV_TAG 200

@@ -40,55 +40,124 @@
 #include <libmemcached/common.h>
 #include <string.h>
 #include <mpi.h>
-#include <time.h>
 
 MPI_Request request;
 
-static unsigned long client_send_time_ns= 0;
-static unsigned long client_probe_time_ns= 0;
-static unsigned long client_recv_time_ns= 0;
-static unsigned long client_get_wait_response_time_ns= 0;
-static unsigned long client_get_wait_response_count= 0;
-static bool client_get_wait_active= false;
-static struct timespec client_get_wait_start;
-
-static inline unsigned long client_elapsed_ns(const struct timespec *start,
-                                              const struct timespec *end)
+static bool mpi_buffer_contains(const char *buffer, size_t length,
+                                const char *needle, size_t needle_length)
 {
-  return (unsigned long)((end->tv_sec - start->tv_sec) * 1000000000UL +
-                         (end->tv_nsec - start->tv_nsec));
+  if (needle_length == 0 || length < needle_length)
+  {
+    return false;
+  }
+
+  for (size_t i= 0; i + needle_length <= length; i++)
+  {
+    if (memcmp(buffer + i, needle, needle_length) == 0)
+    {
+      return true;
+    }
+  }
+  return false;
+}
+
+static bool mpi_request_expects_response(const char *buffer, size_t length,
+                                         bool with_flush)
+{
+  if (with_flush == false)
+  {
+    return false;
+  }
+  if (mpi_buffer_contains(buffer, length, " noreply", 8))
+  {
+    return false;
+  }
+  if (length >= 4 && memcmp(buffer, "quit", 4) == 0)
+  {
+    return false;
+  }
+  return true;
+}
+
+static ssize_t mpi_find_crlf(const char *buffer, size_t max_length)
+{
+  for (size_t i= 0; i + 1 < max_length; i++)
+  {
+    if (buffer[i] == '\r' && buffer[i + 1] == '\n')
+    {
+      return (ssize_t)i;
+    }
+  }
+  return -1;
+}
+
+static ssize_t mpi_find_token_end(const char *buffer, size_t max_length,
+                                  const char *token, size_t token_length)
+{
+  if (token_length == 0 || max_length < token_length)
+  {
+    return -1;
+  }
+
+  for (size_t i= 0; i + token_length <= max_length; i++)
+  {
+    if (memcmp(buffer + i, token, token_length) == 0)
+    {
+      return (ssize_t)(i + token_length);
+    }
+  }
+  return -1;
+}
+
+static size_t mpi_parse_response_bytes(const char *buffer, size_t max_length)
+{
+  if (max_length == 0)
+  {
+    return 0;
+  }
+
+  if (max_length >= 5 && memcmp(buffer, "VALUE", 5) == 0)
+  {
+    ssize_t value_end= mpi_find_token_end(buffer, max_length, "END\r\n", 5);
+    return value_end > 0 ? (size_t)value_end : max_length;
+  }
+
+  ssize_t line_end= mpi_find_crlf(buffer, max_length);
+  return line_end >= 0 ? (size_t)line_end + 2 : max_length;
+}
+
+static int mpi_complete_previous_send(memcached_instance_st *instance)
+{
+  if (instance->mpi_send_pending == false)
+  {
+    return MPI_SUCCESS;
+  }
+
+  int err= MPI_Wait(&instance->mpi_send_request, MPI_STATUS_IGNORE);
+  if (err == MPI_SUCCESS)
+  {
+    instance->mpi_send_pending= false;
+    instance->mpi_send_request= MPI_REQUEST_NULL;
+  }
+  return err;
 }
 
 extern "C" void get_wait_reset(void)
 {
-  client_send_time_ns= 0;
-  client_probe_time_ns= 0;
-  client_recv_time_ns= 0;
-  client_get_wait_response_time_ns= 0;
-  client_get_wait_response_count= 0;
-  client_get_wait_active= false;
 }
 
 extern "C" void get_wait_print(void)
 {
   int rank= -1;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-  printf("[client_mpi_breakdown] rank=%d send_time=%lu probe_time=%lu recv_time=%lu\n",
+  printf("[client_round_trip] rank=%d count=%lu total_time=%lu avg_time=%lu\n",
          rank,
-         client_send_time_ns,
-         client_probe_time_ns,
-         client_recv_time_ns);
-  printf("[client_get_wait_response] rank=%d count=%lu total_time=%lu avg_time=%lu\n",
-         rank,
-         client_get_wait_response_count,
-         client_get_wait_response_time_ns,
-         client_get_wait_response_count ? client_get_wait_response_time_ns / client_get_wait_response_count : 0);
+         0UL,
+         0UL,
+         0UL);
   fflush(stdout);
 }
 MPI_Status mpi_recv_status;
-struct timespec start, end;
-#define BILLION 1000000000UL
-#define DPU_CACHE 0
 
 #ifdef HAVE_SYS_SOCKET_H
 # include <sys/socket.h>
@@ -385,7 +454,7 @@ static bool io_flush(memcached_instance_st* instance, const bool with_flush, mem
   size_t write_length= instance->write_buffer_offset;
 
   error= MEMCACHED_SUCCESS;
-
+  //printf("최종 io_flush1\n");
   WATCHPOINT_ASSERT(instance->fd != INVALID_SOCKET);
   /* Looking for memory overflows */
 #if defined(DEBUG)
@@ -402,7 +471,7 @@ static bool io_flush(memcached_instance_st* instance, const bool with_flush, mem
     }else{
       flags= MSG_NOSIGNAL|MSG_MORE;
     }
-
+      //printf("최종 io_flush2\n");
 #if ENABLE_SOCKET_FUNCTIONS  
     ssize_t sent_length= ::send(instance->fd, local_write_ptr, write_length, flags);
 #endif
@@ -410,35 +479,62 @@ static bool io_flush(memcached_instance_st* instance, const bool with_flush, mem
 #if ENABLE_MPI_FUNCTIONS
     int size;
     int rank;
+      //printf("최종 io_flush3\n");
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
+      //printf("최종 io_flush4\n");
     int client_size = size/2;
-    //printf("client, [%d]에게 전송 메세지 : %s\n",target_server, local_write_ptr);
-    struct timespec send_start, send_end;
-    bool is_get_request= (write_length >= 3 && strncmp(local_write_ptr, "get", 3) == 0);
-
-#if DPU_CACHE
-    char first = local_write_ptr[0];
-    if(first == 'g'){
-      if(strncmp(local_write_ptr, "get", 3) == 0){
-        target_server=0;
-      } 
-    }else if(first == 's'){
-      if(strncmp(local_write_ptr, "set", 3) == 0){
-        target_server=1;
-      }
+    //printf("client, [%d]에게 전송 메세지1 : %s\n",target_server, local_write_ptr);
+    //bool is_get_request= (write_length >= 3 && strncmp(local_write_ptr, "get", 3) == 0);
+    bool expects_response= mpi_request_expects_response(local_write_ptr, write_length,with_flush);
+    if (instance->mpi_recv_pending){
+      error= memcached_set_error(*instance, MEMCACHED_IN_PROGRESS, MEMCACHED_AT);
+      return false;
     }
-    if (is_get_request) {
-      clock_gettime(CLOCK_MONOTONIC, &client_get_wait_start);
-      client_get_wait_active= true;
+    if (mpi_complete_previous_send(instance) != MPI_SUCCESS){
+      error= memcached_set_error(*instance, MEMCACHED_WRITE_FAILURE, MEMCACHED_AT);
+      return false;
     }
-    MPI_Send(local_write_ptr, write_length, MPI_CHAR, target_server, SEND_TAG, MPI_COMM_WORLD);
+    //printf("client, [%d]에게 전송 메세지2 : %s\n",target_server, local_write_ptr);
+    if (write_length > MEMCACHED_MAX_BUFFER){
+      error= memcached_set_error(*instance, MEMCACHED_WRITE_FAILURE, MEMCACHED_AT);
+      return false;
+    }
+#if ENABLE_MPI_FIXED_PADDING
+    memset(instance->mpi_send_buffer, 0, MEMCACHED_MAX_BUFFER);
+#endif
+    memcpy(instance->mpi_send_buffer, local_write_ptr, write_length);
+#if ENABLE_MPI_FIXED_PADDING
+    const size_t mpi_send_length= MEMCACHED_MAX_BUFFER;
 #else
-  if (is_get_request) {
-    clock_gettime(CLOCK_MONOTONIC, &client_get_wait_start);
-    client_get_wait_active= true;
+    const size_t mpi_send_length= write_length;
+#endif
+
+#if ENABLE_MPI_ASYNC
+  //printf("[client send] instance->mpi_send_buffer : %s\n", instance->mpi_send_buffer);
+  int send_err= MPI_Isend(instance->mpi_send_buffer, mpi_send_length, MPI_CHAR,  target_server, SEND_TAG, MPI_COMM_WORLD, &instance->mpi_send_request);
+  if (send_err != MPI_SUCCESS){
+    error= memcached_set_error(*instance, MEMCACHED_WRITE_FAILURE, MEMCACHED_AT);
+    return false;
   }
-  MPI_Send(local_write_ptr, write_length, MPI_CHAR, target_server, SEND_TAG, MPI_COMM_WORLD);
+  instance->mpi_send_pending= true;
+  if (expects_response){
+    int recv_err= MPI_Irecv(instance->mpi_recv_buffer, MEMCACHED_MAX_BUFFER,  MPI_CHAR, target_server, RECV_TAG, MPI_COMM_WORLD,  &instance->mpi_recv_request);
+    if (recv_err != MPI_SUCCESS){
+      mpi_complete_previous_send(instance);
+      error= memcached_set_error(*instance, MEMCACHED_READ_FAILURE, MEMCACHED_AT);
+      return false;
+    }
+    instance->mpi_recv_pending= true;
+  }
+#else
+    //printf("[client send] target_server : %d, 내 rank : %d\n",target_server, rank);
+    int send_err= MPI_Send(instance->mpi_send_buffer, mpi_send_length, MPI_CHAR, 0, SEND_TAG, MPI_COMM_WORLD);
+    if (send_err != MPI_SUCCESS)
+    {
+      error= memcached_set_error(*instance, MEMCACHED_WRITE_FAILURE, MEMCACHED_AT);
+      return false;
+    }
 #endif
     ssize_t mpi_sent_length = write_length;
 #endif
@@ -546,11 +642,7 @@ static memcached_return_t _io_fill(memcached_instance_st* instance)
 #endif
 #if ENABLE_SOCKET_FUNCTIONS
   ssize_t data_read;
-#if ENABLE_PRINT 
-  printf("libmemcached/io.cc :: _io_fill() data_read 2 : %zu\n", data_read);
 #endif
-#endif
-
   #if ENABLE_MPI_FUNCTIONS
     int data_read; //내가 대충 오류 안나게할라고 20으로 해둠
     char mpi_recv_buf[100];
@@ -560,47 +652,83 @@ static memcached_return_t _io_fill(memcached_instance_st* instance)
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     int client_size = size/2;
-
+  #if ENABLE_PRINT 
+    printf("libmemcached/io.cc :: _io_fill() recv1\n");
+#endif
   #endif
-  do
-  {
+  do{
 #if ENABLE_PRINT 
-    printf("libmemcached/io.cc :: _io_fill() recv\n");
+    printf("libmemcached/io.cc :: _io_fill() recv2\n");
 #endif
 
 #if ENABLE_SOCKET_FUNCTIONS
       data_read= ::recv(instance->fd, instance->read_buffer, MEMCACHED_MAX_BUFFER, MSG_NOSIGNAL);
       //printf("libmemcached/io.cc :: _io_fill() instance->read_buffer : %s\n", instance->read_buffer);
 #endif
-
+#if ENABLE_PRINT 
+    printf("libmemcached/io.cc :: _io_fill() recv3\n");
+#endif
 #if ENABLE_MPI_FUNCTIONS
-    //target_server = 0;
-    // struct timespec probe_start, probe_end;
-    // clock_gettime(CLOCK_MONOTONIC, &probe_start);
-    MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_recv_status);
-    // clock_gettime(CLOCK_MONOTONIC, &probe_end);
-    // client_probe_time_ns += client_elapsed_ns(&probe_start, &probe_end);
-    int count;
-    MPI_Get_count(&mpi_recv_status, MPI_CHAR, &count);
-    struct timespec recv_start, recv_end;
-    //clock_gettime(CLOCK_MONOTONIC, &recv_start);
-    int err = MPI_Recv(instance->read_buffer, count, MPI_CHAR,
-            mpi_recv_status.MPI_SOURCE,
-            mpi_recv_status.MPI_TAG,
-            MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-    if (client_get_wait_active) {
-      struct timespec wait_end;
-      clock_gettime(CLOCK_MONOTONIC, &wait_end);
-      client_get_wait_response_time_ns += client_elapsed_ns(&client_get_wait_start, &wait_end);
-      client_get_wait_response_count++;
-      client_get_wait_active= false;
+#if ENABLE_MPI_ASYNC
+    #if ENABLE_PRINT 
+    printf("libmemcached/io.cc :: _io_fill() recv, MPI_Waitall3??\n");
+#endif
+    if (instance->mpi_recv_pending == false){
+      return memcached_set_error(*instance, MEMCACHED_READ_FAILURE, MEMCACHED_AT);
     }
-    // clock_gettime(CLOCK_MONOTONIC, &recv_end);
-    // client_recv_time_ns += client_elapsed_ns(&recv_start, &recv_end);
+    #if ENABLE_PRINT 
+    printf("libmemcached/io.cc :: _io_fill() recv, MPI_Waitall??\n");
+#endif
+    if (instance->mpi_send_pending){
+#if ENABLE_PRINT
+      printf("libmemcached/io.cc :: _io_fill() wait send\n");
+#endif
+      int send_err= MPI_Wait(&instance->mpi_send_request, MPI_STATUS_IGNORE);
+      if (send_err != MPI_SUCCESS){
+        return memcached_set_error(*instance, MEMCACHED_WRITE_FAILURE, MEMCACHED_AT);
+      }
+      instance->mpi_send_pending= false;
+      instance->mpi_send_request= MPI_REQUEST_NULL;
+    }
+
+#if ENABLE_PRINT
+    printf("libmemcached/io.cc :: _io_fill() wait recv\n");
+#endif
+    MPI_Status recv_status;
+    int recv_err= MPI_Wait(&instance->mpi_recv_request, &recv_status);
+    if (recv_err != MPI_SUCCESS){
+      return memcached_set_error(*instance, MEMCACHED_READ_FAILURE, MEMCACHED_AT);
+    }
+    instance->mpi_recv_pending= false;
+    instance->mpi_recv_request= MPI_REQUEST_NULL;
+
+    size_t count= mpi_parse_response_bytes(instance->mpi_recv_buffer, MEMCACHED_MAX_BUFFER);
+    if (count > MEMCACHED_MAX_BUFFER){
+      return memcached_set_error(*instance, MEMCACHED_READ_FAILURE, MEMCACHED_AT);
+    }
+    memcpy(instance->read_buffer, instance->mpi_recv_buffer, count);
     //printf("[client] recv[%d] \"%s\" \n", mpi_recv_status.MPI_SOURCE, instance->read_buffer);
     //printf("client, [%d]에게 받은 메세지, \"%s\"\n", mpi_recv_status.MPI_SOURCE, instance->read_buffer);
     //MPI_Get_count(&mpi_recv_status, MPI_CHAR, &data_read);
     data_read = count;
+#else
+    //printf("[client] MPI_Recv()1\n");
+    MPI_Status recv_status;
+    //printf("[client] MPI_Recv()\n");
+    int err= MPI_Recv(instance->read_buffer, MEMCACHED_MAX_BUFFER, MPI_CHAR, 0, RECV_TAG, MPI_COMM_WORLD, &recv_status);
+    if (err != MPI_SUCCESS)
+    {
+      return memcached_set_error(*instance, MEMCACHED_READ_FAILURE, MEMCACHED_AT);
+    }
+    //printf("[client] MPI_Recv()2\n");
+    size_t count= mpi_parse_response_bytes(instance->read_buffer, MEMCACHED_MAX_BUFFER);
+    //printf("[client] MPI_Recv()3, count : %d\n", count);
+    if (count > MEMCACHED_MAX_BUFFER)
+    {
+      return memcached_set_error(*instance, MEMCACHED_READ_FAILURE, MEMCACHED_AT);
+    }
+    data_read= (ssize_t)count;
+#endif
 #endif
 
     int local_errno= get_socket_errno(); // We cache in case memcached_quit_server() modifies errno
@@ -881,10 +1009,6 @@ static bool _io_write(memcached_instance_st* instance,
     instance->write_buffer_offset+= should_write;
     buffer_ptr+= should_write;
     length-= should_write;
-#if ENABLE_PRINT
-    printf("libmemcached/io.cc :: _io_write() write_ptr : %s\n", write_ptr);
-    printf("libmemcached/io.cc :: _io_write() buffer_ptr : %s\n", buffer_ptr);
-#endif
     if (instance->write_buffer_offset == buffer_end)
     {
       WATCHPOINT_ASSERT(instance->fd != INVALID_SOCKET);
@@ -912,8 +1036,7 @@ static bool _io_write(memcached_instance_st* instance,
     printf("libmemcached/io.cc :: _io_write - io_flush2\n");
 #endif
   //printf("libmemcached/io.cc :: _io_write() 3\n");
-    if (io_flush(instance, with_flush, rc) == false)
-    {
+    if (io_flush(instance, with_flush, rc) == false){
       written= original_length -length;
 
       return false;

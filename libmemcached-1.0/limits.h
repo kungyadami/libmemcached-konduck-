@@ -39,7 +39,10 @@
 #pragma once
 
 #define MEMCACHED_MAXIMUM_INTEGER_DISPLAY_LENGTH 20
-#define MEMCACHED_MAX_BUFFER 8196
+#define MEMCACHED_MAX_BUFFER 65536
+#ifndef ENABLE_MPI_FIXED_PADDING
+#define ENABLE_MPI_FIXED_PADDING 0
+#endif
 #define MEMCACHED_MAX_HOST_SORT_LENGTH 86 /* Used for Ketama */
 #define MEMCACHED_MAX_KEY 251 /* We add one to have it null terminated */
 #define MEMCACHED_PREFIX_KEY_MAX_SIZE 128
