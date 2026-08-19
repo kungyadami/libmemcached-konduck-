@@ -760,7 +760,7 @@ static memcached_return_t memcached_mpi_get_direct(Memcached *ptr,
   int rank;
   client_bin_get_req_t req;
   memset(&req, 0, sizeof(req));
-  target_server = 0;
+  target_server = ptr->target_rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
   if (key_length == 0 || key_length > sizeof(req.key)) {

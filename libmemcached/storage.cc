@@ -267,11 +267,7 @@ static memcached_return_t memcached_send_ascii(Memcached *ptr,        //memcache
   //****************************  내가 최적화를 위해 추가한 부분 *********************************************** */
   #if ENABLE_MPI_FUNCTIONS
     if (verb == SET_OP) {
-#if DPU_CACHE
-      target_server = 1; //서버
-#else
-      target_server = 0; 
-#endif
+      target_server = ptr->target_rank;
       client_bin_set_req_t req;
       memset(&req, 0, sizeof(req));
 
@@ -496,7 +492,7 @@ static inline memcached_return_t memcached_send(memcached_st *shell,
   //어느 서버에 배치할 지 해시값 돌리기
   uint32_t server_key= memcached_generate_hash_with_redistribution(ptr, group_key, group_key_length);
   uint32_t hash =  libhashkit_murmur3(key, key_length);
-  target_server = server_base_rank + (hash % server_rank_count());
+  target_server = ptr->target_rank;
   //printf("[SET] target_server : %d\n", target_server);
   //해당 서버 포인터? 가져오기.. 아마도 서버키에 매핑되는, 서버리스트 배열에 있는 서버정보를 가져오는듯
   

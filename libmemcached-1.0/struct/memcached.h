@@ -90,6 +90,7 @@ struct memcached_st {
   int32_t dead_timeout;
   int send_size;
   int recv_size;
+  int target_rank;
   void *user_data;
   uint64_t query_id;
   uint32_t number_of_replicas;

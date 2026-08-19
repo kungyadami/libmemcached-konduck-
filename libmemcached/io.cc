@@ -427,7 +427,7 @@ static bool io_flush(memcached_instance_st* instance, const bool with_flush, mem
     char first = local_write_ptr[0];
 
     if (first == 'g' && strncmp(local_write_ptr, "get ", 4) == 0) {
-      target_server = 0; // DPU rank
+      target_server = instance->root->target_rank;
 
       const char *key_start = local_write_ptr + 4;
       const char *key_end = key_start;
@@ -457,7 +457,7 @@ static bool io_flush(memcached_instance_st* instance, const bool with_flush, mem
       mpi_sent_length = write_length;
     } else {
       if (first == 's' && strncmp(local_write_ptr, "set ", 4) == 0) {
-        target_server = 1; // host/server rank, 잠시 0으로 설정. DPU 모드에서는 1임!
+        target_server = instance->root->target_rank;
         const char *p = local_write_ptr + 4;
         const char *end = local_write_ptr + write_length;
 

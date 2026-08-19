@@ -132,6 +132,9 @@ LIBMEMCACHED_API
 memcached_st *memcached_create(memcached_st *ptr);
 
 LIBMEMCACHED_API
+void memcached_set_target_rank(memcached_st *ptr, int target_rank);
+
+LIBMEMCACHED_API
 memcached_st *memcached(const char *string, size_t string_length);
 
 LIBMEMCACHED_API

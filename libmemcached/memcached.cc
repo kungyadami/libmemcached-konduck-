@@ -104,6 +104,7 @@ static inline bool _memcached_init(Memcached *self)
 
   self->send_size= -1;
   self->recv_size= -1;
+  self->target_rank= 0;
 
   self->user_data= NULL;
   self->number_of_replicas= 0;
@@ -311,6 +312,14 @@ void memcached_free(memcached_st *ptr)
   }
 }
 
+void memcached_set_target_rank(memcached_st *ptr, int target_rank)
+{
+  if (ptr)
+  {
+    ptr->target_rank= target_rank;
+  }
+}
+
 /*
   clone is the destination, while source is the structure to clone.
   If source is NULL the call is the same as if a memcached_create() was
@@ -338,6 +347,7 @@ memcached_st *memcached_clone(memcached_st *clone, const memcached_st *source)
   new_clone->flags= source->flags;
   new_clone->send_size= source->send_size;
   new_clone->recv_size= source->recv_size;
+  new_clone->target_rank= source->target_rank;
   new_clone->poll_timeout= source->poll_timeout;
   new_clone->connect_timeout= source->connect_timeout;
   new_clone->retry_timeout= source->retry_timeout;
@@ -490,4 +500,3 @@ memcached_instance_st* memcached_instance_list(const memcached_st *shell)
 
   return NULL;
 }
-
