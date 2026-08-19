@@ -88,7 +88,6 @@ extern "C" void get_wait_print(void)
 MPI_Status mpi_recv_status;
 struct timespec start, end;
 #define BILLION 1000000000UL
-#define DPU_CACHE 0
 
 #ifdef HAVE_SYS_SOCKET_H
 # include <sys/socket.h>
@@ -415,31 +414,16 @@ static bool io_flush(memcached_instance_st* instance, const bool with_flush, mem
     int client_size = size/2;
     //printf("client, [%d]에게 전송 메세지 : %s\n",target_server, local_write_ptr);
     struct timespec send_start, send_end;
+
+#if CLIENT_BREAKDOWN
     bool is_get_request= (write_length >= 3 && strncmp(local_write_ptr, "get", 3) == 0);
 
-#if DPU_CACHE
-    char first = local_write_ptr[0];
-    if(first == 'g'){
-      if(strncmp(local_write_ptr, "get", 3) == 0){
-        target_server=0;
-      } 
-    }else if(first == 's'){
-      if(strncmp(local_write_ptr, "set", 3) == 0){
-        target_server=1;
-      }
-    }
     if (is_get_request) {
       clock_gettime(CLOCK_MONOTONIC, &client_get_wait_start);
       client_get_wait_active= true;
     }
-    MPI_Send(local_write_ptr, write_length, MPI_CHAR, target_server, SEND_TAG, MPI_COMM_WORLD);
-#else
-  if (is_get_request) {
-    clock_gettime(CLOCK_MONOTONIC, &client_get_wait_start);
-    client_get_wait_active= true;
-  }
-  MPI_Send(local_write_ptr, write_length, MPI_CHAR, target_server, SEND_TAG, MPI_COMM_WORLD);
 #endif
+    MPI_Send(local_write_ptr, write_length, MPI_CHAR, target_server, SEND_TAG, MPI_COMM_WORLD);
     ssize_t mpi_sent_length = write_length;
 #endif
 
@@ -541,17 +525,11 @@ memcached_return_t memcached_io_wait_for_read(memcached_instance_st* instance)
 
 static memcached_return_t _io_fill(memcached_instance_st* instance)
 {
-#if ENABLE_PRINT 
-  printf("libmemcached/io.cc :: _io_fill()\n");
-#endif
 #if ENABLE_SOCKET_FUNCTIONS
   ssize_t data_read;
-#if ENABLE_PRINT 
-  printf("libmemcached/io.cc :: _io_fill() data_read 2 : %zu\n", data_read);
-#endif
 #endif
 
-  #if ENABLE_MPI_FUNCTIONS
+#if ENABLE_MPI_FUNCTIONS
     int data_read; //내가 대충 오류 안나게할라고 20으로 해둠
     char mpi_recv_buf[100];
     int rank;
@@ -561,33 +539,21 @@ static memcached_return_t _io_fill(memcached_instance_st* instance)
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     int client_size = size/2;
 
-  #endif
-  do
-  {
-#if ENABLE_PRINT 
-    printf("libmemcached/io.cc :: _io_fill() recv\n");
 #endif
-
+  do{
 #if ENABLE_SOCKET_FUNCTIONS
       data_read= ::recv(instance->fd, instance->read_buffer, MEMCACHED_MAX_BUFFER, MSG_NOSIGNAL);
       //printf("libmemcached/io.cc :: _io_fill() instance->read_buffer : %s\n", instance->read_buffer);
 #endif
 
 #if ENABLE_MPI_FUNCTIONS
-    //target_server = 0;
-    // struct timespec probe_start, probe_end;
-    // clock_gettime(CLOCK_MONOTONIC, &probe_start);
     MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_recv_status);
-    // clock_gettime(CLOCK_MONOTONIC, &probe_end);
-    // client_probe_time_ns += client_elapsed_ns(&probe_start, &probe_end);
     int count;
     MPI_Get_count(&mpi_recv_status, MPI_CHAR, &count);
     struct timespec recv_start, recv_end;
-    //clock_gettime(CLOCK_MONOTONIC, &recv_start);
-    int err = MPI_Recv(instance->read_buffer, count, MPI_CHAR,
-            mpi_recv_status.MPI_SOURCE,
-            mpi_recv_status.MPI_TAG,
-            MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    int err = MPI_Recv(instance->read_buffer, count, MPI_CHAR,  mpi_recv_status.MPI_SOURCE,  mpi_recv_status.MPI_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+  
+#if CLIENT_BREAKDOWN
     if (client_get_wait_active) {
       struct timespec wait_end;
       clock_gettime(CLOCK_MONOTONIC, &wait_end);
@@ -595,11 +561,7 @@ static memcached_return_t _io_fill(memcached_instance_st* instance)
       client_get_wait_response_count++;
       client_get_wait_active= false;
     }
-    // clock_gettime(CLOCK_MONOTONIC, &recv_end);
-    // client_recv_time_ns += client_elapsed_ns(&recv_start, &recv_end);
-    //printf("[client] recv[%d] \"%s\" \n", mpi_recv_status.MPI_SOURCE, instance->read_buffer);
-    //printf("client, [%d]에게 받은 메세지, \"%s\"\n", mpi_recv_status.MPI_SOURCE, instance->read_buffer);
-    //MPI_Get_count(&mpi_recv_status, MPI_CHAR, &data_read);
+#endif
     data_read = count;
 #endif
 
