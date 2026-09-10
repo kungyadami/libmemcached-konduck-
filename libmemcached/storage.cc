@@ -268,6 +268,7 @@ static memcached_return_t memcached_send_ascii(Memcached *ptr,        //memcache
   #if ENABLE_MPI_FUNCTIONS
     if (verb == SET_OP) {
       target_server = ptr->target_rank;
+      //printf("target_rank : %d\n", ptr->target_rank);
       client_bin_set_req_t req;
       memset(&req, 0, sizeof(req));
 

@@ -170,11 +170,11 @@ libmemcached/libmemcached_la-namespace.lo: libmemcached/namespace.cc \
  libmemcached/memory.h libmemcached/io.h libmemcached/string.hpp \
  util/string.hpp libmemcached/memcached/protocol_binary.h \
  libmemcachedprotocol-0.0/vbucket.h libmemcached/io.hpp \
- /share/shared-apps/x86/mvapich-4.1/include/mpi.h \
- /share/shared-apps/x86/mvapich-4.1/include/mpi_proto.h \
- /share/shared-apps/x86/mvapich-4.1/include/mpio.h \
- /share/shared-apps/x86/mvapich-4.1/include/mpi.h \
- /share/shared-apps/x86/mvapich-4.1/include/mpicxx.h libmemcached/udp.hpp \
+ /home2/mizzz/local/mvapich-4.1/include/mpi.h \
+ /home2/mizzz/local/mvapich-4.1/include/mpi_proto.h \
+ /home2/mizzz/local/mvapich-4.1/include/mpio.h \
+ /home2/mizzz/local/mvapich-4.1/include/mpi.h \
+ /home2/mizzz/local/mvapich-4.1/include/mpicxx.h libmemcached/udp.hpp \
  libmemcached/do.hpp libmemcached/socket.hpp libmemcached/connect.hpp \
  libmemcached/allocators.hpp libmemcached/hash.hpp libmemcached/quit.hpp \
  libmemcached/instance.hpp libmemcached/server_instance.h \
@@ -428,11 +428,11 @@ util/string.hpp:
 libmemcached/memcached/protocol_binary.h:
 libmemcachedprotocol-0.0/vbucket.h:
 libmemcached/io.hpp:
-/share/shared-apps/x86/mvapich-4.1/include/mpi.h:
-/share/shared-apps/x86/mvapich-4.1/include/mpi_proto.h:
-/share/shared-apps/x86/mvapich-4.1/include/mpio.h:
-/share/shared-apps/x86/mvapich-4.1/include/mpi.h:
-/share/shared-apps/x86/mvapich-4.1/include/mpicxx.h:
+/home2/mizzz/local/mvapich-4.1/include/mpi.h:
+/home2/mizzz/local/mvapich-4.1/include/mpi_proto.h:
+/home2/mizzz/local/mvapich-4.1/include/mpio.h:
+/home2/mizzz/local/mvapich-4.1/include/mpi.h:
+/home2/mizzz/local/mvapich-4.1/include/mpicxx.h:
 libmemcached/udp.hpp:
 libmemcached/do.hpp:
 libmemcached/socket.hpp:

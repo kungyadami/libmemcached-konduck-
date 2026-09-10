@@ -52,55 +52,71 @@ struct timespec start, end;
 
 #endif
 
-static unsigned long client_get_wait_response_time_ns= 0;
-static unsigned long client_get_wait_response_count= 0;
-static bool client_get_wait_active= false;
-static struct timespec client_get_wait_start;
+static unsigned long all_resp_time= 0;
+static unsigned long all_resp_count= 0;
+static unsigned long dpu_resp_time= 0;
+static unsigned long dpu_resp_count= 0;
+static unsigned long server_resp_time= 0;
+static unsigned long server_resp_count= 0;
+static bool measure_time_active= false;
+static struct timespec wait_start;
 
-static inline unsigned long client_elapsed_ns(const struct timespec *start_time,
-                                              const struct timespec *end_time)
-{
-  return (unsigned long)((end_time->tv_sec - start_time->tv_sec) * BILLION +
-                         (end_time->tv_nsec - start_time->tv_nsec));
+static inline unsigned long client_elapsed_ns(const struct timespec *start_time, const struct timespec *end_time){
+  return (unsigned long)((end_time->tv_sec - start_time->tv_sec) * BILLION + (end_time->tv_nsec - start_time->tv_nsec));
 }
 
-extern "C" void get_wait_reset(void)
-{
-  client_get_wait_response_time_ns= 0;
-  client_get_wait_response_count= 0;
-  client_get_wait_active= false;
+extern "C" __attribute__((visibility("default"))) void get_wait_reset(void) {
+  all_resp_time= 0;
+  all_resp_count= 0;
+  dpu_resp_time= 0;
+  dpu_resp_count= 0;
+  server_resp_time= 0;
+  server_resp_count= 0;
+  measure_time_active= false;
 }
 
-extern "C" void get_wait_start(void)
-{
-  clock_gettime(CLOCK_MONOTONIC, &client_get_wait_start);
-  client_get_wait_active= true;
+extern "C" void get_wait_start(void) {
+  clock_gettime(CLOCK_MONOTONIC, &wait_start);
+  measure_time_active= true;
 }
 
-extern "C" void get_wait_end(void)
-{
-  if (client_get_wait_active == false)
-  {
+extern "C" void get_wait_end(int rank) {
+  if (measure_time_active == false) {
     return;
   }
 
   struct timespec wait_end;
-  clock_gettime(CLOCK_MONOTONIC, &wait_end);
-  client_get_wait_response_time_ns+= client_elapsed_ns(&client_get_wait_start, &wait_end);
-  client_get_wait_response_count++;
-  client_get_wait_active= false;
+  clock_gettime(CLOCK_MONOTONIC, &wait_end); 
+  unsigned long elapsed_ns= client_elapsed_ns(&wait_start, &wait_end);
+  all_resp_time+= elapsed_ns; //총 기다린 모든 시간
+  all_resp_count++;
+  if (rank == 0) {
+    dpu_resp_time+= elapsed_ns;
+    dpu_resp_count++;
+  } else if (rank == 1) {
+    server_resp_time+= elapsed_ns;
+    server_resp_count++;
+  }
+  measure_time_active= false;
 }
 
-extern "C" void get_wait_print(void)
-{
+extern "C" __attribute__((visibility("default"))) void get_wait_print(void){
   int rank= -1;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
   printf("[client_get_wait_response] rank=%d count=%lu total_time=%lu avg_time=%lu\n",
          rank,
-         client_get_wait_response_count,
-         client_get_wait_response_time_ns,
-         client_get_wait_response_count ? client_get_wait_response_time_ns / client_get_wait_response_count : 0);
+         all_resp_count,
+         all_resp_time,
+         all_resp_count ? all_resp_time / all_resp_count : 0);
+  printf("[client_get_wait_response] dpu_latency count=%lu total_time=%lu avg_time=%lu\n",
+         dpu_resp_count,
+         dpu_resp_time,
+         dpu_resp_count ? dpu_resp_time / dpu_resp_count : 0);
+  printf("[client_get_wait_response] server_latency count=%lu total_time=%lu avg_time=%lu\n",
+         server_resp_count,
+         server_resp_time,
+         server_resp_count ? server_resp_time / server_resp_count : 0);
   fflush(stdout);
 }
 

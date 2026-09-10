@@ -42,7 +42,8 @@
 
 #define DPU_RANK 0
 
-extern "C" void get_wait_end(void);
+extern "C" void get_wait_end(int source_rank);
+extern "C" void get_wait_start(void);
 
 static memcached_return_t textual_value_fetch(memcached_instance_st* instance,
                                               char *buffer,
@@ -240,10 +241,7 @@ read_error:
 
 #if ENABLE_MPI_FUNCTIONS
 
-static memcached_return_t get_binary_value_fetch(memcached_instance_st* instance,
-                                                 memcached_result_st *result,
-                                                 MPI_Status *status)
-{
+static memcached_return_t get_binary_value_fetch(memcached_instance_st* instance, memcached_result_st *result, MPI_Status *status){
   client_bin_get_resp_t resp;
   int count = 0;
 
@@ -251,22 +249,27 @@ static memcached_return_t get_binary_value_fetch(memcached_instance_st* instance
   MPI_Get_count(status, MPI_BYTE, &count);
 
   if (count != (int)sizeof(resp)) {
+    //printf("count : %d / resp : %d\n", count, (int)sizeof(resp));
     return memcached_set_error(*instance, MEMCACHED_UNKNOWN_READ_FAILURE, MEMCACHED_AT);
   }
 
-  int err = MPI_Recv(&resp, sizeof(resp), MPI_BYTE,
-                     status->MPI_SOURCE,
-                     status->MPI_TAG,
-                     MPI_COMM_WORLD,
-                     MPI_STATUS_IGNORE);
-  //get_wait_end();
+  int err = MPI_Recv(&resp, sizeof(resp), MPI_BYTE, status->MPI_SOURCE, status->MPI_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+  get_wait_end(status->MPI_SOURCE);
 
-  //printf("[client] MPI_Recv, resp.result : %d\n", resp.result);
+  //printf("[client] MPI_Recv, \n");
 
   if (err != MPI_SUCCESS) {
     return memcached_set_error(*instance, MEMCACHED_UNKNOWN_READ_FAILURE, MEMCACHED_AT);
   }
 
+
+  //printf("[client] GET_RESP source=%d result=%u key=%.*s value_len=%u flag=%u\n",
+      //  status->MPI_SOURCE,
+      //  resp.result,
+      //  resp.key_len,
+      //  resp.key,
+      //  resp.value_len,
+      //  resp.flag);
   if (resp.result != BIN_VALUE) { //만약 응답 구조체에 result값이 VALUE값이 아닌 다른 변수면 그냥 END
     return MEMCACHED_END;
   }
@@ -288,6 +291,14 @@ static memcached_return_t get_binary_value_fetch(memcached_instance_st* instance
   memcpy(value_ptr, resp.value, resp.value_len); //value 옮기기
   value_ptr[resp.value_len] = '\0';
   memcached_string_set_length(&result->value, resp.value_len);
+
+  // printf("[client] GET_RESP source=%d result=%u key=%.*s value_len=%u flag=%u\n",
+  //      status->MPI_SOURCE,
+  //      resp.result,
+  //      resp.key_len,
+  //      resp.key,
+  //      resp.value_len,
+  //      resp.flag);
 
   return MEMCACHED_SUCCESS;
 }
@@ -329,23 +340,19 @@ static memcached_return_t set_binary_set_response_fetch(memcached_instance_st* i
 
 
 
-static memcached_return_t textual_read_one_response(memcached_instance_st* instance,
-                                                    char *buffer, const size_t buffer_length,
-                                                    memcached_result_st *result)
-{
-
+static memcached_return_t textual_read_one_response(memcached_instance_st* instance,  char *buffer, const size_t buffer_length,  memcached_result_st *result){
 size_t total_read;
 
 #if ENABLE_MPI_FUNCTIONS
   MPI_Status mpi_status;
   MPI_Status *status= NULL;
 
-  if (instance->read_buffer_length == 0)
-  {
+  if (instance->read_buffer_length == 0){
     //printf("여기는 textual_read_one_response 서버 요청 기다리는 중(MPI_Probe)\n");
+    get_wait_start();
     MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_status);
-
     if (mpi_status.MPI_TAG == GET_RESP_TAG) {
+        //printf("MPI_Probe, mpi_status.MPI_TAG : %d\n", mpi_status.MPI_TAG);
         return get_binary_value_fetch(instance, result, &mpi_status);
     }
 
@@ -357,52 +364,31 @@ size_t total_read;
   }
 
   //printf("server에게 받을듯, memcached_io_readline_with_status\n");
-  memcached_return_t rc = memcached_io_readline_with_status(instance, buffer, buffer_length,
-                                      total_read, status);
+  memcached_return_t rc = memcached_io_readline_with_status(instance, buffer, buffer_length, total_read, status);
 #else
-  memcached_return_t rc=
-    memcached_io_readline(instance, buffer, buffer_length, total_read);
+  memcached_return_t rc = memcached_io_readline(instance, buffer, buffer_length, total_read);
 #endif
-#if ENABLE_PRINT
-  printf("libmemcached/response.cc - textual_read_one_response() rc : %d\n", rc);
-#endif
-  if (memcached_failed(rc))
-  {
-#if ENABLE_PRINT
-    printf("libmemcached/response.cc - failed\n");
-#endif
+  if (memcached_failed(rc)) {
     return rc;
   }
   assert(total_read);
-#if ENABLE_PRINT
-  printf("libmemcached/response.cc - textual_read_one_response buffer : %s\n", buffer);
-#endif
-  switch(buffer[0])
-  {
+
+  switch(buffer[0]){
   case 'V':
-    {
-#if ENABLE_PRINT
-      printf("libmemcached/response.cc - buffer[0] is V\n");
-#endif
       // VALUE
-      if (buffer[1] == 'A' and buffer[2] == 'L' and buffer[3] == 'U' and buffer[4] == 'E') /* VALUE */
-      {
+      if (buffer[1] == 'A' and buffer[2] == 'L' and buffer[3] == 'U' and buffer[4] == 'E') {
         /* We add back in one because we will need to search for END */
-        
         memcached_server_response_increment(instance);
         return textual_value_fetch(instance, buffer, result);
-      }
-      // VERSION
-      else if (buffer[1] == 'E' and buffer[2] == 'R' and buffer[3] == 'S' and buffer[4] == 'I' and buffer[5] == 'O' and buffer[6] == 'N') /* VERSION */
-      {
+      }else if (buffer[1] == 'E' and buffer[2] == 'R' and buffer[3] == 'S' and buffer[4] == 'I' and buffer[5] == 'O' and buffer[6] == 'N') {
+        // VERSION
         /* Find the space, and then move one past it to copy version */
         char *response_ptr= index(buffer, ' ');
 
         char *endptr;
         errno= 0;
         long int version= strtol(response_ptr, &endptr, 10);
-        if (errno != 0 or version == LONG_MIN or version == LONG_MAX or version > UINT8_MAX or version == 0)
-        {
+        if (errno != 0 or version == LONG_MIN or version == LONG_MAX or version > UINT8_MAX or version == 0){
           instance->major_version= instance->minor_version= instance->micro_version= UINT8_MAX;
           return memcached_set_error(*instance, MEMCACHED_UNKNOWN_READ_FAILURE, MEMCACHED_AT, memcached_literal_param("strtol() failed to parse major version"));
         }
@@ -411,8 +397,7 @@ size_t total_read;
         endptr++;
         errno= 0;
         version= strtol(endptr, &endptr, 10);
-        if (errno != 0 or version == LONG_MIN or version == LONG_MAX or version > UINT8_MAX)
-        {
+        if (errno != 0 or version == LONG_MIN or version == LONG_MAX or version > UINT8_MAX){
           instance->major_version= instance->minor_version= instance->micro_version= UINT8_MAX;
           return memcached_set_error(*instance, MEMCACHED_UNKNOWN_READ_FAILURE, MEMCACHED_AT, memcached_literal_param("strtol() failed to parse minor version"));
         }
@@ -421,8 +406,7 @@ size_t total_read;
         endptr++;
         errno= 0;
         version= strtol(endptr, &endptr, 10);
-        if (errno != 0 or version == LONG_MIN or version == LONG_MAX or version > UINT8_MAX)
-        {
+        if (errno != 0 or version == LONG_MIN or version == LONG_MAX or version > UINT8_MAX){
           instance->major_version= instance->minor_version= instance->micro_version= UINT8_MAX;
           return memcached_set_error(*instance, MEMCACHED_UNKNOWN_READ_FAILURE, MEMCACHED_AT, memcached_literal_param("strtol() failed to parse micro version"));
         }
@@ -430,53 +414,37 @@ size_t total_read;
 
         return MEMCACHED_SUCCESS;
       }
-    }
     break;
 
-  case 'O':
-    {
-      // OK
-      if (buffer[1] == 'K')
-      {
-        return MEMCACHED_SUCCESS;
-      }
-    }
+  case 'O':       // OK
+    if (buffer[1] == 'K'){ return MEMCACHED_SUCCESS; }
     break;
 
-  case 'S':
-    {
-      // STAT
-      if (buffer[1] == 'T' and buffer[2] == 'A' and buffer[3] == 'T') /* STORED STATS */
-      {
+  case 'S': // STAT
+      if (buffer[1] == 'T' and buffer[2] == 'A' and buffer[3] == 'T'){
+       /* STORED STATS */
         memcached_server_response_increment(instance);
         return MEMCACHED_STAT;
       }
       // SERVER_ERROR
-      else if (buffer[1] == 'E' and buffer[2] == 'R' and buffer[3] == 'V' and buffer[4] == 'E' and buffer[5] == 'R'
-               and buffer[6] == '_' 
-               and buffer[7] == 'E' and buffer[8] == 'R' and buffer[9] == 'R' and buffer[10] == 'O' and buffer[11] == 'R' )
-      {
-        if (total_read == memcached_literal_param_size("SERVER_ERROR"))
-        {
+      else if (buffer[1] == 'E' and buffer[2] == 'R' and buffer[3] == 'V' and buffer[4] == 'E' and buffer[5] == 'R' and buffer[6] == '_' and buffer[7] == 'E' and buffer[8] == 'R' and buffer[9] == 'R' and buffer[10] == 'O' and buffer[11] == 'R' ) {
+        if (total_read == memcached_literal_param_size("SERVER_ERROR")){
           return MEMCACHED_SERVER_ERROR;
         }
 
         if (total_read >= memcached_literal_param_size("SERVER_ERROR object too large for cache") and
-            (memcmp(buffer, memcached_literal_param("SERVER_ERROR object too large for cache")) == 0))
-        {
+            (memcmp(buffer, memcached_literal_param("SERVER_ERROR object too large for cache")) == 0)){
           return MEMCACHED_E2BIG;
         }
 
         if (total_read >= memcached_literal_param_size("SERVER_ERROR out of memory storing object") and
-            (memcmp(buffer, memcached_literal_param("SERVER_ERROR out of memory storing object")) == 0))
-        {
+            (memcmp(buffer, memcached_literal_param("SERVER_ERROR out of memory storing object")) == 0)) {
           return MEMCACHED_SERVER_MEMORY_ALLOCATION_FAILURE;
         }
 
         // Move past the basic error message and whitespace
         char *startptr= buffer + memcached_literal_param_size("SERVER_ERROR");
-        if (startptr[0] == ' ')
-        {
+        if (startptr[0] == ' '){
           startptr++;
         }
 
@@ -486,53 +454,33 @@ size_t total_read;
         return memcached_set_error(*instance, MEMCACHED_SERVER_ERROR, MEMCACHED_AT, startptr, size_t(endptr - startptr));
       }
       // STORED
-      else if (buffer[1] == 'T' and buffer[2] == 'O' and buffer[3] == 'R') //  and buffer[4] == 'E' and buffer[5] == 'D')
-      {
-#if ENABLE_PRINT
-        printf("libmemcached/response.cc :: buffer is STORED\n");
-#endif
+      else if (buffer[1] == 'T' and buffer[2] == 'O' and buffer[3] == 'R') {
+      //  and buffer[4] == 'E' and buffer[5] == 'D')
         return MEMCACHED_STORED;
       }
+    break;
+
+  case 'D' : // DELETED
+    if (buffer[1] == 'E' and buffer[2] == 'L' and buffer[3] == 'E' and buffer[4] == 'T' and buffer[5] == 'E' and buffer[6] == 'D'){
+      return MEMCACHED_DELETED;
     }
     break;
 
-  case 'D':
-    {
-      // DELETED
-      if (buffer[1] == 'E' and buffer[2] == 'L' and buffer[3] == 'E' and buffer[4] == 'T' and buffer[5] == 'E' and buffer[6] == 'D')
-      {
-        return MEMCACHED_DELETED;
-      }
-    }
-    break;
-
-  case 'N':
-    {
-      // NOT_FOUND
-      if (buffer[1] == 'O' and buffer[2] == 'T' 
-          and buffer[3] == '_'
-          and buffer[4] == 'F' and buffer[5] == 'O' and buffer[6] == 'U' and buffer[7] == 'N' and buffer[8] == 'D')
-      {
+  case 'N' : // NOT_FOUND
+      if (buffer[1] == 'O' and buffer[2] == 'T'  and buffer[3] == '_'
+          and buffer[4] == 'F' and buffer[5] == 'O' and buffer[6] == 'U' and buffer[7] == 'N' and buffer[8] == 'D') {
         return MEMCACHED_NOTFOUND;
       }
       // NOT_STORED
-      else if (buffer[1] == 'O' and buffer[2] == 'T' 
-               and buffer[3] == '_'
-               and buffer[4] == 'S' and buffer[5] == 'T' and buffer[6] == 'O' and buffer[7] == 'R' and buffer[8] == 'E' and buffer[9] == 'D')
-      {
+      else if (buffer[1] == 'O' and buffer[2] == 'T'  and buffer[3] == '_'
+               and buffer[4] == 'S' and buffer[5] == 'T' and buffer[6] == 'O' and buffer[7] == 'R' and buffer[8] == 'E' and buffer[9] == 'D') {
         return MEMCACHED_NOTSTORED;
       }
-    }
     break;
 
-  case 'E': /* PROTOCOL ERROR or END */
-    {
+  case 'E': { /* PROTOCOL ERROR or END */
       // END
-      if (buffer[1] == 'N' and buffer[2] == 'D')
-      {
-#if ENABLE_PRINT
-        printf("libmemcached/response.cc - buffer is END\n");
-#endif
+      if (buffer[1] == 'N' and buffer[2] == 'D') {
         return MEMCACHED_END;
       }
 #if 0

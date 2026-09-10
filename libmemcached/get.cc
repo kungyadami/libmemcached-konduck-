@@ -776,10 +776,11 @@ static memcached_return_t memcached_mpi_get_direct(Memcached *ptr,
 
   memcpy(req.key, key, key_length);
 
-  //get_wait_start();
+  //printf("보내긴 보냄\n");
   int err = MPI_Send(&req, sizeof(req), MPI_BYTE, target_server, GET_REQ_TAG, MPI_COMM_WORLD);
 
   if (err != MPI_SUCCESS) {
+    //printf("설마 error??\n");
     return memcached_set_error(*instance, MEMCACHED_WRITE_FAILURE, MEMCACHED_AT,
                                memcached_literal_param("MPI_Send() failed for get request"));
   }
