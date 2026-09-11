@@ -46,7 +46,6 @@ MPI_Request request;
 MPI_Status mpi_recv_status;
 struct timespec start, end;
 #define BILLION 1000000000UL
-#define DPU_CACHE 1
 
 #ifdef HAVE_SYS_SOCKET_H
 # include <sys/socket.h>
@@ -400,7 +399,7 @@ static bool io_flush(memcached_instance_st* instance, const bool with_flush, mem
       req.flag = 0;
       req.hv = libhashkit_murmur3(key_start, key_len);
       memcpy(req.key, key_start, key_len);
-      //printf("dpu에게 MPI_Send로 get 요청 보내기, %d\n", target_server);
+      printf("dpu에게 MPI_Send로 get 요청 보내기, %d\n", target_server);
       MPI_Send(&req, sizeof(req), MPI_BYTE,
                target_server, DPU_BIN_GET_REQ_TAG, MPI_COMM_WORLD);
 
@@ -416,8 +415,7 @@ static bool io_flush(memcached_instance_st* instance, const bool with_flush, mem
       mpi_sent_length = write_length;
     }
 #else
-    MPI_Send(local_write_ptr, write_length, MPI_CHAR,
-             target_server, SEND_TAG, MPI_COMM_WORLD);
+    MPI_Send(local_write_ptr, write_length, MPI_CHAR, target_server, SEND_TAG, MPI_COMM_WORLD);
 
     mpi_sent_length = write_length;
 #endif
