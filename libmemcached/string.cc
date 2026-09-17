@@ -277,26 +277,25 @@ const char *memcached_string_value(const memcached_string_st& self)
   return self.string;
 }
 
-char *memcached_string_take_value(memcached_string_st *self)
-{
+char *memcached_string_take_value(memcached_string_st *self){
   char* value= NULL;
 #if ENABLE_PRINT
   printf("libmemcached/string.cc - memcached_string_take_value()\n");
 #endif
   assert_msg(self, "Invalid memcached_string_st");
-  if (self)
-  {
-    if (memcached_string_length(self))
-    {
+  if (self){
+    if (memcached_string_length(self)){
       // If we fail at adding the null, we copy and move on
-      if (memcached_failed(memcached_string_append_null(self)))
-      {
+      if (memcached_failed(memcached_string_append_null(self))){
+        printf("libmemcached/string.cc - memcached_string_take_value(), value is null2\n");
         return NULL;
       }
 
       value= self->string;
       _init_string(self);
     }
+  }else{
+    printf("libmemcached/string.cc - memcached_string_take_value(), value is null\n");
   }
 
   return value;

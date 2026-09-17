@@ -256,20 +256,10 @@ static memcached_return_t get_binary_value_fetch(memcached_instance_st* instance
   int err = MPI_Recv(&resp, sizeof(resp), MPI_BYTE, status->MPI_SOURCE, status->MPI_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
   get_wait_end(status->MPI_SOURCE);
 
-  //printf("[client] MPI_Recv, \n");
-
   if (err != MPI_SUCCESS) {
     return memcached_set_error(*instance, MEMCACHED_UNKNOWN_READ_FAILURE, MEMCACHED_AT);
   }
 
-
-  //printf("[client] GET_RESP source=%d result=%u key=%.*s value_len=%u flag=%u\n",
-      //  status->MPI_SOURCE,
-      //  resp.result,
-      //  resp.key_len,
-      //  resp.key,
-      //  resp.value_len,
-      //  resp.flag);
   if (resp.result != BIN_VALUE) { //만약 응답 구조체에 result값이 VALUE값이 아닌 다른 변수면 그냥 END
     return MEMCACHED_END;
   }

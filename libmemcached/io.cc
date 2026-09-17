@@ -41,6 +41,7 @@
 #include <string.h>
 #include <mpi.h>
 #include <time.h>
+#include <stdlib.h>
 
 MPI_Request request;
 MPI_Status mpi_recv_status;
@@ -60,9 +61,100 @@ static unsigned long server_resp_time= 0;
 static unsigned long server_resp_count= 0;
 static bool measure_time_active= false;
 static struct timespec wait_start;
+static int expected_response_rank= -1;
+static unsigned long expected_request_index= 0;
+static bool expected_request_index_set= false;
+typedef struct latency_sample_st {
+  unsigned long latency;
+  unsigned long request_index;
+} latency_sample_st;
+static latency_sample_st *dpu_latency_list= NULL;
+static unsigned long dpu_latency_capacity= 0;
+static latency_sample_st *server_latency_list= NULL;
+static unsigned long server_latency_capacity= 0;
+static unsigned long miss_forwarding_resp_time= 0;
+static unsigned long miss_forwarding_resp_count= 0;
+static latency_sample_st *miss_forwarding_latency_list= NULL;
+static unsigned long miss_forwarding_latency_capacity= 0;
 
 static inline unsigned long client_elapsed_ns(const struct timespec *start_time, const struct timespec *end_time){
   return (unsigned long)((end_time->tv_sec - start_time->tv_sec) * BILLION + (end_time->tv_nsec - start_time->tv_nsec));
+}
+
+static int compare_latency(const void *a, const void *b) {
+  unsigned long left= ((const latency_sample_st *)a)->latency;
+  unsigned long right= ((const latency_sample_st *)b)->latency;
+
+  if (left < right) {
+    return -1;
+  }
+  if (left > right) {
+    return 1;
+  }
+  return 0;
+}
+
+static void save_latency(latency_sample_st **latency_list, unsigned long *latency_capacity,
+                         unsigned long latency_count, unsigned long elapsed_ns,
+                         unsigned long request_index) {
+  if (latency_count >= *latency_capacity) {
+    unsigned long new_capacity= *latency_capacity ? *latency_capacity * 2 : 1024;
+    latency_sample_st *new_list= (latency_sample_st *)realloc(*latency_list,
+                                                              new_capacity * sizeof(latency_sample_st));
+    if (new_list == NULL) {
+      return;
+    }
+    *latency_list= new_list;
+    *latency_capacity= new_capacity;
+  }
+
+  (*latency_list)[latency_count].latency= elapsed_ns;
+  (*latency_list)[latency_count].request_index= request_index;
+}
+
+static void print_latency_summary(const char *name, const latency_sample_st *latency_list,
+                                  unsigned long latency_count, unsigned long total_time,
+                                  bool print_p99_requests) {
+  latency_sample_st *sorted_latency= NULL;
+  unsigned long avg_latency= latency_count ? total_time / latency_count : 0;
+  unsigned long p50_latency= 0;
+  unsigned long p99_latency= 0;
+  unsigned long p99_index= 0;
+
+  if (latency_count > 0) {
+    sorted_latency= (latency_sample_st *)malloc(latency_count * sizeof(latency_sample_st));
+    if (sorted_latency == NULL) {
+      printf("[client_get_wait_response] %s malloc_failed count=%lu\n",
+             name,
+             latency_count);
+      return;
+    }
+
+    memcpy(sorted_latency, latency_list, latency_count * sizeof(latency_sample_st));
+    qsort(sorted_latency, latency_count, sizeof(latency_sample_st), compare_latency);
+    p99_index= ((latency_count - 1) * 99) / 100;
+    p50_latency= sorted_latency[latency_count / 2].latency;
+    p99_latency= sorted_latency[p99_index].latency;
+  }
+
+  printf("[client_get_wait_response] %s count=%lu total_time=%lu avg_latency=%lu p50_latency=%lu p99_latency=%lu\n",
+         name,
+         latency_count,
+         total_time,
+         avg_latency,
+         p50_latency,
+         p99_latency);
+
+  // if (print_p99_requests && latency_count > 0) {
+  //   for (unsigned long i= p99_index; i < latency_count; i++) {
+  //     printf("[client_get_wait_response_p99] %s request_index=%lu latency=%lu\n",
+  //            name,
+  //            sorted_latency[i].request_index,
+  //            sorted_latency[i].latency);
+  //   }
+  // }
+
+  free(sorted_latency);
 }
 
 extern "C" __attribute__((visibility("default"))) void get_wait_reset(void) {
@@ -73,6 +165,33 @@ extern "C" __attribute__((visibility("default"))) void get_wait_reset(void) {
   server_resp_time= 0;
   server_resp_count= 0;
   measure_time_active= false;
+  free(dpu_latency_list);
+  dpu_latency_list= NULL;
+  dpu_latency_capacity= 0;
+  free(server_latency_list);
+  server_latency_list= NULL;
+  server_latency_capacity= 0;
+  miss_forwarding_resp_time= 0;
+  miss_forwarding_resp_count= 0;
+  free(miss_forwarding_latency_list);
+  miss_forwarding_latency_list= NULL;
+  miss_forwarding_latency_capacity= 0;
+  expected_response_rank= -1;
+  expected_request_index= 0;
+  expected_request_index_set= false;
+}
+
+extern "C" __attribute__((visibility("default"))) void get_wait_set_expected_rank(int rank) {
+  expected_response_rank= rank;
+}
+
+extern "C" __attribute__((visibility("default"))) void get_wait_set_request_index(unsigned long request_index) {
+  expected_request_index= request_index;
+  expected_request_index_set= true;
+}
+
+extern "C" unsigned long get_wait_get_request_index(void) {
+  return expected_request_index_set ? expected_request_index : 0;
 }
 
 extern "C" void get_wait_start(void) {
@@ -88,16 +207,27 @@ extern "C" void get_wait_end(int rank) {
   struct timespec wait_end;
   clock_gettime(CLOCK_MONOTONIC, &wait_end); 
   unsigned long elapsed_ns= client_elapsed_ns(&wait_start, &wait_end);
+  unsigned long request_index= expected_request_index_set ? expected_request_index : all_resp_count;
   all_resp_time+= elapsed_ns; //총 기다린 모든 시간
   all_resp_count++;
-  if (rank == 0) {
+  if (expected_response_rank == 0 && rank == 0) {
+    save_latency(&dpu_latency_list, &dpu_latency_capacity, dpu_resp_count, elapsed_ns, request_index);
     dpu_resp_time+= elapsed_ns;
     dpu_resp_count++;
-  } else if (rank == 1) {
+  } else if (expected_response_rank == 1 && rank == 1) {
+    save_latency(&server_latency_list, &server_latency_capacity, server_resp_count, elapsed_ns, request_index);
     server_resp_time+= elapsed_ns;
     server_resp_count++;
+  } else if (expected_response_rank == 0 && rank == 1) {
+    save_latency(&miss_forwarding_latency_list, &miss_forwarding_latency_capacity,
+                 miss_forwarding_resp_count, elapsed_ns, request_index);
+    miss_forwarding_resp_time+= elapsed_ns;
+    miss_forwarding_resp_count++;
   }
   measure_time_active= false;
+  expected_response_rank= -1;
+  expected_request_index= 0;
+  expected_request_index_set= false;
 }
 
 extern "C" __attribute__((visibility("default"))) void get_wait_print(void){
@@ -109,14 +239,11 @@ extern "C" __attribute__((visibility("default"))) void get_wait_print(void){
          all_resp_count,
          all_resp_time,
          all_resp_count ? all_resp_time / all_resp_count : 0);
-  printf("[client_get_wait_response] dpu_latency count=%lu total_time=%lu avg_time=%lu\n",
-         dpu_resp_count,
-         dpu_resp_time,
-         dpu_resp_count ? dpu_resp_time / dpu_resp_count : 0);
-  printf("[client_get_wait_response] server_latency count=%lu total_time=%lu avg_time=%lu\n",
-         server_resp_count,
-         server_resp_time,
-         server_resp_count ? server_resp_time / server_resp_count : 0);
+  print_latency_summary("dpu_latency", dpu_latency_list, dpu_resp_count, dpu_resp_time, true);
+  print_latency_summary("server_latency", server_latency_list, server_resp_count, server_resp_time, false);
+  print_latency_summary("miss_forwarding_latency", miss_forwarding_latency_list,
+                        miss_forwarding_resp_count, miss_forwarding_resp_time, false);
+  // print_latency_summary("mismatch_latency", mismatch_latency_list, mismatch_resp_count, mismatch_resp_time);
   fflush(stdout);
 }
 
@@ -465,6 +592,7 @@ static bool io_flush(memcached_instance_st* instance, const bool with_flush, mem
       req.key_len = key_len;
       req.flag = 0;
       req.client_rank = rank;
+      req.request_index = get_wait_get_request_index();
       //req.hv = libhashkit_murmur3(key_start, key_len);
       memcpy(req.key, key_start, key_len);
       //printf("dpu에게 MPI_Send로 get 요청 보내기, target_server : %d\n", target_server);

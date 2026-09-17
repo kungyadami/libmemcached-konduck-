@@ -85,6 +85,7 @@ typedef struct { //client_bin_get_req_t는
     uint16_t flag; //구조체 정렬을 맞추거나 flag가 필요할 경우 만들어둔 공간
     uint32_t hv; //이거는 MurmurHash를 DPU에서 수행중인데, 이게 오버헤드가 혹시나 될까해서 그냥 클라이언트가 처리하기로
     int client_rank;
+    uint64_t request_index;
     char key[64]; //실제 키 길이
 } client_bin_get_req_t;
 

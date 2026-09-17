@@ -40,6 +40,7 @@
 #include <time.h>
 
 extern "C" void get_wait_start(void);
+extern "C" unsigned long get_wait_get_request_index(void);
 
 /*
   What happens if no servers exist?
@@ -772,6 +773,7 @@ static memcached_return_t memcached_mpi_get_direct(Memcached *ptr,
   req.key_len = (uint16_t)key_length;
   req.flag = 0;
   req.client_rank = rank;
+  req.request_index = get_wait_get_request_index();
   req.hv = libhashkit_murmur3(key, key_length);
 
   memcpy(req.key, key, key_length);
