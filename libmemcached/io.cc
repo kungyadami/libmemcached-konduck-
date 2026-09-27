@@ -55,27 +55,37 @@ struct timespec start, end;
 
 static unsigned long all_resp_time= 0;
 static unsigned long all_resp_count= 0;
-static unsigned long dpu_resp_time= 0;
-static unsigned long dpu_resp_count= 0;
-static unsigned long server_resp_time= 0;
-static unsigned long server_resp_count= 0;
 static bool measure_time_active= false;
 static struct timespec wait_start;
 static int expected_response_rank= -1;
-static unsigned long expected_request_index= 0;
-static bool expected_request_index_set= false;
+
+typedef enum latency_source_t {
+  LATENCY_SOURCE_DPU,
+  LATENCY_SOURCE_SERVER,
+  LATENCY_SOURCE_MISS_FORWARDING
+} latency_source_t;
 typedef struct latency_sample_st {
   unsigned long latency;
-  unsigned long request_index;
+  latency_source_t source;
 } latency_sample_st;
+
+//latency들 저장하는 배열들. DPU/Server/Missforwarding에 맞춰 저장
 static latency_sample_st *dpu_latency_list= NULL;
-static unsigned long dpu_latency_capacity= 0;
 static latency_sample_st *server_latency_list= NULL;
+static latency_sample_st *miss_forwarding_latency_list= NULL;
+
+//위 배열을 관리하기 위한 각종 변수들
+static unsigned long dpu_latency_capacity= 0;
+static unsigned long dpu_resp_time= 0;
+static unsigned long dpu_resp_count= 0;
+
 static unsigned long server_latency_capacity= 0;
+static unsigned long server_resp_time= 0;
+static unsigned long server_resp_count= 0;
+
+static unsigned long miss_forwarding_latency_capacity= 0;
 static unsigned long miss_forwarding_resp_time= 0;
 static unsigned long miss_forwarding_resp_count= 0;
-static latency_sample_st *miss_forwarding_latency_list= NULL;
-static unsigned long miss_forwarding_latency_capacity= 0;
 
 static inline unsigned long client_elapsed_ns(const struct timespec *start_time, const struct timespec *end_time){
   return (unsigned long)((end_time->tv_sec - start_time->tv_sec) * BILLION + (end_time->tv_nsec - start_time->tv_nsec));
@@ -94,13 +104,17 @@ static int compare_latency(const void *a, const void *b) {
   return 0;
 }
 
-static void save_latency(latency_sample_st **latency_list, unsigned long *latency_capacity,
-                         unsigned long latency_count, unsigned long elapsed_ns,
-                         unsigned long request_index) {
+//측정한 GET 요청 1개의 latency를 배열에 저장
+static void save_latency(latency_sample_st **latency_list, unsigned long *latency_capacity, unsigned long latency_count, unsigned long elapsed_ns, latency_source_t source) {
+  //데이터의 개수를 libmemcached는 몰라서, 그냥 공간 부족해지면 배열 크기를 2배로 확장하는 방법 사용
   if (latency_count >= *latency_capacity) {
-    unsigned long new_capacity= *latency_capacity ? *latency_capacity * 2 : 1024;
-    latency_sample_st *new_list= (latency_sample_st *)realloc(*latency_list,
-                                                              new_capacity * sizeof(latency_sample_st));
+    unsigned long new_capacity;
+    if (*latency_capacity != 0) {
+      new_capacity= *latency_capacity * 2;
+    } else {
+      new_capacity= 1024;
+    }
+    latency_sample_st *new_list= (latency_sample_st *)realloc(*latency_list,  new_capacity * sizeof(latency_sample_st));
     if (new_list == NULL) {
       return;
     }
@@ -109,12 +123,41 @@ static void save_latency(latency_sample_st **latency_list, unsigned long *latenc
   }
 
   (*latency_list)[latency_count].latency= elapsed_ns;
-  (*latency_list)[latency_count].request_index= request_index;
+  (*latency_list)[latency_count].source= source;
 }
 
-static void print_latency_summary(const char *name, const latency_sample_st *latency_list,
-                                  unsigned long latency_count, unsigned long total_time,
-                                  bool print_p99_requests) {
+static const char *latency_source_name(latency_source_t source) {
+  if (source == LATENCY_SOURCE_DPU) return "dpu";
+  if (source == LATENCY_SOURCE_SERVER) return "server";
+  if (source == LATENCY_SOURCE_MISS_FORWARDING) return "miss_forwarding";
+  return "unknown";
+}
+
+// DPU/Server/Miss forwarding 모두 합치고 전체 요청 중 P99는 어디서 발생했는지 출력
+static void print_overall_p99_source(void) {
+
+  unsigned long total_count= dpu_resp_count + server_resp_count + miss_forwarding_resp_count;
+
+  //latency들 다 모을 배열 생성
+  latency_sample_st *all_latencies= (latency_sample_st *)malloc(total_count * sizeof(latency_sample_st));
+
+  unsigned long offset= 0;
+  memcpy(all_latencies + offset, dpu_latency_list, dpu_resp_count * sizeof(latency_sample_st));
+  offset+= dpu_resp_count;
+  memcpy(all_latencies + offset, server_latency_list, server_resp_count * sizeof(latency_sample_st));
+  offset+= server_resp_count;
+  memcpy(all_latencies + offset, miss_forwarding_latency_list, miss_forwarding_resp_count * sizeof(latency_sample_st));
+
+  //정렬
+  qsort(all_latencies, total_count, sizeof(latency_sample_st), compare_latency);
+  unsigned long p99_index= ((total_count - 1) * 99) / 100;
+  latency_sample_st *p99_sample= &all_latencies[p99_index];
+  printf("[client] overall_p99 latency=%lu source=%s\n", p99_sample->latency, latency_source_name(p99_sample->source));
+
+  free(all_latencies);
+}
+
+static void print_latency_summary(const char *name, const latency_sample_st *latency_list,  unsigned long latency_count, unsigned long total_time) {
   latency_sample_st *sorted_latency= NULL;
   unsigned long avg_latency= latency_count ? total_time / latency_count : 0;
   unsigned long p50_latency= 0;
@@ -124,9 +167,7 @@ static void print_latency_summary(const char *name, const latency_sample_st *lat
   if (latency_count > 0) {
     sorted_latency= (latency_sample_st *)malloc(latency_count * sizeof(latency_sample_st));
     if (sorted_latency == NULL) {
-      printf("[client_get_wait_response] %s malloc_failed count=%lu\n",
-             name,
-             latency_count);
+      printf("[client] %s malloc_failed count=%lu\n", name, latency_count);
       return;
     }
 
@@ -137,27 +178,12 @@ static void print_latency_summary(const char *name, const latency_sample_st *lat
     p99_latency= sorted_latency[p99_index].latency;
   }
 
-  printf("[client_get_wait_response] %s count=%lu total_time=%lu avg_latency=%lu p50_latency=%lu p99_latency=%lu\n",
-         name,
-         latency_count,
-         total_time,
-         avg_latency,
-         p50_latency,
-         p99_latency);
-
-  // if (print_p99_requests && latency_count > 0) {
-  //   for (unsigned long i= p99_index; i < latency_count; i++) {
-  //     printf("[client_get_wait_response_p99] %s request_index=%lu latency=%lu\n",
-  //            name,
-  //            sorted_latency[i].request_index,
-  //            sorted_latency[i].latency);
-  //   }
-  // }
+  printf("[client result] %s count=%lu avg=%lu p50=%lu p99=%lu\n", name, latency_count, avg_latency, p50_latency, p99_latency);
 
   free(sorted_latency);
 }
 
-extern "C" __attribute__((visibility("default"))) void get_wait_reset(void) {
+extern "C" __attribute__((visibility("default"))) void measure_latency_reset(void) {
   all_resp_time= 0;
   all_resp_count= 0;
   dpu_resp_time= 0;
@@ -177,78 +203,63 @@ extern "C" __attribute__((visibility("default"))) void get_wait_reset(void) {
   miss_forwarding_latency_list= NULL;
   miss_forwarding_latency_capacity= 0;
   expected_response_rank= -1;
-  expected_request_index= 0;
-  expected_request_index_set= false;
 }
 
+//client가 GET 요청 보내는 rank DPU인지 server인지 기록
 extern "C" __attribute__((visibility("default"))) void get_wait_set_expected_rank(int rank) {
   expected_response_rank= rank;
 }
 
-extern "C" __attribute__((visibility("default"))) void get_wait_set_request_index(unsigned long request_index) {
-  expected_request_index= request_index;
-  expected_request_index_set= true;
-}
-
-extern "C" unsigned long get_wait_get_request_index(void) {
-  return expected_request_index_set ? expected_request_index : 0;
-}
-
-extern "C" void get_wait_start(void) {
+//시간 기록 시작
+extern "C" void measure_latency_start(void) {
   clock_gettime(CLOCK_MONOTONIC, &wait_start);
   measure_time_active= true;
 }
 
-extern "C" void get_wait_end(int rank) {
-  if (measure_time_active == false) {
-    return;
-  }
-
+extern "C" void measure_latency_end(int rank) {
   struct timespec wait_end;
+  unsigned long elapsed_ns = 0;
+
+  if (measure_time_active == false) return;
+
   clock_gettime(CLOCK_MONOTONIC, &wait_end); 
-  unsigned long elapsed_ns= client_elapsed_ns(&wait_start, &wait_end);
-  unsigned long request_index= expected_request_index_set ? expected_request_index : all_resp_count;
+  elapsed_ns= client_elapsed_ns(&wait_start, &wait_end);
   all_resp_time+= elapsed_ns; //총 기다린 모든 시간
   all_resp_count++;
+  //DPU에 보내고, DPU가 잘 응답한 경우
   if (expected_response_rank == 0 && rank == 0) {
-    save_latency(&dpu_latency_list, &dpu_latency_capacity, dpu_resp_count, elapsed_ns, request_index);
-    dpu_resp_time+= elapsed_ns;
+    save_latency(&dpu_latency_list, &dpu_latency_capacity, dpu_resp_count, elapsed_ns, LATENCY_SOURCE_DPU);
+    dpu_resp_time += elapsed_ns;
     dpu_resp_count++;
   } else if (expected_response_rank == 1 && rank == 1) {
-    save_latency(&server_latency_list, &server_latency_capacity, server_resp_count, elapsed_ns, request_index);
-    server_resp_time+= elapsed_ns;
+    //서버에 보내고, 서버가 잘 응답한 경우
+    save_latency(&server_latency_list, &server_latency_capacity, server_resp_count, elapsed_ns, LATENCY_SOURCE_SERVER);
+    server_resp_time += elapsed_ns;
     server_resp_count++;
   } else if (expected_response_rank == 0 && rank == 1) {
-    save_latency(&miss_forwarding_latency_list, &miss_forwarding_latency_capacity,
-                 miss_forwarding_resp_count, elapsed_ns, request_index);
-    miss_forwarding_resp_time+= elapsed_ns;
+    //miss forwarding 된 경우
+    save_latency(&miss_forwarding_latency_list, &miss_forwarding_latency_capacity, miss_forwarding_resp_count, elapsed_ns, LATENCY_SOURCE_MISS_FORWARDING);
+    miss_forwarding_resp_time += elapsed_ns;
     miss_forwarding_resp_count++;
   }
   measure_time_active= false;
   expected_response_rank= -1;
-  expected_request_index= 0;
-  expected_request_index_set= false;
 }
 
-extern "C" __attribute__((visibility("default"))) void get_wait_print(void){
+extern "C" __attribute__((visibility("default"))) void measure_latency_print(void){
   int rank= -1;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
-  printf("[client_get_wait_response] rank=%d count=%lu total_time=%lu avg_time=%lu\n",
-         rank,
-         all_resp_count,
-         all_resp_time,
-         all_resp_count ? all_resp_time / all_resp_count : 0);
-  print_latency_summary("dpu_latency", dpu_latency_list, dpu_resp_count, dpu_resp_time, true);
-  print_latency_summary("server_latency", server_latency_list, server_resp_count, server_resp_time, false);
-  print_latency_summary("miss_forwarding_latency", miss_forwarding_latency_list,
-                        miss_forwarding_resp_count, miss_forwarding_resp_time, false);
+  printf("[client_get_wait_response] count=%lu total_time=%lu avg_time=%lu\n", all_resp_count, all_resp_time, all_resp_count ? all_resp_time / all_resp_count : 0);
+  print_latency_summary("dpu_latency", dpu_latency_list, dpu_resp_count, dpu_resp_time);
+  print_latency_summary("server_latency", server_latency_list, server_resp_count, server_resp_time);
+  print_latency_summary("miss_forwarding_latency", miss_forwarding_latency_list, miss_forwarding_resp_count, miss_forwarding_resp_time);
+  print_overall_p99_source();
   // print_latency_summary("mismatch_latency", mismatch_latency_list, mismatch_resp_count, mismatch_resp_time);
   fflush(stdout);
 }
 
-void initialize_binary_request(memcached_instance_st* server, protocol_binary_request_header& header)
-{
+void initialize_binary_request(memcached_instance_st* server, protocol_binary_request_header& header){
   server->request_id++;
   header.request.magic= PROTOCOL_BINARY_REQ;
   header.request.opaque= htons(server->request_id);
@@ -592,7 +603,6 @@ static bool io_flush(memcached_instance_st* instance, const bool with_flush, mem
       req.key_len = key_len;
       req.flag = 0;
       req.client_rank = rank;
-      req.request_index = get_wait_get_request_index();
       //req.hv = libhashkit_murmur3(key_start, key_len);
       memcpy(req.key, key_start, key_len);
       //printf("dpu에게 MPI_Send로 get 요청 보내기, target_server : %d\n", target_server);

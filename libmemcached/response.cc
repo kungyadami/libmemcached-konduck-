@@ -42,8 +42,8 @@
 
 #define DPU_RANK 0
 
-extern "C" void get_wait_end(int source_rank);
-extern "C" void get_wait_start(void);
+extern "C" void measure_latency_end(int source_rank);
+extern "C" void measure_latency_start(void);
 
 static memcached_return_t textual_value_fetch(memcached_instance_st* instance,
                                               char *buffer,
@@ -254,7 +254,7 @@ static memcached_return_t get_binary_value_fetch(memcached_instance_st* instance
   }
 
   int err = MPI_Recv(&resp, sizeof(resp), MPI_BYTE, status->MPI_SOURCE, status->MPI_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-  get_wait_end(status->MPI_SOURCE);
+  measure_latency_end(status->MPI_SOURCE);
 
   if (err != MPI_SUCCESS) {
     return memcached_set_error(*instance, MEMCACHED_UNKNOWN_READ_FAILURE, MEMCACHED_AT);
@@ -337,9 +337,9 @@ size_t total_read;
   MPI_Status mpi_status;
   MPI_Status *status= NULL;
 
+  //MPI_Probe로 메세지 받기 시작
   if (instance->read_buffer_length == 0){
-    //printf("여기는 textual_read_one_response 서버 요청 기다리는 중(MPI_Probe)\n");
-    get_wait_start();
+    measure_latency_start(); //latency 기록 시작하는 부분
     MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_status);
     if (mpi_status.MPI_TAG == GET_RESP_TAG) {
         //printf("MPI_Probe, mpi_status.MPI_TAG : %d\n", mpi_status.MPI_TAG);
