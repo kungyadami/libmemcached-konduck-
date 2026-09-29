@@ -415,7 +415,7 @@ static inline memcached_return_t memcached_send(memcached_st *shell,
 
   uint32_t hash =  libhashkit_murmur3(key, key_length);
   //printf("[libmemcached] key : %s | hash : %d | key_length : %d\n", key, hash, key_length);
-  target_server = hash % server_size;
+  target_server = 0;
   //해당 서버 포인터? 가져오기.. 아마도 서버키에 매핑되는, 서버리스트 배열에 있는 서버정보를 가져오는듯
   
   memcached_instance_st* instance= memcached_instance_fetch(ptr, server_key);

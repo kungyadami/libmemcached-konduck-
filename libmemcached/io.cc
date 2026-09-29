@@ -369,56 +369,11 @@ static bool io_flush(memcached_instance_st* instance, const bool with_flush, mem
     int rank;
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Comm_size(MPI_COMM_WORLD, &size);
-    int client_size = size/2;
+    int client_size = size-1;
     ssize_t mpi_sent_length = 0;
-
-#if DPU_CACHE
-    char first = local_write_ptr[0];
-
-    if (first == 'g' && strncmp(local_write_ptr, "get ", 4) == 0) {
-      target_server = 1; // DPU rank
-
-      const char *key_start = local_write_ptr + 4;
-      const char *key_end = key_start;
-
-      while ((key_end < local_write_ptr + write_length) &&
-             (*key_end != '\r') &&
-             (*key_end != '\n') &&
-             (*key_end != ' ')) {
-        key_end++;
-      }
-
-      size_t key_len = key_end - key_start;
-      assert(key_len <= 64);
-
-      client_bin_get_req_t req;
-      memset(&req, 0, sizeof(req));
-
-      req.cmd = DPU_GET;
-      req.key_len = key_len;
-      req.flag = 0;
-      req.hv = libhashkit_murmur3(key_start, key_len);
-      memcpy(req.key, key_start, key_len);
-      printf("dpu에게 MPI_Send로 get 요청 보내기, %d\n", target_server);
-      MPI_Send(&req, sizeof(req), MPI_BYTE,
-               target_server, DPU_BIN_GET_REQ_TAG, MPI_COMM_WORLD);
-
-      mpi_sent_length = write_length;
-    } else {
-      if (first == 's' && strncmp(local_write_ptr, "set", 3) == 0) {
-        target_server = 0; // host/server rank
-      }
-
-      MPI_Send(local_write_ptr, write_length, MPI_CHAR,
-               target_server, SEND_TAG, MPI_COMM_WORLD);
-
-      mpi_sent_length = write_length;
-    }
-#else
+    //printf("MPI_Send(), target_server : %d\n", target_server);
     MPI_Send(local_write_ptr, write_length, MPI_CHAR, target_server, SEND_TAG, MPI_COMM_WORLD);
-
     mpi_sent_length = write_length;
-#endif
 #endif
 
 

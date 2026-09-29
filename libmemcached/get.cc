@@ -330,7 +330,7 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
       server_key= memcached_generate_hash_with_redistribution(ptr, keys[x], key_length[x]);
       uint32_t hash =  libhashkit_murmur3(keys[x], key_length[x]);
       //printf("[libmemcached] key : %s | hash : %d | key_length : %d\n", keys[x], hash, key_length[x]);
-      target_server = hash % server_size;
+      target_server = 0;
     }
     memcached_instance_st* instance= memcached_instance_fetch(ptr, server_key);
 
