@@ -625,7 +625,7 @@ am__append_41 = clients/memcapable clients/memcat \
 	clients/memparse clients/memping \
 	clients/memrm clients/memslap \
 	clients/memstat
-#am__append_42 = clients/memaslap
+##am__append_42 = clients/memaslap
 
 # library used for testing
 
@@ -739,7 +739,7 @@ am__append_44 = man/memaslap.1 man/memcapable.1 \
 	man/memcached_touch_by_key.3 \
 	man/memcached_verbosity.3 \
 	man/memcached_version.3
-#am__append_45 = example/memcached_light
+##am__append_45 = example/memcached_light
 #am__append_46 = example/byteorder.h \
 #	example/memcached_light.h \
 #	example/storage.h
@@ -959,7 +959,7 @@ am__EXEEXT_1 = clients/memcapable$(EXEEXT) \
 	clients/memrm$(EXEEXT) \
 	clients/memslap$(EXEEXT) \
 	clients/memstat$(EXEEXT)
-#am__EXEEXT_2 = clients/memaslap$(EXEEXT)
+##am__EXEEXT_2 = clients/memaslap$(EXEEXT)
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(libdir)" \
 	"$(DESTDIR)$(man1dir)" "$(DESTDIR)$(man3dir)" \
 	"$(DESTDIR)$(aclocaldir)" "$(DESTDIR)$(pkgconfigdir)" \
@@ -1003,7 +1003,7 @@ am__EXEEXT_10 = libtest/unittest$(EXEEXT) \
 	libtest/backtrace$(EXEEXT)
 am__EXEEXT_11 =  \
 	libmemcached-1.0/t/cc_test$(EXEEXT)
-#am__EXEEXT_12 = example/memcached_light$(EXEEXT)
+##am__EXEEXT_12 = example/memcached_light$(EXEEXT)
 am__EXEEXT_13 = tests/cycle$(EXEEXT)
 am__EXEEXT_14 =  \
 	tests/libmemcached-1.0/testapp$(EXEEXT) \
@@ -3285,31 +3285,31 @@ distuninstallcheck_listfiles = find . -type f -print
 am__distuninstallcheck_listfiles = $(distuninstallcheck_listfiles) \
   | sed 's|^\./|$(prefix)/|' | grep -v '$(infodir)/dir$$'
 distcleancheck_listfiles = find . -type f -print
-ACLOCAL = ${SHELL} '/home/cluster/yedam-cmd/libmemcached-konduck-/build-aux/missing' aclocal-1.16
+ACLOCAL = ${SHELL} '/home2/mizzz/libmemcached/build-aux/missing' aclocal-1.16
 ALLOCA = 
 AMINCLUDE = aminclude.am
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 0
 AR = ar
-AUTOCONF = ${SHELL} '/home/cluster/yedam-cmd/libmemcached-konduck-/build-aux/missing' autoconf
-AUTOHEADER = ${SHELL} '/home/cluster/yedam-cmd/libmemcached-konduck-/build-aux/missing' autoheader
+AUTOCONF = ${SHELL} '/home2/mizzz/libmemcached/build-aux/missing' autoconf
+AUTOHEADER = ${SHELL} '/home2/mizzz/libmemcached/build-aux/missing' autoheader
 AUTOHEADER_FILE = mem_config.h
-AUTOMAKE = ${SHELL} '/home/cluster/yedam-cmd/libmemcached-konduck-/build-aux/missing' automake-1.16
-AWK = mawk
+AUTOMAKE = ${SHELL} '/home2/mizzz/libmemcached/build-aux/missing' automake-1.16
+AWK = gawk
 CC = mpicc
 CCDEPMODE = depmode=gcc3
-CC_VERSION = cc (Ubuntu 11.4.0-1ubuntu1~22.04.2) 11.4.0
+CC_VERSION = gcc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
 CC_VERSION_VENDOR = gnu
 CFLAGS = -Wno-error  -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -fwrapv -pipe -fPIE -pie -Wsizeof-pointer-memaccess -Wpacked 
 CFLAG_VISIBILITY = -fvisibility=hidden
 CPPFLAGS =  -fvisibility=hidden
 CSCOPE = cscope
 CTAGS = ctags
-CXX = mpicxx
-CXXCPP = c++ -E
+CXX = mpicxx -std=c++0x
+CXXCPP = mpicxx -E
 CXXDEPMODE = depmode=gcc3
 CXXFLAGS = -std=gnu++14 -Wno-error -Wno-register -Wno-implicit-fallthrough -Wno-format-overflow -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Wformat-security -fwrapv -pipe -fPIE -pie -Wsizeof-pointer-memaccess -Wpacked 
-CXX_VERSION = c++ (Ubuntu 11.4.0-1ubuntu1~22.04.2) 11.4.0
+CXX_VERSION = g++ (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
 CXX_VERSION_VENDOR = gnu
 CYGPATH_W = echo
 DEFS = -DHAVE_CONFIG_H
@@ -3342,8 +3342,8 @@ LCOV =
 LCOV_GENHTML = 
 LD = /usr/bin/ld -m elf_x86_64
 LDFLAGS =   -rdynamic
-LEX = flex
-LIBEVENT_LIB = -levent
+LEX = :
+LIBEVENT_LIB = 
 LIBGEARMAN_CPPFLAGS = 
 LIBGEARMAN_LDFLAGS = 
 LIBHASHKIT_VERSION_HEX = 0x01000000
@@ -3358,12 +3358,12 @@ LIBSASL_CPPFLAGS =
 LIBSASL_LDFLAGS = 
 LIBTEST_VERSION = 1.0
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
-LIBUUID_LIB = 
+LIBUUID_LIB = -luuid
 LIPO = 
 LN_S = ln -s
 LTLIBOBJS = 
 LT_SYS_LIBRARY_PATH = 
-MAKEINFO = ${SHELL} '/home/cluster/yedam-cmd/libmemcached-konduck-/build-aux/missing' makeinfo
+MAKEINFO = ${SHELL} '/home2/mizzz/libmemcached/build-aux/missing' makeinfo
 MANIFEST_TOOL = :
 MCHECK = 
 MCHECK_CPPFLAGS = 
@@ -3394,7 +3394,7 @@ PACKAGE_URL =
 PACKAGE_VERSION = 1.0.18
 PATH_SEPARATOR = :
 PERL = perl
-PTHREAD_CC = cc
+PTHREAD_CC = mpicc
 PTHREAD_CFLAGS = 
 PTHREAD_LIBS = 
 RANLIB = ranlib
@@ -3413,13 +3413,13 @@ VALGRIND =
 VERSION = 1.0.18
 WINE = 
 YACC = :
-abs_builddir = /home/cluster/yedam-cmd/libmemcached-konduck-
-abs_srcdir = /home/cluster/yedam-cmd/libmemcached-konduck-
-abs_top_builddir = /home/cluster/yedam-cmd/libmemcached-konduck-
-abs_top_srcdir = /home/cluster/yedam-cmd/libmemcached-konduck-
+abs_builddir = /home2/mizzz/libmemcached
+abs_srcdir = /home2/mizzz/libmemcached
+abs_top_builddir = /home2/mizzz/libmemcached
+abs_top_srcdir = /home2/mizzz/libmemcached
 ac_ct_AR = ar
-ac_ct_CC = cc
-ac_ct_CXX = c++
+ac_ct_CC = 
+ac_ct_CXX = 
 ac_ct_DUMPBIN = 
 am__include = include
 am__leading_dot = .
@@ -3447,7 +3447,7 @@ host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/cluster/yedam-cmd/libmemcached-konduck-/build-aux/install-sh
+install_sh = ${SHELL} /home2/mizzz/libmemcached/build-aux/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -3785,7 +3785,7 @@ clients_memaslap_SOURCES = clients/memaslap.c \
 	clients/ms_sigsegv.c clients/ms_stats.c \
 	clients/ms_task.c clients/ms_thread.c \
 	clients/generator.cc clients/execute.cc
-clients_memaslap_LDADD = -levent \
+clients_memaslap_LDADD =  \
 	$(CLIENTS_LDADDS)
 clients_memcapable_CXXFLAGS = 
 clients_memcapable_SOURCES = clients/memcapable.cc \
@@ -3808,7 +3808,7 @@ ALLSPHINXOPTS = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) $(SPHINX_BUILDDIR)
 #	util/daemon.cc \
 #	util/pidfile.cc
 #example_memcached_light_LDADD = libmemcached/libmemcachedprotocol.la \
-#	-levent \
+#	 \
 #	$(am__empty)
 #example_memcached_light_LDFLAGS = 
 libmemcached_libmemcachedutil_la_SOURCES = \
@@ -3843,7 +3843,7 @@ libmemcached_libmemcachedutil_la_CXXFLAGS =  \
 #	-DBUILDING_LIBMEMCACHED \
 #	 \
 #	$(am__empty)
-#libmemcached_libmemcachedprotocol_la_LIBADD = -levent \
+#libmemcached_libmemcachedprotocol_la_LIBADD =  \
 #	 \
 #	$(am__empty)
 #libmemcached_libmemcachedprotocol_la_LDFLAGS = ${AM_LDFLAGS} \
@@ -3944,7 +3944,7 @@ tests_libmemcached_1_0_testapp_SOURCES =  \
 	tests/libmemcached-1.0/touch.cc \
 	tests/libmemcached-1.0/virtual_buckets.cc
 tests_libmemcached_1_0_testapp_LDADD =  \
-	  \
+	-luuid  \
 	libmemcached/libmemcached.la \
 	libmemcached/libmemcachedutil.la \
 	libtest/libtest.la libhashkit/libhashkit.la
@@ -3982,7 +3982,7 @@ tests_libmemcached_1_0_testsocket_SOURCES =  \
 	tests/libmemcached-1.0/touch.cc \
 	tests/libmemcached-1.0/virtual_buckets.cc
 tests_libmemcached_1_0_testsocket_LDADD =  \
-	  \
+	-luuid  \
 	libmemcached/libmemcached.la \
 	libmemcached/libmemcachedutil.la \
 	libtest/libtest.la libhashkit/libhashkit.la

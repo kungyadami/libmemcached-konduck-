@@ -339,7 +339,6 @@ size_t total_read;
 
   //MPI_Probe로 메세지 받기 시작
   if (instance->read_buffer_length == 0){
-    measure_latency_start(); //latency 기록 시작하는 부분
     MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_status);
     if (mpi_status.MPI_TAG == GET_RESP_TAG) {
         //printf("MPI_Probe, mpi_status.MPI_TAG : %d\n", mpi_status.MPI_TAG);

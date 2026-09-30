@@ -157,7 +157,7 @@
 #define HAVE_LIBDRIZZLE 0
 
 /* Define if event_init is present in event.h. */
-#define HAVE_LIBEVENT 1
+#define HAVE_LIBEVENT 0
 
 /* Define to 1 to compile in libgearman support */
 #define HAVE_LIBGEARMAN 0
@@ -376,10 +376,10 @@
 #define HAVE_UNISTD_H 1
 
 /* Define if uuid_generate_time_safe is present in uuid/uuid.h. */
-#define HAVE_UUID_GENERATE_TIME_SAFE 0
+#define HAVE_UUID_GENERATE_TIME_SAFE 1
 
 /* Have uuid/uuid.h */
-#define HAVE_UUID_UUID_H 0
+#define HAVE_UUID_UUID_H 1
 
 /* Define to 1 if you have the `vfork' function. */
 #define HAVE_VFORK 1
