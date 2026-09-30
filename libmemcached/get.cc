@@ -63,6 +63,16 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
                                              const size_t *key_length,
                                              size_t number_of_keys,
                                              const bool mget_mode);
+
+                                             
+#if ENABLE_MPI_FUNCTIONS
+static memcached_return_t memcached_mpi_get_direct(Memcached *ptr,
+                                                   memcached_instance_st *instance,
+                                                   const char *key,
+                                                   size_t key_length);
+#endif
+
+
 char *memcached_get_by_key(memcached_st *shell,
                            const char *group_key,
                            size_t group_key_length,
@@ -219,6 +229,7 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
 #if ENABLE_PRINT
   printf("libmemcached/get.cc - __mget_by_key_real()\n");
 #endif
+  bool used_direct_mpi_get = false;
   bool failures_occured_in_sending= false;
   const char *get_command= "get";
   uint8_t get_command_length= 3;
@@ -334,6 +345,23 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
     }
     memcached_instance_st* instance= memcached_instance_fetch(ptr, server_key);
 
+
+  #if ENABLE_MPI_FUNCTIONS
+      rc = memcached_mpi_get_direct(ptr, instance, keys[x], key_length[x]);
+      if (memcached_failed(rc)) {
+          failures_occured_in_sending = true;
+          continue;
+      }
+      used_direct_mpi_get = true;
+      hosts_connected++;
+      memcached_instance_response_reset(instance);
+      memcached_instance_response_increment(instance);
+      continue;
+  #endif
+
+
+
+
     libmemcached_io_vector_st vector[]=
     {
       { get_command, get_command_length },
@@ -417,7 +445,15 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
   /*
     Should we muddle on if some servers are dead?
   */
+
+
   bool success_happened= false;
+
+  #if ENABLE_MPI_FUNCTIONS
+if (used_direct_mpi_get) {
+  success_happened = (hosts_connected > 0);
+} else
+#endif
   for (uint32_t x= 0; x < memcached_server_count(ptr); x++)
   {
     memcached_instance_st* instance= memcached_instance_fetch(ptr, x);
@@ -818,3 +854,41 @@ static memcached_return_t binary_mget_by_key(memcached_st *ptr,
 
   return MEMCACHED_SUCCESS;
 }
+
+#if ENABLE_MPI_FUNCTIONS
+
+static memcached_return_t memcached_mpi_get_direct(Memcached *ptr,
+                                                   memcached_instance_st *instance,
+                                                   const char *key,
+                                                   size_t key_length)
+{
+  int rank;
+  client_bin_get_req_t req;
+  memset(&req, 0, sizeof(req)); 
+  target_server = 0;
+  MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
+  if (key_length == 0 || key_length > sizeof(req.key)) {
+    return memcached_set_error(*instance, MEMCACHED_WRITE_FAILURE, MEMCACHED_AT,
+                               memcached_literal_param("key too large for client_bin_get_req_t"));
+  }
+
+  req.cmd = BIN_GET;
+  req.key_len = (uint16_t)key_length;
+  req.flag = 0;
+  req.client_rank = rank;
+  req.hv = libhashkit_murmur3(key, key_length);
+
+  memcpy(req.key, key, key_length);
+  //printf("client get send\n");
+  int err = MPI_Send(&req, sizeof(req), MPI_BYTE, target_server, GET_REQ_TAG, MPI_COMM_WORLD);
+
+  if (err != MPI_SUCCESS) {
+    return memcached_set_error(*instance, MEMCACHED_WRITE_FAILURE, MEMCACHED_AT,
+                               memcached_literal_param("MPI_Send() failed for get request"));
+  }
+
+  return MEMCACHED_SUCCESS;
+
+}
+#endif

@@ -443,7 +443,7 @@
 #define MYSQLD_BINARY 0
 
 /* Define to 1 to disable assert'ing code. */
-/* #undef NDEBUG */
+#define NDEBUG 1
 
 /* Name of package */
 #define PACKAGE "libmemcached"
@@ -578,10 +578,10 @@
 
 
 /* Define if the code was built from VCS. */
-#define VCS_CHECKOUT 1
+#define VCS_CHECKOUT 0
 
 /* VCS system */
-#define VCS_SYSTEM "git"
+#define VCS_SYSTEM "none"
 
 /* Version number of package */
 #define VERSION "1.0.18"

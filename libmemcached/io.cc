@@ -537,10 +537,10 @@ static memcached_return_t _io_fill_with_status(memcached_instance_st* instance,
               rank, source, tag, count, size);
       MPI_Abort(MPI_COMM_WORLD, 1);
     }
-    err = MPI_Recv(instance->read_buffer, count, MPI_CHAR,
-            source,
-            tag,
-            MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    // err = MPI_Recv(instance->read_buffer, count, MPI_CHAR,
+    //         source,
+    //         tag,
+    //         MPI_COMM_WORLD, MPI_STATUS_IGNORE);
     if (err == MPI_SUCCESS) {
       instance->read_buffer[count] = '\0';
     }

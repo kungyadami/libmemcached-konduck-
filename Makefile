@@ -3285,22 +3285,22 @@ distuninstallcheck_listfiles = find . -type f -print
 am__distuninstallcheck_listfiles = $(distuninstallcheck_listfiles) \
   | sed 's|^\./|$(prefix)/|' | grep -v '$(infodir)/dir$$'
 distcleancheck_listfiles = find . -type f -print
-ACLOCAL = ${SHELL} '/home2/mizzz/libmemcached/build-aux/missing' aclocal-1.16
+ACLOCAL = ${SHELL} '/home2/mizzz/baseline/libmemcached-baseline/build-aux/missing' aclocal-1.16
 ALLOCA = 
 AMINCLUDE = aminclude.am
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 0
 AR = ar
-AUTOCONF = ${SHELL} '/home2/mizzz/libmemcached/build-aux/missing' autoconf
-AUTOHEADER = ${SHELL} '/home2/mizzz/libmemcached/build-aux/missing' autoheader
+AUTOCONF = ${SHELL} '/home2/mizzz/baseline/libmemcached-baseline/build-aux/missing' autoconf
+AUTOHEADER = ${SHELL} '/home2/mizzz/baseline/libmemcached-baseline/build-aux/missing' autoheader
 AUTOHEADER_FILE = mem_config.h
-AUTOMAKE = ${SHELL} '/home2/mizzz/libmemcached/build-aux/missing' automake-1.16
+AUTOMAKE = ${SHELL} '/home2/mizzz/baseline/libmemcached-baseline/build-aux/missing' automake-1.16
 AWK = gawk
 CC = mpicc
 CCDEPMODE = depmode=gcc3
 CC_VERSION = cc (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
 CC_VERSION_VENDOR = gnu
-CFLAGS = -g -O2  -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -fwrapv -pipe -fPIE -pie -Wsizeof-pointer-memaccess -Wpacked 
+CFLAGS = -g -O2  -Wno-unknown-pragmas -Wno-pragmas -Wall -Wextra -Wunsuffixed-float-constants -Wjump-misses-init -Wno-attributes -Waddress -Wvarargs -Warray-bounds -Wbad-function-cast -Wchar-subscripts -Wcomment -Wfloat-equal -Wformat-security -Wformat=2 -Wformat-y2k -Wlogical-op -Wmaybe-uninitialized -Wmissing-field-initializers -Wmissing-noreturn -Wmissing-prototypes -Wnested-externs -Wnormalized=id -Woverride-init -Wpointer-arith -Wpointer-sign -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wstrict-prototypes -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -fwrapv -pipe -fPIE -pie -Wsizeof-pointer-memaccess -Wpacked
 CFLAG_VISIBILITY = -fvisibility=hidden
 CPPFLAGS =  -fvisibility=hidden
 CSCOPE = cscope
@@ -3308,7 +3308,7 @@ CTAGS = ctags
 CXX = mpicxx
 CXXCPP = c++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g -O2 -Wpragmas -Wunknown-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Wformat-security -fwrapv -pipe -fPIE -pie -Wsizeof-pointer-memaccess -Wpacked 
+CXXFLAGS = -g -O2 -Wno-unknown-pragmas -Wno-pragmas -Wall -Wextra -Wno-attributes -Wvarargs -Waddress -Warray-bounds -Wchar-subscripts -Wcomment -Wctor-dtor-privacy -Wfloat-equal -Wformat=2 -Wformat-y2k -Wmaybe-uninitialized -Wmissing-field-initializers -Wlogical-op -Wnon-virtual-dtor -Wnormalized=id -Woverloaded-virtual -Wpointer-arith -Wredundant-decls -Wshadow -Wsign-compare -Wstrict-overflow=1 -Wswitch-enum -Wtrampolines -Wundef -Wunsafe-loop-optimizations -funsafe-loop-optimizations -Wc++11-compat -Wclobbered -Wunused -Wunused-result -Wunused-variable -Wunused-parameter -Wunused-local-typedefs -Wwrite-strings -Wformat-security -fwrapv -pipe -fPIE -pie -Wsizeof-pointer-memaccess -Wpacked
 CXX_VERSION = c++ (Ubuntu 11.4.0-1ubuntu1~22.04.3) 11.4.0
 CXX_VERSION_VENDOR = gnu
 CYGPATH_W = echo
@@ -3341,7 +3341,7 @@ INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LCOV = 
 LCOV_GENHTML = 
 LD = /usr/bin/ld -m elf_x86_64
-LDFLAGS =   -rdynamic
+LDFLAGS = 
 LEX = :
 LIBEVENT_LIB = 
 LIBGEARMAN_CPPFLAGS = 
@@ -3363,7 +3363,7 @@ LIPO =
 LN_S = ln -s
 LTLIBOBJS = 
 LT_SYS_LIBRARY_PATH = 
-MAKEINFO = ${SHELL} '/home2/mizzz/libmemcached/build-aux/missing' makeinfo
+MAKEINFO = ${SHELL} '/home2/mizzz/baseline/libmemcached-baseline/build-aux/missing' makeinfo
 MANIFEST_TOOL = :
 MCHECK = 
 MCHECK_CPPFLAGS = 
@@ -3413,10 +3413,10 @@ VALGRIND =
 VERSION = 1.0.18
 WINE = 
 YACC = :
-abs_builddir = /home2/mizzz/libmemcached
-abs_srcdir = /home2/mizzz/libmemcached
-abs_top_builddir = /home2/mizzz/libmemcached
-abs_top_srcdir = /home2/mizzz/libmemcached
+abs_builddir = /home2/mizzz/baseline/libmemcached-baseline
+abs_srcdir = /home2/mizzz/baseline/libmemcached-baseline
+abs_top_builddir = /home2/mizzz/baseline/libmemcached-baseline
+abs_top_srcdir = /home2/mizzz/baseline/libmemcached-baseline
 ac_ct_AR = ar
 ac_ct_CC = cc
 ac_ct_CXX = c++
@@ -3447,7 +3447,7 @@ host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home2/mizzz/libmemcached/build-aux/install-sh
+install_sh = ${SHELL} /home2/mizzz/baseline/libmemcached-baseline/build-aux/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale

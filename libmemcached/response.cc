@@ -237,34 +237,31 @@ read_error:
 
 #if ENABLE_MPI_FUNCTIONS
 
-static memcached_return_t dpu_binary_value_fetch(memcached_instance_st* instance,
-                                                 memcached_result_st *result,
-                                                 MPI_Status *status)
-{
+static memcached_return_t get_binary_value_fetch(memcached_instance_st* instance, memcached_result_st *result, MPI_Status *status){
   client_bin_get_resp_t resp;
   int count = 0;
 
+  //앞전에 textual_read_one_response에서 MPI_Probe 후 여기서 마저 Recv 진행
   MPI_Get_count(status, MPI_BYTE, &count);
+
   if (count != (int)sizeof(resp)) {
+    //printf("count : %d / resp : %d\n", count, (int)sizeof(resp));
     return memcached_set_error(*instance, MEMCACHED_UNKNOWN_READ_FAILURE, MEMCACHED_AT);
   }
-  //printf("여기는 dpu_binary_value_fetch에서 DPU 요청 기다리는 중\n");
-  int err = MPI_Recv(&resp, sizeof(resp), MPI_BYTE,
-                     status->MPI_SOURCE,
-                     DPU_BIN_GET_RESP_TAG,
-                     MPI_COMM_WORLD,
-                     MPI_STATUS_IGNORE);
 
+  int err = MPI_Recv(&resp, sizeof(resp), MPI_BYTE, status->MPI_SOURCE, status->MPI_TAG, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+  //printf("client GET RECV\n");
   if (err != MPI_SUCCESS) {
     return memcached_set_error(*instance, MEMCACHED_UNKNOWN_READ_FAILURE, MEMCACHED_AT);
   }
 
-  if (resp.result != DPU_VALUE) {
+  if (resp.result != BIN_VALUE) { //만약 응답 구조체에 result값이 VALUE값이 아닌 다른 변수면 그냥 END
     return MEMCACHED_END;
   }
 
-  memcached_result_reset(result);
+  memcached_result_reset(result); //응답 메세지에 있는 결과값들 받아낼 result 변수 초기화
 
+  //받았던 응답 구조체 값을 result에 옮기기
   result->item_flags = resp.flag;
   result->key_length = resp.key_len;
   memcpy(result->item_key, resp.key, resp.key_len);
@@ -274,14 +271,58 @@ static memcached_return_t dpu_binary_value_fetch(memcached_instance_st* instance
     return memcached_set_error(*instance, MEMCACHED_MEMORY_ALLOCATION_FAILURE, MEMCACHED_AT);
   }
 
+  //내부에 쓰기 가능한 char 포인터를 가져오는 용도
   char *value_ptr = memcached_string_value_mutable(&result->value);
-  memcpy(value_ptr, resp.value, resp.value_len);
+  memcpy(value_ptr, resp.value, resp.value_len); //value 옮기기
   value_ptr[resp.value_len] = '\0';
   memcached_string_set_length(&result->value, resp.value_len);
 
+  // printf("[client] GET_RESP source=%d result=%u key=%.*s value_len=%u flag=%u\n",
+  //      status->MPI_SOURCE,
+  //      resp.result,
+  //      resp.key_len,
+  //      resp.key,
+  //      resp.value_len,
+  //      resp.flag);
+
   return MEMCACHED_SUCCESS;
 }
+
+
+static memcached_return_t set_binary_set_response_fetch(memcached_instance_st* instance,
+                                                           MPI_Status *status)
+{
+    client_bin_set_resp_t resp;
+    int count = 0;
+
+    MPI_Get_count(status, MPI_BYTE, &count);
+    if (count != (int)sizeof(resp)) {
+        return memcached_set_error(*instance, MEMCACHED_UNKNOWN_READ_FAILURE, MEMCACHED_AT);
+    }
+    int err = MPI_Recv(&resp, sizeof(resp), MPI_BYTE, 
+                        status->MPI_SOURCE, status->MPI_TAG,
+                        MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+    //printf("client SET RECV\n");
+    if (err != MPI_SUCCESS) {
+        return memcached_set_error(*instance, MEMCACHED_UNKNOWN_READ_FAILURE, MEMCACHED_AT);
+    }
+
+    switch (resp.result) {
+      case BIN_STORED:
+          return MEMCACHED_STORED;
+
+      case BIN_NOT_STORED:
+          return MEMCACHED_NOTSTORED;
+
+      default:
+          return MEMCACHED_UNKNOWN_READ_FAILURE;
+    }
+}
+
+
+
 #endif
+
 
 
 
@@ -298,23 +339,24 @@ size_t total_read;
 
   if (instance->read_buffer_length == 0)
   {
-    //printf("여기는 textual_read_one_response 서버 요청 기다리는 중(MPI_Probe)\n");
-    MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_status);
-    //printf("여기는 textual_read_one_response 서버 요청 기다리는 중2, MPI_RANK : %d\n", mpi_status.MPI_SOURCE);
 
-    if (mpi_status.MPI_SOURCE == DPU_RANK &&
-        mpi_status.MPI_TAG == DPU_BIN_GET_RESP_TAG)
-    {
-      return dpu_binary_value_fetch(instance, result, &mpi_status);
+    MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_status);
+
+    if (mpi_status.MPI_TAG == GET_RESP_TAG) {
+        //printf("MPI_Probe, mpi_status.MPI_TAG : %d\n", mpi_status.MPI_TAG);
+        return get_binary_value_fetch(instance, result, &mpi_status);
     }
+
+    if (mpi_status.MPI_TAG == SET_RESP_TAG) {
+      return set_binary_set_response_fetch(instance, &mpi_status);
+    }
+
 
     status= &mpi_status;
   }
 
   //printf("server에게 받을듯, memcached_io_readline_with_status\n");
-  memcached_return_t rc=
-    memcached_io_readline_with_status(instance, buffer, buffer_length,
-                                      total_read, status);
+  memcached_return_t rc =  memcached_io_readline_with_status(instance, buffer, buffer_length, total_read, status);
 #else
   memcached_return_t rc=
     memcached_io_readline(instance, buffer, buffer_length, total_read);
@@ -608,6 +650,11 @@ size_t total_read;
     assert(memcmp(buffer,"STORSTORED", sizeof("STORSTORED") -1));
   }
 #endif
+  printf("[libmemcached UNKNOWN RESPONSE] total_read=%zu buffer=\"%.*s\"\n",
+       total_read,
+       (int)total_read,
+       buffer);
+  printf("[libmemcached DEBUG] MEMCACHED_UNKNOWN_READ_FAILURE\n");
   return memcached_set_error(*instance, MEMCACHED_UNKNOWN_READ_FAILURE, MEMCACHED_AT,
                              buffer, total_read);
 }

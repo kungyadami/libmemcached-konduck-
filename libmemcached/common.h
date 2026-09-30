@@ -50,30 +50,60 @@
 #define ENABLE_PRINT 0
 #define SEND_TAG 100
 #define RECV_TAG 200
+#define BIN_VALUE 1
 
-/****************** DPU와의 구조체 통신을 위한 변수 ********************* */
-#define DPU_BIN_GET_REQ_TAG   300
-#define DPU_BIN_GET_RESP_TAG  301
+typedef enum {
+  BIN_GET = 100,
+  BIN_SET = 101,
+} client_bin_req_t; // server_bin_set_req_t, server_bin_get_req_t에 들어갈 cmd 값
 
-#define DPU_GET 1
-#define DPU_SET 2
+typedef enum {
+    BIN_STORED = 1,
+    BIN_NOT_STORED = 2,
+    BIN_END = 3,
+} client_bin_result_t;
 
-#define DPU_VALUE  1
-#define DPU_FAILED 2
+typedef enum {
+    SET_REQ_TAG = 200,
+    GET_REQ_TAG = 300,
+    END_REQ_TAG = 400,
+} client_bin_req_tag_t;
+
+typedef enum {
+    SET_RESP_TAG = 201,
+    GET_RESP_TAG = 301,
+} client_bin_resp_tag_t;
+
 
 typedef struct { //client_bin_get_req_t는 
     uint8_t cmd; //DPU_GET, DPU_SET 같은 
-    uint8_t key_len; //키 길이, client가 그냥 strlen(key)로 길이를 계산해서 여기다가 넣어주기
+    uint16_t key_len; //키 길이, client가 그냥 strlen(key)로 길이를 계산해서 여기다가 넣어주기
     uint16_t flag; //구조체 정렬을 맞추거나 flag가 필요할 경우 만들어둔 공간
     uint32_t hv; //이거는 MurmurHash를 DPU에서 수행중인데, 이게 오버헤드가 혹시나 될까해서 그냥 클라이언트가 처리하기로
+    int client_rank;
+    uint64_t request_index;
     char key[64]; //실제 키 길이
 } client_bin_get_req_t;
 
+typedef struct { //client_bin_get_req_t는 
+    uint8_t cmd; //DPU_GET, DPU_SET 같은 
+    uint16_t key_len; //키 길이, client가 그냥 strlen(key)로 길이를 계산해서 여기다가 넣어주기
+    uint16_t value_len;
+    uint16_t flag; //구조체 정렬을 맞추거나 flag가 필요할 경우 만들어둔 공간
+    uint32_t hv;
+    char key[64]; //실제 키 길이
+    char value[64]; //실제 키 길이
+} client_bin_set_req_t;
+
+typedef struct {
+    uint8_t result;
+} client_bin_set_resp_t;
+
 typedef struct {
     uint8_t result;     // VALUE(찾았을 때) FAILED (못 찾았을 때)
-    uint8_t key_len;    
+    uint16_t key_len;    
     uint16_t value_len;
-    uint32_t flag; //구조체 정렬을 맞추거나 flag가 필요할 경우 만들어둔 공간
+    uint16_t flag; //구조체 정렬을 맞추거나 flag가 필요할 경우 만들어둔 공간
     char key[64];
     char value[64];
 } client_bin_get_resp_t;

@@ -186,11 +186,10 @@ libmemcached/csl/libmemcachedinternal_libmemcachedinternal_la-context.lo: \
  libmemcached/libmemcached_probes.h libmemcached/byteorder.h \
  libmemcached/initialize_query.h libmemcached/response.h \
  libmemcached/namespace.h libmemcached/backtrace.hpp \
- libmemcached/assert.hpp /usr/include/c++/11/cstdarg libmemcached/key.hpp \
- libmemcached/encoding_key.h libmemcached/result.h \
- libmemcached/version.hpp libmemcached/continuum.hpp \
- libmemcached/csl/server.h libmemcached/csl/context.h \
- libmemcached/csl/parser.h
+ libmemcached/assert.hpp libmemcached/key.hpp libmemcached/encoding_key.h \
+ libmemcached/result.h libmemcached/version.hpp \
+ libmemcached/continuum.hpp libmemcached/csl/server.h \
+ libmemcached/csl/context.h libmemcached/csl/parser.h
 /usr/include/stdc-predef.h:
 libmemcached/csl/common.h:
 libmemcached/common.h:
@@ -462,7 +461,6 @@ libmemcached/response.h:
 libmemcached/namespace.h:
 libmemcached/backtrace.hpp:
 libmemcached/assert.hpp:
-/usr/include/c++/11/cstdarg:
 libmemcached/key.hpp:
 libmemcached/encoding_key.h:
 libmemcached/result.h:

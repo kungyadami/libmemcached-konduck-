@@ -131,10 +131,9 @@ libmemcachedutil/libmemcached_libmemcachedutil_la-pool.lo: \
  libmemcachedutil-1.0/ping.h libmemcachedutil-1.0/pool.h \
  libmemcachedutil-1.0/version.h libmemcached/assert.hpp \
  /usr/include/c++/11/cassert /usr/include/assert.h \
- /usr/include/c++/11/cstdarg libmemcached/backtrace.hpp \
- /usr/include/c++/11/cerrno /usr/include/errno.h \
- /usr/include/x86_64-linux-gnu/bits/errno.h /usr/include/linux/errno.h \
- /usr/include/x86_64-linux-gnu/asm/errno.h \
+ libmemcached/backtrace.hpp /usr/include/c++/11/cerrno \
+ /usr/include/errno.h /usr/include/x86_64-linux-gnu/bits/errno.h \
+ /usr/include/linux/errno.h /usr/include/x86_64-linux-gnu/asm/errno.h \
  /usr/include/asm-generic/errno.h /usr/include/asm-generic/errno-base.h \
  /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
  /usr/include/pthread.h /usr/include/sched.h \
@@ -397,7 +396,6 @@ libmemcachedutil-1.0/version.h:
 libmemcached/assert.hpp:
 /usr/include/c++/11/cassert:
 /usr/include/assert.h:
-/usr/include/c++/11/cstdarg:
 libmemcached/backtrace.hpp:
 /usr/include/c++/11/cerrno:
 /usr/include/errno.h:
