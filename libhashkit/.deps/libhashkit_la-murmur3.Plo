@@ -19,7 +19,8 @@ libhashkit/libhashkit_la-murmur3.lo: libhashkit/murmur3.cc \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-intn.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
- /usr/include/inttypes.h libhashkit/murmur3.h
+ /usr/include/inttypes.h \
+ /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h libhashkit/murmur3.h
 /usr/include/stdc-predef.h:
 libhashkit/hashkitcon.h:
 mem_config.h:
@@ -46,4 +47,5 @@ mem_config.h:
 /usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
 /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
 /usr/include/inttypes.h:
+/usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h:
 libhashkit/murmur3.h:

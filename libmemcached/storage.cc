@@ -16,7 +16,7 @@
  *  copyright notice, this list of conditions and the following disclaimer
  *  in the documentation and/or other materials provided with the
  *  distribution.
- *
+ *mem
  *      * The names of its contributors may not be used to endorse or
  *  promote products derived from this software without specific prior
  *  written permission.
@@ -37,6 +37,7 @@
 
 
 #include <libmemcached/common.h>
+#include <libhashkit/murmur3.h>
 #include <mpi.h>
 int target_server;
 
@@ -267,8 +268,6 @@ static memcached_return_t memcached_send_ascii(Memcached *ptr,        //memcache
   //****************************  내가 최적화를 위해 추가한 부분 *********************************************** */
   #if ENABLE_MPI_FUNCTIONS
     if (verb == SET_OP) {
-      target_server = ptr->target_rank;
-      //printf("target_rank : %d\n", ptr->target_rank);
       client_bin_set_req_t req;
       memset(&req, 0, sizeof(req));
 
@@ -493,7 +492,8 @@ static inline memcached_return_t memcached_send(memcached_st *shell,
   //어느 서버에 배치할 지 해시값 돌리기
   uint32_t server_key= memcached_generate_hash_with_redistribution(ptr, group_key, group_key_length);
   uint32_t hash =  libhashkit_murmur3(key, key_length);
-  target_server = ptr->target_rank;
+  target_server = dpu_rank_count(); //skewed하게 insert
+  //target_server = server_base_rank + (hash % server_rank_count());
   //printf("[SET] target_server : %d\n", target_server);
   //해당 서버 포인터? 가져오기.. 아마도 서버키에 매핑되는, 서버리스트 배열에 있는 서버정보를 가져오는듯
   
@@ -502,57 +502,31 @@ static inline memcached_return_t memcached_send(memcached_st *shell,
   WATCHPOINT_SET(instance->io_wait_count.write= 0);
   bool flush= true;
 
-  if (memcached_is_buffering(instance->root) and verb == SET_OP)
-  {
+  if (memcached_is_buffering(instance->root) and verb == SET_OP){
     flush= false;
   }
 
-#if ENABLE_PRINT
-    printf("storage.cc :: memcached_send() - flush : %d\n", flush);
-#endif
   bool reply= memcached_is_replying(ptr);
-#if ENABLE_PRINT
-  printf("storage.cc :: memcached_send() - reply : %d \n", reply);
-#endif
 
   hashkit_string_st* destination= NULL;
 
-  if (memcached_is_encrypted(ptr))
-  {
-    if (can_by_encrypted(verb) == false)
-    {
-      return memcached_set_error(*ptr, MEMCACHED_NOT_SUPPORTED, MEMCACHED_AT, 
-                                 memcached_literal_param("Operation not allowed while encyrption is enabled"));
+  if (memcached_is_encrypted(ptr)){
+    if (can_by_encrypted(verb) == false){
+      return memcached_set_error(*ptr, MEMCACHED_NOT_SUPPORTED, MEMCACHED_AT,  memcached_literal_param("Operation not allowed while encyrption is enabled"));
     }
 
-    if ((destination= hashkit_encrypt(&ptr->hashkit, value, value_length)) == NULL)
-    {
+    if ((destination= hashkit_encrypt(&ptr->hashkit, value, value_length)) == NULL){
       return rc;
     }
     value= hashkit_string_c_str(destination);
     value_length= hashkit_string_length(destination);
   }
 
-  if (memcached_is_binary(ptr))
-  {
-#if ENABLE_PRINT
-    printf("libmemcached/storage.cc :: memcached_send() call memcached_send_binary()\n");
-#endif
-    rc= memcached_send_binary(ptr, instance, server_key,
-                              key, key_length,
-                              value, value_length, expiration,
-                              flags, cas, flush, reply, verb);
-  }
-  else
-  {
+  if (memcached_is_binary(ptr)){
+    rc= memcached_send_binary(ptr, instance, server_key,  key, key_length,  value, value_length, expiration,  flags, cas, flush, reply, verb);
+  }else{
     //여기로 메세지 전송
-#if ENABLE_PRINT
-     printf("libmemcached/storage.cc :: memcached_send() call memcached_send_ascii()\n");
-#endif
-    rc= memcached_send_ascii(ptr, instance,
-                             key, key_length,
-                             value, value_length, expiration,
-                             flags, cas, flush, reply, verb);
+    rc= memcached_send_ascii(ptr, instance, key, key_length, value, value_length, expiration, flags, cas, flush, reply, verb);
   }
 
   hashkit_string_free(destination);

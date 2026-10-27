@@ -8,7 +8,8 @@
 // non-native version will be less than optimal.
 
 #include "libhashkit/hashkitcon.h"
-
+#include <stdint.h>
+#include <stddef.h>
 #include "libhashkit/murmur3.h"
 
 //-----------------------------------------------------------------------------
@@ -315,3 +316,46 @@ void MurmurHash3_x64_128 ( const void * key, const int len,
 
 //-----------------------------------------------------------------------------
 
+uint32_t new_routing_hash(const void *key, size_t length) {
+    const uint8_t *data = (const uint8_t *)key;
+    uint32_t h = UINT32_C(0x1234abcd);
+    size_t offset = 0;
+
+    while (length - offset >= 4) {
+        uint32_t k = (uint32_t)data[offset]
+                   | ((uint32_t)data[offset + 1] << 8)
+                   | ((uint32_t)data[offset + 2] << 16)
+                   | ((uint32_t)data[offset + 3] << 24);
+        k *= UINT32_C(0xcc9e2d51);
+        k = (k << 15) | (k >> 17);
+        k *= UINT32_C(0x1b873593);
+        h ^= k;
+        h = (h << 13) | (h >> 19);
+        h = h * 5 + UINT32_C(0xe6546b64);
+        offset += 4;
+    }
+
+    uint32_t k = 0;
+    size_t remaining = length - offset;
+    if (remaining >= 3) {
+        k ^= (uint32_t)data[offset + 2] << 16;
+    }
+    if (remaining >= 2) {
+        k ^= (uint32_t)data[offset + 1] << 8;
+    }
+    if (remaining >= 1) {
+        k ^= (uint32_t)data[offset];
+        k *= UINT32_C(0xcc9e2d51);
+        k = (k << 15) | (k >> 17);
+        k *= UINT32_C(0x1b873593);
+        h ^= k;
+    }
+
+    h ^= (uint32_t)length;
+    h ^= h >> 16;
+    h *= UINT32_C(0x85ebca6b);
+    h ^= h >> 13;
+    h *= UINT32_C(0xc2b2ae35);
+    h ^= h >> 16;
+    return h;
+}

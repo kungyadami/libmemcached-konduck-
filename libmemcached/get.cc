@@ -36,6 +36,7 @@
  */
 
 #include <libmemcached/common.h>
+#include <libhashkit/murmur3.h>
 #include <mpi.h>
 #include <time.h>
 
@@ -212,9 +213,6 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
                                              size_t number_of_keys,
                                              const bool mget_mode)
 {
-#if ENABLE_PRINT
-  printf("libmemcached/get.cc - __mget_by_key_real()\n");
-#endif
   bool used_direct_mpi_get = false;
   bool failures_occured_in_sending= false;
   const char *get_command= "get";
@@ -291,16 +289,23 @@ static memcached_return_t __mget_by_key_real(memcached_st *ptr,
   size_t hosts_connected= 0;
   for (uint32_t x= 0; x < number_of_keys; x++){
     uint32_t server_key;
-
+    int server_base_rank = dpu_rank_count();
     if (is_group_key_set){
         server_key= master_server_key;
     }else{
         int size;
         MPI_Comm_size(MPI_COMM_WORLD, &size);
-        int server_size = size/2;
         server_key= memcached_generate_hash_with_redistribution(ptr, keys[x], key_length[x]);
         uint32_t hash =  libhashkit_murmur3(keys[x], key_length[x]); //해시 계산
-        target_server = (hash % dpu_rank_count());
+        if (ptr->target_rank == server_base_rank) {
+            target_server = server_base_rank;
+                if (is_rebalancing) { //is_rebalancing은 재분배 완료 메세지를 서버로부터 받았을 때에만 true가 됨
+                  uint32_t routing_hash = new_routing_hash(keys[x], key_length[x]);
+                  target_server = server_base_rank + (routing_hash % server_rank_count());
+              }
+        } else {
+            target_server = ptr->target_rank;
+        }
     }
 
     memcached_instance_st* instance= memcached_instance_fetch(ptr, server_key);
@@ -760,7 +765,6 @@ static memcached_return_t memcached_mpi_get_direct(Memcached *ptr,
   int rank;
   client_bin_get_req_t req;
   memset(&req, 0, sizeof(req));
-  target_server = ptr->target_rank;
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
   if (key_length == 0 || key_length > sizeof(req.key)) {
@@ -778,7 +782,7 @@ static memcached_return_t memcached_mpi_get_direct(Memcached *ptr,
 
   //printf("보내긴 보냄\n");
   int err = MPI_Send(&req, sizeof(req), MPI_BYTE, target_server, GET_REQ_TAG, MPI_COMM_WORLD);
-
+  //printf("[GET] target_server : %d\n", target_server);
   if (err != MPI_SUCCESS) {
     //printf("설마 error??\n");
     return memcached_set_error(*instance, MEMCACHED_WRITE_FAILURE, MEMCACHED_AT,

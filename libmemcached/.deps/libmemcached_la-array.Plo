@@ -47,7 +47,8 @@ libmemcached/libmemcached_la-array.lo: libmemcached/array.c \
  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/alloca.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
- /usr/include/x86_64-linux-gnu/bits/stdlib.h /usr/include/stdio.h \
+ /usr/include/x86_64-linux-gnu/bits/stdlib.h \
+ /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h /usr/include/stdio.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h \
  /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__mbstate_t.h \
@@ -113,12 +114,10 @@ libmemcached/libmemcached_la-array.lo: libmemcached/array.c \
  /usr/include/x86_64-linux-gnu/bits/socket2.h /usr/include/dlfcn.h \
  /usr/include/x86_64-linux-gnu/bits/dlfcn.h \
  /usr/include/x86_64-linux-gnu/bits/dl_find_object.h \
- libmemcached-1.0/memcached.h \
- /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h \
- libmemcached-1.0/visibility.h libmemcached-1.0/configure.h \
- libmemcached-1.0/platform.h /usr/include/netinet/in.h \
- /usr/include/x86_64-linux-gnu/bits/in.h /usr/include/arpa/inet.h \
- /usr/include/netdb.h /usr/include/rpc/netdb.h \
+ libmemcached-1.0/memcached.h libmemcached-1.0/visibility.h \
+ libmemcached-1.0/configure.h libmemcached-1.0/platform.h \
+ /usr/include/netinet/in.h /usr/include/x86_64-linux-gnu/bits/in.h \
+ /usr/include/arpa/inet.h /usr/include/netdb.h /usr/include/rpc/netdb.h \
  /usr/include/x86_64-linux-gnu/bits/types/sigevent_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__sigval_t.h \
  /usr/include/x86_64-linux-gnu/bits/netdb.h /usr/include/netinet/tcp.h \
@@ -219,6 +218,7 @@ mem_config.h:
 /usr/include/x86_64-linux-gnu/bits/stdlib-bsearch.h:
 /usr/include/x86_64-linux-gnu/bits/stdlib-float.h:
 /usr/include/x86_64-linux-gnu/bits/stdlib.h:
+/usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h:
 /usr/include/stdio.h:
 /usr/lib/gcc/x86_64-linux-gnu/11/include/stdarg.h:
 /usr/include/x86_64-linux-gnu/bits/types/__fpos_t.h:
@@ -297,7 +297,6 @@ mem_config.h:
 /usr/include/x86_64-linux-gnu/bits/dlfcn.h:
 /usr/include/x86_64-linux-gnu/bits/dl_find_object.h:
 libmemcached-1.0/memcached.h:
-/usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h:
 libmemcached-1.0/visibility.h:
 libmemcached-1.0/configure.h:
 libmemcached-1.0/platform.h:

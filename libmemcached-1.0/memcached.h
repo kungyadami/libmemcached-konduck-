@@ -167,6 +167,12 @@ uint32_t memcached_server_count(const memcached_st *);
 LIBMEMCACHED_API
 uint64_t memcached_query_id(const memcached_st *);
 
+LIBMEMCACHED_API void memcached_rebalancing_set_done(void);
+
+LIBMEMCACHED_API void memcached_rebalancing_wait(void);
+
+LIBMEMCACHED_API void rebalancing_switch_and_ack(void);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif

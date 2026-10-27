@@ -44,15 +44,33 @@
 
 #include <mem_config.h>
 #include <stdlib.h>
-
+#include <stdint.h>
+#include <stddef.h>
+#include <stdbool.h>
 
 #define ENABLE_SOCKET_FUNCTIONS 0
 #define ENABLE_MPI_FUNCTIONS 1
 #define ENABLE_PRINT 0
+#define REBALANCING_TAG 410
+
 extern int target_server;
+extern bool is_rebalancing;
+void rebalancing_receive_ready(int source);
 /****************** DPU와의 구조체 통신을 위한 변수 ********************* */
 
 #define BIN_VALUE 1 //VALUE key ~ 라는 형태로 응답이 왔을 때, client_bin_get_resp_t 의 result 변수가 BIN_VALUE면 성공
+
+enum rebalancing_phase {
+    RB_SET_DONE = 1,
+    RB_START = 2,
+    RB_READY = 3,
+    RB_ACK = 4
+};
+
+typedef struct {
+    uint8_t phase;
+} rebalancing_msg_t;
+
 
 typedef enum {
   BIN_GET = 100,

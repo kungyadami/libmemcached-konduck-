@@ -339,7 +339,16 @@ size_t total_read;
 
   //MPI_Probe로 메세지 받기 시작
   if (instance->read_buffer_length == 0){
-    MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_status);
+    for (;;) {
+      MPI_Probe(MPI_ANY_SOURCE, MPI_ANY_TAG, MPI_COMM_WORLD, &mpi_status);
+      if (mpi_status.MPI_TAG == REBALANCING_TAG) {
+          rebalancing_receive_ready(mpi_status.MPI_SOURCE);
+          continue;
+      }
+      break;
+    }
+
+
     if (mpi_status.MPI_TAG == GET_RESP_TAG) {
         //printf("MPI_Probe, mpi_status.MPI_TAG : %d\n", mpi_status.MPI_TAG);
         return get_binary_value_fetch(instance, result, &mpi_status);
@@ -1062,4 +1071,91 @@ memcached_return_t memcached_response(memcached_instance_st* instance,
   printf("\t memcached_response()2 buffer : %s\n", buffer);
 #endif
   return _read_one_response(instance, buffer, buffer_length, result); //바로 여기로 들어감
+}
+
+
+/******************************  Rebalancing code   ************************************ */
+
+bool is_rebalancing = false; //새 해시 함수로 전환했는지?
+static unsigned char *ready_servers = NULL; //어떤 서버의 Ready를 받았는지 기록하는 배열
+static int ready_server_count = 0; //Ready를 받은 서버 수
+static bool rebalancing_ack_sent = false; // 서버들에게 재분배에 따른 새로운 해시로 변경 완료 ACK 를 보냈는지
+
+// 특정 서버가 보낸 READY 메세지를 수신하고 기록하는 부분
+void rebalancing_receive_ready(int source) {
+    rebalancing_msg_t message;
+    MPI_Status status;
+    MPI_Recv(&message, sizeof(message), MPI_BYTE, source, REBALANCING_TAG, MPI_COMM_WORLD, &status);
+    printf("[client] RB_READY Recv\n");
+    int count;
+    MPI_Get_count(&status, MPI_BYTE, &count);
+    int id = source - dpu_rank_count();
+    if (count != sizeof(message) || message.phase != RB_READY || id < 0 || id >= server_rank_count()) {
+        MPI_Abort(MPI_COMM_WORLD, EXIT_FAILURE);
+    }
+
+    if (ready_servers == NULL) {
+        ready_servers = (unsigned char *)calloc(server_rank_count(), 1);
+        if (ready_servers == NULL) {
+            MPI_Abort(MPI_COMM_WORLD, EXIT_FAILURE);
+        }
+    }
+
+    if (!ready_servers[id]) {
+        ready_servers[id] = 1;
+        ready_server_count++;
+    }
+}
+
+// client가 새 해시함수로 전환한 후, 그걸 서버에게 알려주는 함수
+extern "C" void rebalancing_switch_and_ack(void) {
+    if (ready_server_count != server_rank_count() || rebalancing_ack_sent) {
+        return;
+    }
+
+    is_rebalancing = true;
+    rebalancing_msg_t message;
+    message.phase = RB_ACK;
+
+    for (int id = 0; id < server_rank_count(); id++) {
+        int server_rank = dpu_rank_count() + id;
+        printf("[client] RB_ACK Send\n");
+        MPI_Send( &message, sizeof(message), MPI_BYTE, server_rank, REBALANCING_TAG, MPI_COMM_WORLD);
+    }
+
+    free(ready_servers);
+    ready_servers = NULL;
+    rebalancing_ack_sent = true;
+}
+
+//client가 자신의 SET을 끝냈다고 첫번째 서버에게 알리는 함수
+extern "C" void memcached_rebalancing_set_done(void) {
+    rebalancing_msg_t message;
+    message.phase = RB_SET_DONE;
+    int first_server = dpu_rank_count();
+
+    printf("[client] SET_DONE Send \n");
+    MPI_Send(&message, sizeof(message), MPI_BYTE, first_server, REBALANCING_TAG, MPI_COMM_WORLD);
+
+    /* 모든 client의 SET이 끝나야 GET을 시작함 그래서 여기서 곧장 대기 */
+    MPI_Status status;
+    MPI_Recv(&message, sizeof(message), MPI_BYTE, first_server, REBALANCING_TAG, MPI_COMM_WORLD, &status);
+    printf("[client] RB_START Recv \n");
+    int count;
+    MPI_Get_count(&status, MPI_BYTE, &count);
+    if (count != sizeof(message) || message.phase != RB_START) {
+        MPI_Abort(MPI_COMM_WORLD, EXIT_FAILURE);
+    }
+}
+// 모든 서버의 READY가 올 때까지 기다린 후, 다 받으면 새로운 해시함수로 전환하고 ACK를 보내는 함수
+extern "C" void memcached_rebalancing_wait(void) {
+    if (rebalancing_ack_sent) {
+        return;
+    }
+    while (ready_server_count != server_rank_count()) {
+        MPI_Status status;
+        MPI_Probe( MPI_ANY_SOURCE, REBALANCING_TAG, MPI_COMM_WORLD, &status);
+        rebalancing_receive_ready(status.MPI_SOURCE);
+    }
+    rebalancing_switch_and_ack();
 }

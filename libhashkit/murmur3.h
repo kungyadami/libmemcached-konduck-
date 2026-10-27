@@ -13,4 +13,5 @@ void MurmurHash3_x86_128(const void *key, int len, uint32_t seed, void *out);
 
 void MurmurHash3_x64_128(const void *key, int len, uint32_t seed, void *out);
 
+uint32_t new_routing_hash(const void *key, size_t length);
 //-----------------------------------------------------------------------------
